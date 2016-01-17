@@ -1,0 +1,6 @@
+name "2DRPG"
+description "Console RPG"
+copyright "Copyright © 2016,Vladimirs Nordholm"
+license "MIT"
+authors "vladdeSV"
+dependency "scone" version="~>0.0.9-pre"
