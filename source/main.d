@@ -1,8 +1,9 @@
 import scone;
+import std.stdio;
 
 void main()
 {
-
+  writeln(" - works!");
 }
 
 class Game
@@ -11,7 +12,7 @@ class Game
   {
     running = true;
 
-    while(runing)
+    while(running)
     {
       tick();
       render();
