@@ -18,5 +18,4 @@ abstract class Entity
   int m_y;
 
   char m_appearance = '?';
-  EntityRace race;
 }
