@@ -1,4 +1,4 @@
-module drpg.world;
+module world;
 
 class World
 {

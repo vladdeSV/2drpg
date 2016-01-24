@@ -1,24 +1,30 @@
 import scone;
+import world;
+import entity.entity;
 
 enum updateInterval = 1000/30;
 
-class Varaibles
+class DRPG
 {
-package static:
+static:
     Game game;
     World world;
 
     bool running;
+    double ticks;
 }
 
 class Game
 {
     void start()
     {
-        running = true;
+        Entity e = new Entity();
+        e.addAttribute!AttributeHealth;
+
+        DRPG.running = true;
 
         resetUpdates();
-        while(running)
+        while(DRPG.running)
         {
             foreach(i; 0 .. getUpdates())
             {
@@ -50,9 +56,11 @@ class Game
         double durationmsec = duration.total!"nsecs" / (10.0 ^^ 6);
         lasttime = newtime;
 
-        ticks += durationmsec;
-        int updates = to!int(ticks / updateInterval);
-        ticks = ticks - updates * updateInterval;
+        DRPG.ticks += durationmsec;
+        int updates = to!int(DRPG.ticks / updateInterval);
+        DRPG.ticks -= updates * updateInterval;
+
+        return updates;
     }
 
     void resetUpdates()

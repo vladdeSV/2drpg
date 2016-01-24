@@ -1,8 +1,10 @@
 module entity.attributes;
 
 import entity.entity;
+import std.conv : to;
 
-enum EntityRace
+
+enum Race
 {
     Human = 1,
     Orc = 2,
@@ -11,7 +13,7 @@ enum EntityRace
     Dwarf = 16,
 }
 
-enum NpcOccupation
+enum Occupation
 {
     Villager,
     Fisher,
@@ -30,17 +32,25 @@ class AttributeMana : Attribute
     int mana;
 }
 
-class AttributeSprite : Attribute
-{
-    char sprite;
-}
-
 class AttributeRace : Attribute
 {
-    EntityRace race;
+    Race race;
 }
 
 class AttributeOccupation : Attribute
 {
-    NpcOccupation occupation;
+    Occupation occupation;
+}
+
+class AttributeName : Attribute
+{
+    this(Args...)(Args args)
+    {
+        foreach(arg; args)
+        {
+            name ~= to!string(arg);
+        }
+    }
+
+    string[] name;
 }

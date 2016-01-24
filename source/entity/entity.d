@@ -1,20 +1,33 @@
 module entity.entity;
 
+public import entity.attributes;
+
 class Entity
 {
-    void addAttribute(A, Args...)(Args args)
+    void addAttribute(A, Args...)(Args args) if (is(typeof(A) == Attribute))
     {
-        if(m_components.get(typeid(A).name, null) is null)
+        if(m_attribute.get(typeid(A).name, null) is null)
         {
-            m_components[typeid(A).name] = new A(args);
+            m_attribute[typeid(A).name] = new A(args);
         }
     }
 
     A getAttribute(A)()
     {
-        assert(m_components.get(typeid(A).name, null) is null, format("Is no %s in components list", typeid(A).name));
-        return cast(A) m_components.get(typeid(A).name, null);
+        return cast(A) m_attribute.get(typeid(A).name, null);
     }
 
-    private Attribute[string] m_components;
+    char sprite() @property
+    {
+        return m_sprite;
+    }
+
+    char sprite(char sprite) @property
+    {
+        return m_sprite = sprite;
+    }
+
+    private char m_sprite;
+
+    private Attribute[string] m_attribute;
 }
