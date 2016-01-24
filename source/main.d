@@ -1,30 +1,35 @@
 import scone;
 import world;
-import entity.entity;
+import std.conv : to;
+import core.time;
 
-enum updateInterval = 1000/30;
+enum : int
+{
+    updateInterval = 1000/30
+}
 
 class DRPG
 {
 static:
     Game game;
     World world;
-
-    bool running;
-    double ticks;
 }
 
 class Game
 {
+    bool running;
+    int ticks;
+
     void start()
     {
-        Entity e = new Entity();
-        e.addAttribute!AttributeHealth;
-
-        DRPG.running = true;
+        ////>> Test
+        //Entity e = new Entity();
+        //e.addAttribute!AttributeHealth;
+        ////<<
+        running = true;
 
         resetUpdates();
-        while(DRPG.running)
+        while(running)
         {
             foreach(i; 0 .. getUpdates())
             {
@@ -56,9 +61,9 @@ class Game
         double durationmsec = duration.total!"nsecs" / (10.0 ^^ 6);
         lasttime = newtime;
 
-        DRPG.ticks += durationmsec;
-        int updates = to!int(DRPG.ticks / updateInterval);
-        DRPG.ticks -= updates * updateInterval;
+        ticks += to!int(durationmsec);
+        int updates = to!int(ticks / updateInterval);
+        ticks -= updates * updateInterval;
 
         return updates;
     }
