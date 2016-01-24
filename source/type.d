@@ -1,11 +1,11 @@
-module obj;
+module type;
 
 import std.conv : to;
 
 abstract class Attribute {}
 
-///Object, from where all objects (tiles, enemies, etc...) are created
-class Obj
+///Type from where all objects (tiles, enemies, etc...) are created
+class Type
 {
     void addAttribute(A, Args...)(Args args)
     {

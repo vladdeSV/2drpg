@@ -1,6 +1,6 @@
 module world;
 
-import obj;
+import type;
 
 class World
 {
@@ -20,7 +20,7 @@ class Chunk
     this(int w, int h)
     {
 
-        Obj defTile = new Obj();
+        auto defTile = new Type();
         defTile.addAttribute!auSprite;
         defTile.addAttribute!atSolid(false);
 
@@ -32,7 +32,7 @@ class Chunk
     }
 
 private:
-    Obj[][] m_tiles;
+    Type[][] m_tiles;
     ChunkOpenDirection m_chunkOpenDirections;
 }
 
