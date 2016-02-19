@@ -1,81 +1,134 @@
+module game;
+
 import scone;
 import world;
+import std.stdio;
 import std.conv : to;
 import core.time;
 
-enum : int
-{
-    updateInterval = 1000/30
-}
+alias game = Game.game;
 
-class DRPG
+//>>>>>>>>>>>>>>//
+//FPS CALCULATOR//
+//   ms delta   //
+//  1000 / FPS  //
+//<<<<<<<<<<<<<<//
+
+//17 ~= 60fps
+//33 ~= 30fps
+//40 ~= 20fps
+//50 ~= 20fps
+enum double updateInterval = 1000/20;
+
+enum Direction
 {
-static:
-    Game game;
-    World world;
+    None = 0,
+    Up = 1,
+    Down = 2,
+    Left = 4,
+    Right = 8
 }
 
 class Game
 {
-    bool running;
-    int ticks;
-
     void start()
     {
-        ////>> Test
-        //Entity e = new Entity();
-        //e.addAttribute!AttributeHealth;
-        ////<<
-        running = true;
+        sconeInit();
+
+        m_running = true;
+        m_frame = new Frame;
+        m_world = new World;
 
         resetUpdates();
-        while(running)
+        while(m_running)
         {
             foreach(i; 0 .. getUpdates())
             {
                 tick();
             }
-
             render();
         }
+
+        sconeClose();
     }
 
     void tick()
     {
-
+        foreach(input; getInputs())
+        {
+            if(input.key == SK.ESCAPE)
+            {
+                m_running = false;
+            }
+        }
     }
 
     void render()
     {
+        foreach(sy, ref row; m_world.m_tiles)
+        {
+            foreach(sx, ref slot; row)
+            {
+                m_frame.write(sx,sy, slot.color, slot.background, slot.sprite);
+            }
+        }
 
+        m_frame.print();
     }
+
+    //>>Singleton
+    //David Simcha
+    static Game game() @property
+    {
+        if (!instantiated_)
+        {
+            synchronized
+            {
+                if (instance_ is null)
+                {
+                  instance_ = new Game;
+                }
+                instantiated_ = true;
+            }
+        }
+        return instance_;
+    }
+
+    private this() {}
+    private static bool instantiated_;  // Thread local
+    private __gshared Game instance_;
+    //<<
 
     //>> Ticking mechanisms
     private MonoTime lasttime;
-
+    private double ticks = 0;
     double getUpdates()
     {
         /* Kudos to Yepoleb who helped me with this */
         MonoTime newtime = MonoTime.currTime();
         Duration duration = newtime - lasttime;
         double durationmsec = duration.total!"nsecs" / (10.0 ^^ 6);
-        lasttime = newtime;
 
-        ticks += to!int(durationmsec);
-        int updates = to!int(ticks / updateInterval);
+        lasttime = newtime;
+        ticks += durationmsec;
+        int updates = cast(int)(ticks / updateInterval);
         ticks -= updates * updateInterval;
 
         return updates;
     }
-
     void resetUpdates()
     {
         lasttime = MonoTime.currTime();
     }
     //<<
+private:
+    bool m_running;
+
+    Frame m_frame;
+    World m_world;
 }
 
 void main()
 {
-
+    game.start();
 }

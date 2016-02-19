@@ -1,45 +1,48 @@
 module world;
 
-import type;
+import game;
+import tile;
 
 class World
 {
-
-    this(int cw, int ch)
+    this()
     {
-        m_chunkWidth = cw;
-        m_chunkHeight = ch;
-    }
+        auto tile = new Tile('.');
 
-    const int m_chunkWidth, m_chunkHeight;
-    Chunk[] m_chunks;
-}
-
-class Chunk
-{
-    this(int w, int h)
-    {
-
-        auto defTile = new Type();
-        defTile.addAttribute!auSprite;
-        defTile.addAttribute!atSolid(false);
-
-        m_tiles.length = h;
+        m_tiles.length = 20;
         foreach(ref row; m_tiles)
         {
-            row[] = defTile;
+            row.length = 50;
+            row[] = tile;
         }
     }
 
-private:
-    Type[][] m_tiles;
-    ChunkOpenDirection m_chunkOpenDirections;
+    auto getTile(in uint x, in uint y)
+    {
+        return m_tiles[y][x];
+    }
+
+//private:
+    int m_cw, m_ch;
+    Tile[][] m_tiles;
+    //Chunk[][] m_chunks;
 }
 
-enum ChunkOpenDirection
-{
-    Up = 1,
-    Right = 2,
-    Down = 4,
-    Left = 8
-}
+//class Chunk
+//{
+//    this()
+//    {
+//        auto tile = new Tile('.');
+
+//        m_tiles.length = h;
+//        foreach(ref row; m_tiles)
+//        {
+//            row[] = tile;
+//        }
+//    }
+
+//private:
+//    Tile[][] m_tiles;
+//    Direction m_openDirections;
+//}
+
