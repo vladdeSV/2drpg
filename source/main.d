@@ -2,32 +2,12 @@ module game;
 
 import scone;
 import world;
+import enums;
 import std.stdio;
 import std.conv : to;
 import core.time;
 
 alias game = Game.game;
-
-//>>>>>>>>>>>>>>//
-//FPS CALCULATOR//
-//   ms delta   //
-//  1000 / FPS  //
-//<<<<<<<<<<<<<<//
-
-//17 ~= 60fps
-//33 ~= 30fps
-//40 ~= 20fps
-//50 ~= 20fps
-enum double updateInterval = 1000/20;
-
-enum Direction
-{
-    None = 0,
-    Up = 1,
-    Down = 2,
-    Left = 4,
-    Right = 8
-}
 
 class Game
 {
