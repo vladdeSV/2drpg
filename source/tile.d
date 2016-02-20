@@ -13,29 +13,27 @@ class Tile
         m_background = background;
     }
 
-    char sprite() const @property
+    auto sprite() const @property
     {
         return m_sprite;
     }
 
-    char solid() const @property
+    auto solid() const @property
     {
         return m_solid;
     }
 
-    fg color() const @property
+    auto color() const @property
     {
         return m_color;
     }
 
-    bg background() const @property
+    auto background() const @property
     {
         return m_background;
     }
 
 private:
-    TileType m_type;
-
     char m_sprite;
     bool m_solid;
     fg m_color;

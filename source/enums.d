@@ -22,7 +22,7 @@ enum Attributes
     ///A measure of how sturdy a character is. Constitution often influences hit points, resistances for special types of damage (poisons, illness, heat etc.) and fatigue.
     Constitution,
     ///A measure of how resilient a character is. Defence usually decreases taken damage by either a percentage or a fixed amount per hit. Occasionally combined with Constitution.
-    Defense,
+    Defence,
     ///A measure of how agile a character is. Dexterity controls attack and movement speed and accuracy, as well as evading an opponent's attack (see Armor Class).
     Dexterity,
     ///A measure of a character's problem-solving ability. Intelligence often controls a character's ability to comprehend foreign languages and their skill in magic. In some cases, intelligence controls how many skill points the character gets at "level up". In some games, it controls the rate at which experience points are earned, or the amount needed to level up. This is sometimes combined with wisdom and/or willpower.
@@ -39,151 +39,142 @@ enum Attributes
     Luck
 }
 
-struct ItemKind
+
+///Weapons
+enum WeaponType
 {
-    //This thing would not be possible without the help of <WebFreak001>
-
-    ///Weapons
-    enum Weapon : uint
-    {
-        Axe = 1,
-        Bow,
-        Crossbow,
-        Sheild,
-        Staff,
-        Sword,
-        Sickle,
-        Pitchfork,
-        Pickaxe,
-        Hammer
-    }
-
-    ///Armors
-    enum Armor : uint
-    {
-        Amulet =  Weapon.max + 1,
-        Armor,
-        Belt,
-        Boots,
-        Bracer,
-        Chain,
-        Cloak,
-        Gauntlet,
-        Glove,
-        Helmet,
-        Necklace,
-        Ring,
-        Robe
-    }
-
-    ///Food
-    enum Consumable : uint
-    {
-        Apple = Armor.max + 1,
-        Beer,
-        Blueberries,
-        Bread,
-        Bugmeat,
-        Bun,
-        Candy,
-        Carrot,
-        Chicken,
-        Coffee,
-        Egg,
-        Fish,
-        Fruit,
-        Grapes,
-        Grog,
-        Ham,
-        Herbs,
-        Herring,
-        Honeycomb,
-        Meat,
-        Milk,
-        Mushroom,
-        Nuts,
-        Onion,
-        Pear,
-        Pork,
-        Potatoe,
-        Potion,
-        Raspberries,
-        Rice,
-        Root,
-        Rum,
-        Sausage,
-        Seed,
-        Seraphis,
-        Soup,
-        Spices,
-        Stew,
-        Strawberries,
-        Tea,
-        Turnip,
-        Water,
-        Watermelon,
-        Wine
-    }
-
-    ///Miscellaneous items
-    enum Misc : uint
-    {
-        Basket = Consumable.max +1,
-        Bellows,
-        Book,
-        Bottle,
-        Bowl,
-        Broom,
-        Bucket,
-        Candlestick,
-        Charcoal,
-        Cup,
-        Drum,
-        Firewood,
-        FishingPole,
-        Flag,
-        Flagon,
-        Flower ,
-        Flute,
-        Fork,
-        Gem,
-        Goblet,
-        Jug,
-        Kettle,
-        Ladle,
-        Lantern,
-        Lockpick,
-        Plate,
-        Pot,
-        Rags,
-        Rake,
-        Saw,
-        Shovel,
-        Statue,
-        Tankard,
-        Tong
-    }
-
-    this(T)(T t) if(is(T == enum) || isNumeric!T)
-    {
-        m_value = cast(uint) t;
-    }
-
-    bool opEquals(T)(T b) if(is(T == enum) || isNumeric!T)
-    {
-        return m_value == cast(uint) b;
-    }
-
-    private uint m_value;
+    Axe,
+    Bow,
+    Crossbow,
+    Sheild,
+    Staff,
+    Sword,
+    Sickle,
+    Pitchfork,
+    Pickaxe,
+    Hammer
 }
 
-enum TileType
+///Armors
+enum ArmorType
 {
-    Grass,
-    Dirt,
-    Stone,
+    Amulet,
+    Armor,
+    Belt,
+    Boots,
+    Bracer,
+    Chain,
+    Cloak,
+    Gauntlet,
+    Glove,
+    Helmet,
+    Necklace,
+    Ring,
+    Robe
+}
+
+///Food
+enum ConsumableType
+{
+    Apple,
+    Beer,
+    Blueberries,
+    Bread,
+    Bugmeat,
+    Bun,
+    Candy,
+    Carrot,
+    Chicken,
+    Coffee,
+    Egg,
+    Fish,
+    Fruit,
+    Grapes,
+    Grog,
+    Ham,
+    Herbs,
+    Herring,
+    Honeycomb,
+    Meat,
+    Milk,
+    Mushroom,
+    Nuts,
+    Onion,
+    Pear,
+    Pork,
+    Potatoe,
+    Potion,
+    Raspberries,
+    Rice,
+    Root,
+    Rum,
+    Sausage,
+    Seed,
+    Seraphis,
+    Soup,
+    Spices,
+    Stew,
+    Strawberries,
+    Tea,
+    Turnip,
     Water,
-    Swamp,
+    Watermelon,
+    Wine
+}
+
+///Miscellaneous items
+enum MiscType
+{
+    Basket,
+    Bellows,
+    Book,
+    Bottle,
+    Bowl,
+    Broom,
+    Bucket,
+    Candlestick,
+    Charcoal,
+    Cup,
+    Drum,
+    Firewood,
+    FishingPole,
+    Flag,
+    Flagon,
+    Flower ,
+    Flute,
+    Fork,
+    Gem,
+    Goblet,
+    Jug,
+    Kettle,
+    Ladle,
+    Lantern,
+    Lockpick,
+    Plate,
+    Pot,
+    Rags,
+    Rake,
+    Saw,
+    Shovel,
+    Statue,
+    Tankard,
+    Tong
+}
+
+//General materials
+enum Material
+{
+    Stone,
     Wood,
-    Tree,
+    Iron,
+    Steel,
+    Gold,
+    Diamond,
+    Titanium
+}
+
+enum Gender
+{
+    Female = 0, //0 looks like a vagina
+    Male = 1    //1 looks like a penis
 }

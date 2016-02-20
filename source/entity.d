@@ -14,7 +14,12 @@ class Entity
         }
     }
 
-    string getFullName()
+    auto attributes() const @property
+    {
+        return m_attributes;
+    }
+
+    auto getFullName() const
     {
         return m_name ~ " " ~ m_surename;
     }
@@ -22,5 +27,6 @@ class Entity
 private:
     string m_name;
     string m_surename;
+    bool m_gender;
     int[Attributes] m_attributes;
 }

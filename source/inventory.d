@@ -13,5 +13,6 @@ class Inventory
         m_items.length = size;
     }
 
+private:
     Item[] m_items;
 }
