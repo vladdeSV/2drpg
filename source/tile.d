@@ -34,9 +34,10 @@ class Tile
     }
 
 private:
+    TileType m_type;
+
     char m_sprite;
     bool m_solid;
-    TileType m_type;
     fg m_color;
     bg m_background;
 }
