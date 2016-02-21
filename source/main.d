@@ -45,9 +45,9 @@ class Game
 
     void render()
     {
-        foreach(sy, ref row; m_world.m_tiles)
+        foreach(int sy, ref row; m_world.m_tiles)
         {
-            foreach(sx, ref slot; row)
+            foreach(int sx, ref slot; row)
             {
                 m_frame.write(sx,sy, slot.color, slot.background, slot.sprite);
             }

@@ -1,32 +1,43 @@
 module entity;
 
 import enums;
+import list.name;
+import std.random;
 import std.traits;
 
 class Entity
 {
-    this()
+    this(int x, int y, string name, int[Attributes] stats)
     {
-        //Iterate and init all attributes
-        foreach(atr; [EnumMembers!Attributes])
-        {
-            m_attributes[atr] = 0;
-        }
+        m_x = x;
+        m_y = y;
+        m_name = name;
+
+        m_stats = stats;
+        //foreach(atr; [EnumMembers!Attributes])
+        //{
+        //    m_stats[atr] = 0;
+        //}
+    }
+
+    auto name() const @property
+    {
+        return m_name;
     }
 
     auto attributes() const @property
     {
-        return m_attributes;
+        return m_stats;
     }
 
-    auto getFullName() const
+    ///Returns: int[y, x]
+    auto position() const @property
     {
-        return m_name ~ " " ~ m_surename;
+        return [m_y, m_x];
     }
 
 private:
+    int m_x, m_y;
     string m_name;
-    string m_surename;
-    bool m_gender;
-    int[Attributes] m_attributes;
+    int[Attributes] m_stats;
 }

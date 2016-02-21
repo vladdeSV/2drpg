@@ -5,12 +5,29 @@ import std.exception;
 
 class Inventory
 {
-    this(int size, Item[] items = null)
+    this(int size)
     {
-        m_items = items;
-
-        //Will cut off items
         m_items.length = size;
+    }
+
+    this(Item[] startingItems, uint size = 0)
+    {
+        m_items = startingItems;
+
+        if (size > 0)
+        {
+            m_items.length = size;
+        }
+    }
+
+    auto inventory() const @property
+    {
+        return m_items;
+    }
+
+    auto size() const @property
+    {
+        return m_items.length;
     }
 
 private:

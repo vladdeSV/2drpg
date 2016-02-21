@@ -49,10 +49,20 @@ enum WeaponType
     Sheild,
     Staff,
     Sword,
-    Sickle,
-    Pitchfork,
+}
+
+enum ToolType
+{
+    Broom,
+    Hammer,
+    Lockpick,
     Pickaxe,
-    Hammer
+    Pitchfork,
+    Rake,
+    Saw,
+    Shovel,
+    Sickle,
+    Tong,
 }
 
 ///Armors
@@ -70,7 +80,7 @@ enum ArmorType
     Helmet,
     Necklace,
     Ring,
-    Robe
+    Robe,
 }
 
 ///Food
@@ -119,7 +129,7 @@ enum ConsumableType
     Turnip,
     Water,
     Watermelon,
-    Wine
+    Wine,
 }
 
 ///Miscellaneous items
@@ -130,7 +140,6 @@ enum MiscType
     Book,
     Bottle,
     Bowl,
-    Broom,
     Bucket,
     Candlestick,
     Charcoal,
@@ -140,7 +149,7 @@ enum MiscType
     FishingPole,
     Flag,
     Flagon,
-    Flower ,
+    Flower,
     Flute,
     Fork,
     Gem,
@@ -149,28 +158,22 @@ enum MiscType
     Kettle,
     Ladle,
     Lantern,
-    Lockpick,
     Plate,
     Pot,
     Rags,
-    Rake,
-    Saw,
-    Shovel,
     Statue,
     Tankard,
-    Tong
 }
 
 //General materials
 enum Material
 {
-    Stone,
     Wood,
+    Stone,
     Iron,
     Steel,
     Gold,
-    Diamond,
-    Titanium
+    Diamond
 }
 
 enum Gender

@@ -27,7 +27,7 @@ private:
 
 class ItemWeapon : Item
 {
-    this(WeaponType type, int[Attributes] attributes, string name, bool twoHanded int value)
+    this(WeaponType type, int[Attributes] attributes, string name, bool twoHanded, int value)
     {
         m_type = type;
         m_attributes = attributes;
@@ -51,6 +51,19 @@ private:
     WeaponType m_type;
 }
 
+class ItemTool : Item
+{
+    this(ToolType type, int[Attributes] attributes, string name, int value);
+
+    auto type() const @property
+    {
+        return m_type;
+    }
+
+private:
+    ToolType m_type;
+}
+
 class ItemArmor : Item
 {
     this(ArmorType type, int[Attributes] attributes, string name, int value)
@@ -61,33 +74,30 @@ class ItemArmor : Item
         m_value = value;
     }
 
-private:
     auto type() const @property
     {
         return m_type;
     }
 
+private:
     ArmorType m_type;
 }
 
 class ItemConsumable : Item
 {
-    this(ConsumableType type, int[Attributes] attributes, string name, int value, bool twoHanded)
+    this(ConsumableType type, int[Attributes] attributes, string name, int value)
     {
         m_attributes = attributes;
         m_type = type;
         m_name = name;
         m_value = value;
-        m_twoHanded = twoHanded;
     }
 
-private:
     auto type() const @property
     {
         return m_type;
     }
 
+private:
     ConsumableType m_type;
 }
-
-//TODO: I DO NOT WANT A SINGLE CLASS! POLYMORPHISM!
