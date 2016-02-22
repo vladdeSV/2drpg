@@ -23,12 +23,12 @@ class Tile
         return m_solid;
     }
 
-    auto color() const @property
+    fg foreground() const @property
     {
         return m_color;
     }
 
-    auto background() const @property
+    bg background() const @property
     {
         return m_background;
     }

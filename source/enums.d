@@ -21,8 +21,8 @@ enum Attributes
     Strength,
     ///A measure of how sturdy a character is. Constitution often influences hit points, resistances for special types of damage (poisons, illness, heat etc.) and fatigue.
     Constitution,
-    ///A measure of how resilient a character is. Defence usually decreases taken damage by either a percentage or a fixed amount per hit. Occasionally combined with Constitution.
-    Defence,
+    ///A measure of how resilient a character is. Defense usually decreases taken damage by either a percentage or a fixed amount per hit. Occasionally combined with Constitution.
+    Defense,
     ///A measure of how agile a character is. Dexterity controls attack and movement speed and accuracy, as well as evading an opponent's attack (see Armor Class).
     Dexterity,
     ///A measure of a character's problem-solving ability. Intelligence often controls a character's ability to comprehend foreign languages and their skill in magic. In some cases, intelligence controls how many skill points the character gets at "level up". In some games, it controls the rate at which experience points are earned, or the amount needed to level up. This is sometimes combined with wisdom and/or willpower.
@@ -36,44 +36,14 @@ enum Attributes
     ///A measure of a character's openness to their surroundings. Perception controls the chance to detect vital clues, traps, or hiding enemies, and might influence combat sequence, or the accuracy of ranged attacks. Perception-type attributes are more common in more modern games. Sometimes combined with wisdom.
     Perception,
     ///A measure of a character's luck. Luck might influence anything, but mostly random items, encounters and outstanding successes/failures (such as critical hits).
-    Luck
+    Luck,
 }
 
-
-///Weapons
-enum WeaponType
-{
-    Axe,
-    Bow,
-    Crossbow,
-    Sheild,
-    Staff,
-    Sword,
-}
-
-enum ToolType
-{
-    Broom,
-    Hammer,
-    Lockpick,
-    Pickaxe,
-    Pitchfork,
-    Rake,
-    Saw,
-    Shovel,
-    Sickle,
-    Tong,
-}
-
-///Armors
 enum ArmorType
 {
-    Amulet,
-    Armor,
     Belt,
     Boots,
     Bracer,
-    Chain,
     Cloak,
     Gauntlet,
     Glove,
@@ -83,101 +53,57 @@ enum ArmorType
     Robe,
 }
 
-///Food
-enum ConsumableType
+enum WeaponType
 {
-    Apple,
-    Beer,
-    Blueberries,
-    Bread,
-    Bugmeat,
-    Bun,
-    Candy,
-    Carrot,
-    Chicken,
-    Coffee,
-    Egg,
-    Fish,
-    Fruit,
-    Grapes,
-    Grog,
-    Ham,
-    Herbs,
-    Herring,
-    Honeycomb,
-    Meat,
-    Milk,
-    Mushroom,
-    Nuts,
-    Onion,
-    Pear,
-    Pork,
-    Potatoe,
-    Potion,
-    Raspberries,
-    Rice,
-    Root,
-    Rum,
-    Sausage,
-    Seed,
-    Seraphis,
-    Soup,
-    Spices,
-    Stew,
-    Strawberries,
-    Tea,
-    Turnip,
-    Water,
-    Watermelon,
-    Wine,
-}
+    Sword,
+    Bow,
+    Staff,
+    Sheild,
 
-///Miscellaneous items
-enum MiscType
-{
-    Basket,
-    Bellows,
-    Book,
-    Bottle,
-    Bowl,
-    Bucket,
-    Candlestick,
-    Charcoal,
-    Cup,
-    Drum,
-    Firewood,
-    FishingPole,
-    Flag,
-    Flagon,
-    Flower,
-    Flute,
-    Fork,
-    Gem,
-    Goblet,
-    Jug,
-    Kettle,
-    Ladle,
-    Lantern,
-    Plate,
-    Pot,
-    Rags,
-    Statue,
-    Tankard,
 }
 
 //General materials
 enum Material
 {
+    Cloth,
+    Leather,
     Wood,
     Stone,
+    Bronze,
     Iron,
     Steel,
     Gold,
-    Diamond
+    Diamond,
 }
 
 enum Gender
 {
     Female = 0, //0 looks like a vagina
-    Male = 1    //1 looks like a penis
+    Male = 1,   //1 looks like a penis
 }
+
+
+//Broom,
+//Hammer,
+//Lockpick,
+//Pickaxe,
+//Pitchfork,
+//Rake,
+//Saw,
+//Shovel,
+//Sickle,
+//Tong,
+
+//Amulet,
+//Armor,
+//Belt,
+//Boots,
+//Bracer,
+//Chain,
+//Cloak,
+//Gauntlet,
+//Glove,
+//Helmet,
+//Necklace,
+//Ring,
+//Robe,

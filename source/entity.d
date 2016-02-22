@@ -12,12 +12,15 @@ class Entity
         m_x = x;
         m_y = y;
         m_name = name;
-
         m_stats = stats;
-        //foreach(atr; [EnumMembers!Attributes])
-        //{
-        //    m_stats[atr] = 0;
-        //}
+
+        foreach(a; [EnumMembers!Attributes])
+        {
+            if((a in m_stats) is null)
+            {
+                m_stats[a] = 0;
+            }
+        }
     }
 
     auto name() const @property
@@ -39,5 +42,6 @@ class Entity
 private:
     int m_x, m_y;
     string m_name;
+    bool m_living;
     int[Attributes] m_stats;
 }

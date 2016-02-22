@@ -3,11 +3,15 @@ module game;
 import scone;
 import world;
 import enums;
+import item;
 import std.stdio;
 import std.conv : to;
 import core.time;
 
-alias game = Game.game;
+static Game getGame() @property
+{
+    return Game.instance;
+}
 
 class Game
 {
@@ -47,9 +51,9 @@ class Game
     {
         foreach(int sy, ref row; m_world.m_tiles)
         {
-            foreach(int sx, ref slot; row)
+            foreach(int sx, ref tile; row)
             {
-                m_frame.write(sx,sy, slot.color, slot.background, slot.sprite);
+                m_frame.write(sx,sy, /*tile.foreground, tile.background,*/ tile.sprite);
             }
         }
 
@@ -58,7 +62,7 @@ class Game
 
     //>>Singleton
     //David Simcha
-    static Game game() @property
+    static Game instance() @property
     {
         if (!instantiated_)
         {
@@ -101,7 +105,7 @@ class Game
         lasttime = MonoTime.currTime();
     }
     //<<
-private:
+//private:
     bool m_running;
 
     Frame m_frame;
@@ -110,5 +114,6 @@ private:
 
 void main()
 {
-    game.start();
+    import std.stdio;
+    writeln(getGame.m_running);
 }

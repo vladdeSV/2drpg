@@ -2,11 +2,12 @@ module item;
 
 import enums;
 
-abstract class Item
+class Item
 {
-    auto attributes() const @property
+    this(string name, int value)
     {
-        return m_attributes;
+        m_name = name;
+        m_value = value;
     }
 
     auto name() const @property
@@ -20,25 +21,39 @@ abstract class Item
     }
 
 private:
-    int[Attributes] m_attributes;
     string m_name;
     int m_value;
 }
 
-class ItemWeapon : Item
+abstract class ItemEquipable : Item
 {
-    this(WeaponType type, int[Attributes] attributes, string name, bool twoHanded, int value)
+    this(string name, Material material, int[Attributes] stats, int value)
     {
-        m_type = type;
-        m_attributes = attributes;
-        m_name = name;
-        m_value = value;
-        m_twoHanded = twoHanded;
+        super(name, value);
+        m_material = material;
+        m_stats = cast(int[Attributes]) stats;
     }
 
-    auto type() const @property
+    auto stats() const @property
     {
-        return m_type;
+        return m_stats;
+    }
+
+    auto material() const @property
+    {
+        return m_material;
+    }
+
+    int[Attributes] m_stats;
+    Material m_material;
+}
+
+class ItemWeapon : ItemEquipable
+{
+    this(string name, Material material, int[Attributes] stats, bool twoHanded, int value)
+    {
+        super(name, material, stats, value);
+        m_twoHanded = twoHanded;
     }
 
     auto twoHanded() const @property
@@ -48,56 +63,39 @@ class ItemWeapon : Item
 
 private:
     bool m_twoHanded;
-    WeaponType m_type;
 }
 
-class ItemTool : Item
+class ItemArmor : ItemEquipable
 {
-    this(ToolType type, int[Attributes] attributes, string name, int value);
-
-    auto type() const @property
+    this(string name, Material material, int[Attributes] stats, ArmorType type, int value)
     {
-        return m_type;
+        super(name, material, stats, value);
+        m_armorType = type;
+    }
+
+    auto armorType() const @property
+    {
+        return m_armorType;
     }
 
 private:
-    ToolType m_type;
+    ArmorType m_armorType;
 }
 
-class ItemArmor : Item
-{
-    this(ArmorType type, int[Attributes] attributes, string name, int value)
-    {
-        m_attributes = attributes;
-        m_type = type;
-        m_name = name;
-        m_value = value;
-    }
-
-    auto type() const @property
-    {
-        return m_type;
-    }
-
-private:
-    ArmorType m_type;
-}
 
 class ItemConsumable : Item
 {
-    this(ConsumableType type, int[Attributes] attributes, string name, int value)
+    this(string name, int healing, int value)
     {
-        m_attributes = attributes;
-        m_type = type;
-        m_name = name;
-        m_value = value;
+        super(name, value);
+        m_healing = healing;
     }
 
-    auto type() const @property
+    auto healing() const @property
     {
-        return m_type;
+        return m_healing;
     }
 
 private:
-    ConsumableType m_type;
+    int m_healing;
 }
