@@ -4,7 +4,7 @@ import enums;
 
 class ItemWeapon : ItemEquipable
 {
-    this(string name, Material material, int[Attributes] stats, bool twoHanded, int value)
+    this(string name, WeaponType type, Material material, int[Attributes] stats, bool twoHanded, int value)
     {
         super(name, material, stats, value);
         m_twoHanded = twoHanded;

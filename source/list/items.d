@@ -14,14 +14,14 @@ shared static this()
 {
     ListItemWeapon = cast(immutable)
     [
-        "rapier" : new ItemWeapon("Rapier", Material.Steel, [Attributes.Strength : 12], false, 100),
-        "longsword" : new ItemWeapon("Longsword", Material.Iron, [Attributes.Strength : 13], true, 50),
-        "schythe" : new ItemWeapon("Schythe", Material.Steel, [Attributes.Strength : 6], false, 30),
-        "sabre" : new ItemWeapon("Sabre", Material.Steel, [Attributes.Strength : 7], false, 20),
-        "sword" : new ItemWeapon("Sword", Material.Iron, [Attributes.Strength : 6], false, 10),
-        "stave" : new ItemWeapon("Stave", Material.Wood, [Attributes.Strength : 1, Attributes.Intelligence : 3], false, 5),
-        "staff" : new ItemWeapon("Staff", Material.Wood, [Attributes.Strength : 3, Attributes.Intelligence : 6], true, 7),
-        "axe" : new ItemWeapon("Axe", Material.Steel, [Attributes.Strength : 5], true, 4),
+        "rapier" : new ItemWeapon("Rapier", WeaponType.Sword, Material.Steel, [Attributes.Strength : 12], false, 100),
+        "longsword" : new ItemWeapon("Longsword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 13], true, 50),
+        "schythe" : new ItemWeapon("Schythe", WeaponType.Sword, Material.Steel, [Attributes.Strength : 6], false, 30),
+        "sabre" : new ItemWeapon("Sabre", WeaponType.Sword, Material.Steel, [Attributes.Strength : 7], false, 20),
+        "sword" : new ItemWeapon("Sword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 6], false, 10),
+        "stave" : new ItemWeapon("Stave", WeaponType.Staff, Material.Wood, [Attributes.Strength : 1, Attributes.Intelligence : 3], false, 5),
+        "staff" : new ItemWeapon("Staff", WeaponType.Staff, Material.Wood, [Attributes.Strength : 3, Attributes.Intelligence : 6], true, 7),
+        "axe" : new ItemWeapon("Axe", WeaponType.Axe, Material.Steel, [Attributes.Strength : 5], true, 4),
     ];
 
     ListItemConsumable = cast(immutable)

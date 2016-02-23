@@ -62,7 +62,7 @@ enum WeaponType
     Bow,
     Staff,
     Sheild,
-
+    Axe,
 }
 
 //General materials
