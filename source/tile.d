@@ -1,7 +1,4 @@
-module tile;
-
 import scone;
-import enums;
 
 class Tile
 {

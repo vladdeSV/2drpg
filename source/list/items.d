@@ -1,13 +1,19 @@
-module list.items;
+import enums;
+import item;
+//import item_equipable;
+import item_weapon;
+import item_consumable;
+import item_armor;
 
-immutable static Item[string]           ListItemMisc;
 immutable static ItemWeapon[string]     ListItemWeapon;
 immutable static ItemConsumable[string] ListItemConsumable;
 immutable static ItemArmor[string]      ListItemArmor;
+immutable static Item[string]           ListItemMisc;
 
 shared static this()
 {
-    ListItemWeapon = cast(immutable)[
+    ListItemWeapon = cast(immutable)
+    [
         "rapier" : new ItemWeapon("Rapier", Material.Steel, [Attributes.Strength : 12], false, 100),
         "longsword" : new ItemWeapon("Longsword", Material.Iron, [Attributes.Strength : 13], true, 50),
         "schythe" : new ItemWeapon("Schythe", Material.Steel, [Attributes.Strength : 6], false, 30),
@@ -18,7 +24,8 @@ shared static this()
         "axe" : new ItemWeapon("Axe", Material.Steel, [Attributes.Strength : 5], true, 4),
     ];
 
-    ListItemConsumable = cast(immutable)[
+    ListItemConsumable = cast(immutable)
+    [
         "apple" : new ItemConsumable("Apple", 3, 1),
         "beer" : new ItemConsumable("Beer", 0, 7),
         "blueberries" : new ItemConsumable("Blueberries", 4, 2),
@@ -58,7 +65,8 @@ shared static this()
         "wine" : new ItemConsumable("Wine", 0, 24),
     ];
 
-    ListItem = cast(immutable)[
+    ListItemMisc = cast(immutable)
+    [
         "basket" : new Item("Basket", 2),
         "bellows" : new Item("Bellows", 3),
         "book" : new Item("Book", 1),

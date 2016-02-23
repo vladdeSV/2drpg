@@ -1,9 +1,6 @@
-module game;
-
 import scone;
 import world;
 import enums;
-import item;
 import std.stdio;
 import std.conv : to;
 import core.time;
@@ -49,12 +46,17 @@ class Game
 
     void render()
     {
-        foreach(int sy, ref row; m_world.m_tiles)
+        //foreach(int sy, ref row; m_world.m_tiles)
+        //{
+        //    foreach(int sx, ref tile; row)
+        //    {
+        //        m_frame.write(sx,sy, /*tile.foreground, tile.background,*/ tile.sprite);
+        //    }
+        //}
+
+        foreach(entity; m_world.m_entities)
         {
-            foreach(int sx, ref tile; row)
-            {
-                m_frame.write(sx,sy, /*tile.foreground, tile.background,*/ tile.sprite);
-            }
+            m_frame.write(entity.position[0],entity.position[1],entity.sprite);
         }
 
         m_frame.print();
@@ -114,6 +116,5 @@ class Game
 
 void main()
 {
-    import std.stdio;
-    writeln(getGame.m_running);
+    getGame.start();
 }

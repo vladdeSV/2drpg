@@ -1,48 +1,49 @@
-module world;
-
-import game;
 import tile;
+import entity;
+import enums;
 
 class World
 {
     this()
     {
+        m_chunks = new Chunk[][](1,1);
+        m_entities ~= new Entity(4,4, 'e');
+    }
+
+    auto getChunk(in int cx, in int cy)
+    {
+        return m_chunks[cy][cx];
+    }
+
+    auto getChunkAtLocation(in int x, in int y)
+    {
+        return m_chunks[y / chunkSize][x / chunkSize];
+    }
+
+//private:
+    Entity[] m_entities;
+    Chunk[][] m_chunks;
+}
+
+class Chunk
+{
+    this()
+    {
         auto tile = new Tile('.');
 
-        m_tiles.length = 20;
+        m_tiles.length = chunkSize;
         foreach(ref row; m_tiles)
         {
-            row.length = 50;
+            row.length = chunkSize;
             row[] = tile;
         }
     }
 
-    auto getTile(in uint x, in uint y)
+    auto getTile(in int x, in int y)
     {
         return m_tiles[y][x];
     }
 
-//private:
-    int m_cw, m_ch;
+private:
     Tile[][] m_tiles;
-    //Chunk[][] m_chunks;
 }
-
-//class Chunk
-//{
-//    this()
-//    {
-//        auto tile = new Tile('.');
-
-//        m_tiles.length = h;
-//        foreach(ref row; m_tiles)
-//        {
-//            row[] = tile;
-//        }
-//    }
-
-//private:
-//    Tile[][] m_tiles;
-//    Direction m_openDirections;
-//}
-

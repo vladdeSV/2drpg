@@ -1,5 +1,5 @@
 name "2drpg"
-description "Console RPG"
+description "Console Tile-based RPG"
 copyright "Copyright © 2016,Vladimirs Nordholm"
 license "MIT"
 authors "vladdeSV"
