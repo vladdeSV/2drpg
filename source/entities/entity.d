@@ -1,29 +1,22 @@
 import enums;
 import names;
-import std.random;
-import std.traits;
 
-class Entity
+abstract class Entity
 {
-    this(int x, int y, char sprite)
+    this(int x, int y, char sprite, Color color)
     {
         m_x = x;
         m_y = y;
         m_sprite = sprite;
-
-        foreach(a; [EnumMembers!Attributes])
-        {
-            if((a in m_stats) is null)
-            {
-                m_stats[a] = 0;
-            }
-        }
+        m_color = color;
     }
 
-    ///Returns: int[y, x]
+    void update() {}
+
+    ///Returns: int[x, y]
     auto position() const @property
     {
-        return [m_y, m_x];
+        return [m_x, m_y];
     }
 
     auto sprite() const @property
@@ -31,8 +24,13 @@ class Entity
         return m_sprite;
     }
 
-private:
+    Color color() const @property
+    {
+        return m_color;
+    }
+
+//private:
     int m_x, m_y;
     char m_sprite;
-    int[Attributes] m_stats;
+    Color m_color;
 }

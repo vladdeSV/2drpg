@@ -1,13 +1,13 @@
-import scone;
+import enums;
 
 class Tile
 {
-    this(char sprite, bool solid = false, fg color = fg.init, bg background = bg.init)
+    this(char sprite, Color color, Color backgroundColor, bool solid = false)
     {
         m_sprite = sprite;
         m_solid = solid;
         m_color = color;
-        m_background = background;
+        m_backgroundColor = backgroundColor;
     }
 
     auto sprite() const @property
@@ -20,19 +20,18 @@ class Tile
         return m_solid;
     }
 
-    fg foreground() const @property
+    Color color() const @property
     {
         return m_color;
     }
 
-    bg background() const @property
+    Color backgroundColor() const @property
     {
-        return m_background;
+        return m_backgroundColor;
     }
 
 private:
     char m_sprite;
     bool m_solid;
-    fg m_color;
-    bg m_background;
+    Color m_color, m_backgroundColor;
 }

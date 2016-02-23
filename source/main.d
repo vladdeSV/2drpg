@@ -26,6 +26,8 @@ class Game
             foreach(i; 0 .. getUpdates())
             {
                 tick();
+                //DEBUG: delte this
+                m_world.m_entities[0].update;
             }
             render();
         }
@@ -56,7 +58,7 @@ class Game
 
         foreach(entity; m_world.m_entities)
         {
-            m_frame.write(entity.position[0],entity.position[1],entity.sprite);
+            m_frame.write(entity.position[0], entity.position[1], cast(fg) entity.color, entity.sprite);
         }
 
         m_frame.print();
@@ -87,7 +89,7 @@ class Game
 
     //>> Ticking mechanisms
     private MonoTime lasttime;
-    private double ticks = 0;
+    private double msecs = 0;
     double getUpdates()
     {
         /* Kudos to Yepoleb who helped me with this */
@@ -96,9 +98,9 @@ class Game
         double durationmsec = duration.total!"nsecs" / (10.0 ^^ 6);
 
         lasttime = newtime;
-        ticks += durationmsec;
-        int updates = cast(int)(ticks / updateInterval);
-        ticks -= updates * updateInterval;
+        msecs += durationmsec;
+        int updates = cast(int)(msecs / updateInterval);
+        msecs -= updates * updateInterval;
 
         return updates;
     }
@@ -107,7 +109,7 @@ class Game
         lasttime = MonoTime.currTime();
     }
     //<<
-//private:
+private:
     bool m_running;
 
     Frame m_frame;

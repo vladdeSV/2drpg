@@ -21,6 +21,7 @@ shared static this()
         "sword" : new ItemWeapon("Sword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 6], false, 10),
         "stave" : new ItemWeapon("Stave", WeaponType.Staff, Material.Wood, [Attributes.Strength : 1, Attributes.Intelligence : 3], false, 5),
         "staff" : new ItemWeapon("Staff", WeaponType.Staff, Material.Wood, [Attributes.Strength : 3, Attributes.Intelligence : 6], true, 7),
+        "rod" : new ItemWeapon("Rod", WeaponType.Staff, Material.Iron, [Attributes.Strength : 5], true, 6),
         "axe" : new ItemWeapon("Axe", WeaponType.Axe, Material.Steel, [Attributes.Strength : 5], true, 4),
     ];
 

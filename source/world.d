@@ -1,40 +1,46 @@
 import tile;
 import entity;
+import entity_living;
 import enums;
 
 class World
 {
     this()
     {
-        m_chunks = new Chunk[][](1,1);
-        m_entities ~= new Entity(4,4, 'e');
+        foreach(row; m_chunks)
+        {
+            foreach(chunk; row)
+            {
+                chunk = new Chunk;
+            }
+        }
+
+        m_entities ~= new EntityLiving(4,4, 'e', "Enemy", Color.green_dark, 10, [Attributes.Strength : 14]);
     }
 
-    auto getChunk(in int cx, in int cy)
+    auto getChunk(int cx, int cy)
     {
         return m_chunks[cy][cx];
     }
 
     auto getChunkAtLocation(in int x, in int y)
     {
-        return m_chunks[y / chunkSize][x / chunkSize];
+        return getChunk(x / chunkSize, y / chunkSize);
     }
 
 //private:
     Entity[] m_entities;
-    Chunk[][] m_chunks;
+    Chunk[worldSize][worldSize] m_chunks;
 }
 
 class Chunk
 {
     this()
     {
-        auto tile = new Tile('.');
+        auto tile = new Tile('.', Color.init, Color.gray);
 
-        m_tiles.length = chunkSize;
         foreach(ref row; m_tiles)
         {
-            row.length = chunkSize;
             row[] = tile;
         }
     }
@@ -44,6 +50,6 @@ class Chunk
         return m_tiles[y][x];
     }
 
-private:
-    Tile[][] m_tiles;
+//private:
+    Tile[chunkSize][chunkSize] m_tiles;
 }

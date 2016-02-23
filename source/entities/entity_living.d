@@ -1,14 +1,22 @@
 import entity;
-
 import enums;
+import std.traits;
 
 class EntityLiving : Entity
 {
-    this(int x, int y, char sprite, string name, int[Attributes] stats)
+    this(int x, int y, char sprite, string name, Color color, int maxHealth, int[Attributes] stats)
     {
-        super(x, y, sprite);
+        super(x, y, sprite, color);
         m_name = name;
+        m_maxHealth = m_health = maxHealth;
         m_stats = stats;
+        foreach(a; [EnumMembers!Attributes])
+        {
+            if((a in m_stats) is null)
+            {
+                m_stats[a] = 0;
+            }
+        }
     }
 
     auto name() const @property
@@ -23,5 +31,6 @@ class EntityLiving : Entity
 
 private:
     string m_name;
+    int m_maxHealth, m_health;
     int[Attributes] m_stats;
 }

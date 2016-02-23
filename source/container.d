@@ -18,12 +18,12 @@ class Container
         }
     }
 
-    auto inventory() const @property
+    auto content() @property
     {
         return m_items;
     }
 
-    auto size() const @property
+    auto size() @property
     {
         return m_items.length;
     }
