@@ -1,6 +1,8 @@
 import item;
 import enums;
 
+import std.conv : to;
+
 class ItemConsumable : Item
 {
     this(string name, int healing, int value)
@@ -16,4 +18,13 @@ class ItemConsumable : Item
 
 private:
     int m_healing;
+}
+
+/**
+ * Create consumable.
+ * Return: ItemConsumable
+ */
+ItemConsumable createConsumable(string name, int healing, int value)
+{
+    return new ItemConsumable(name, healing, value);
 }

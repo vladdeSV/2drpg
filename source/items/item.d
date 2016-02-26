@@ -1,6 +1,6 @@
 import enums;
 
-class Item
+abstract class Item
 {
     this(string name, int value)
     {

@@ -16,6 +16,7 @@ class World
         }
 
         m_entities ~= new EntityLiving(4,4, 'e', "Enemy", Color.green_dark, 10, [Attributes.Strength : 14]);
+        m_entities ~= new EntityLiving(20, 5, 'p', "Player", Color.green, 100, [Attributes.Strength : 20]);
     }
 
     auto getChunk(int cx, int cy)
@@ -23,9 +24,9 @@ class World
         return m_chunks[cy][cx];
     }
 
-    auto getChunkAtLocation(in int x, in int y)
+    auto getChunkAtLocation(int tx, int ty)
     {
-        return getChunk(x / chunkSize, y / chunkSize);
+        return getChunk(tx / chunkSize, ty / chunkSize);
     }
 
 //private:
@@ -45,9 +46,9 @@ class Chunk
         }
     }
 
-    auto getTile(in int x, in int y)
+    auto getTile(int tx, int ty)
     {
-        return m_tiles[y][x];
+        return m_tiles[ty][tx];
     }
 
 //private:

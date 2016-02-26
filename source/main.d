@@ -43,16 +43,38 @@ class Game
             {
                 m_running = false;
             }
+
+            if(input.pressed)
+            {
+                if(input.key == SK.UP)
+                {
+                    m_world.m_entities[1].m_y -= 1;
+                }
+                else if(input.key == SK.DOWN)
+                {
+                    m_world.m_entities[1].m_y += 1;
+                }
+                else if(input.key == SK.RIGHT)
+                {
+                    m_world.m_entities[1].m_x += 1;
+                }
+                else if(input.key == SK.LEFT)
+                {
+                    m_world.m_entities[1].m_x -= 1;
+                }
+            }
         }
     }
 
     void render()
     {
+        m_frame.clear();
+
         //foreach(int sy, ref row; m_world.m_tiles)
         //{
         //    foreach(int sx, ref tile; row)
         //    {
-        //        m_frame.write(sx,sy, /*tile.foreground, tile.background,*/ tile.sprite);
+        //        m_frame.write(sx,sy, tile.color, tile.backgroundColor, tile.sprite);
         //    }
         //}
 

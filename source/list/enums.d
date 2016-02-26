@@ -1,5 +1,5 @@
 ///Frames per second
-enum FPS = 20;
+enum FPS = 60;
 ///Milliseconds between each frame, which is determined by `enum FPS`
 enum double updateInterval = 1000/FPS;
 
@@ -87,6 +87,7 @@ enum WeaponType
     Staff,
     Sheild,
     Axe,
+    Polearm
 }
 
 //General materials

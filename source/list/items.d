@@ -1,28 +1,30 @@
 import enums;
 import item;
+
 //import item_equipable;
 import item_weapon;
-import item_consumable;
 import item_armor;
+import item_consumable;
+import item_misc;
 
 immutable static ItemWeapon[string]     ListItemWeapon;
 immutable static ItemConsumable[string] ListItemConsumable;
 immutable static ItemArmor[string]      ListItemArmor;
-immutable static Item[string]           ListItemMisc;
+immutable static ItemMisc[string]       ListItemMisc;
 
 shared static this()
 {
     ListItemWeapon = cast(immutable)
     [
-        "rapier" : new ItemWeapon("Rapier", WeaponType.Sword, Material.Steel, [Attributes.Strength : 12], false, 100),
-        "longsword" : new ItemWeapon("Longsword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 13], true, 50),
-        "schythe" : new ItemWeapon("Schythe", WeaponType.Sword, Material.Steel, [Attributes.Strength : 6], false, 30),
-        "sabre" : new ItemWeapon("Sabre", WeaponType.Sword, Material.Steel, [Attributes.Strength : 7], false, 20),
-        "sword" : new ItemWeapon("Sword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 6], false, 10),
-        "stave" : new ItemWeapon("Stave", WeaponType.Staff, Material.Wood, [Attributes.Strength : 1, Attributes.Intelligence : 3], false, 5),
-        "staff" : new ItemWeapon("Staff", WeaponType.Staff, Material.Wood, [Attributes.Strength : 3, Attributes.Intelligence : 6], true, 7),
-        "rod" : new ItemWeapon("Rod", WeaponType.Staff, Material.Iron, [Attributes.Strength : 5], true, 6),
-        "axe" : new ItemWeapon("Axe", WeaponType.Axe, Material.Steel, [Attributes.Strength : 5], true, 4),
+        "rapier" : createWeapon("Rapier", WeaponType.Sword, Material.Steel, [Attributes.Strength : 12], false, 100),
+        "longsword" : createWeapon("Longsword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 13], true, 50),
+        "schythe" : createWeapon("Schythe", WeaponType.Sword, Material.Steel, [Attributes.Strength : 6], false, 30),
+        "sabre" : createWeapon("Sabre", WeaponType.Sword, Material.Steel, [Attributes.Strength : 7], false, 20),
+        "sword" : createWeapon("Sword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 6], false, 10),
+        "stave" : createWeapon("Stave", WeaponType.Staff, Material.Wood, [Attributes.Strength : 1, Attributes.Intelligence : 3], false, 5),
+        "staff" : createWeapon("Staff", WeaponType.Staff, Material.Wood, [Attributes.Strength : 3, Attributes.Intelligence : 6], true, 7),
+        "rod" : createWeapon("Rod", WeaponType.Staff, Material.Iron, [Attributes.Strength : 5], true, 6),
+        "axe" : createWeapon("Axe", WeaponType.Axe, Material.Steel, [Attributes.Strength : 5], true, 4),
     ];
 
     ListItemConsumable = cast(immutable)
@@ -68,32 +70,32 @@ shared static this()
 
     ListItemMisc = cast(immutable)
     [
-        "basket" : new Item("Basket", 2),
-        "bellows" : new Item("Bellows", 3),
-        "book" : new Item("Book", 1),
-        "bottle" : new Item("Bottle", 2),
-        "bowl" : new Item("Bowl", 3),
-        "bucket" : new Item("Bucket", 5),
-        "candlestick" : new Item("Candlestick", 3),
-        "charcoal" : new Item("Charcoal", 4),
-        "cup" : new Item("Cup", 1),
-        "drum" : new Item("Drum", 2),
-        "firewood" : new Item("Firewood", 6),
-        "fishingPole" : new Item("FishingPole", 7),
-        "flag" : new Item("Flag", 4),
-        "flower" : new Item("Flower", 1),
-        "flute" : new Item("Flute", 4),
-        "fork" : new Item("Fork", 1),
-        "gem" : new Item("Gem", 8),
-        "goblet" : new Item("Goblet", 2),
-        "jug" : new Item("Jug", 3),
-        "kettle" : new Item("Kettle", 2),
-        "lantern" : new Item("Lantern", 8),
-        "plate" : new Item("Plate", 3),
-        "pot" : new Item("Pot", 3),
-        "rags" : new Item("Rags", 2),
-        "spoon" : new Item("Spoon", 1),
-        "statue" : new Item("Statue", 16),
-        "tankard" : new Item("Tankard", 3),
+        "basket" : new ItemMisc("Basket", 2),
+        "bellows" : new ItemMisc("Bellows", 3),
+        "book" : new ItemMisc("Book", 1),
+        "bottle" : new ItemMisc("Bottle", 2),
+        "bowl" : new ItemMisc("Bowl", 3),
+        "bucket" : new ItemMisc("Bucket", 5),
+        "candlestick" : new ItemMisc("Candlestick", 3),
+        "charcoal" : new ItemMisc("Charcoal", 4),
+        "cup" : new ItemMisc("Cup", 1),
+        "drum" : new ItemMisc("Drum", 2),
+        "firewood" : new ItemMisc("Firewood", 6),
+        "fishingPole" : new ItemMisc("FishingPole", 7),
+        "flag" : new ItemMisc("Flag", 4),
+        "flower" : new ItemMisc("Flower", 1),
+        "flute" : new ItemMisc("Flute", 4),
+        "fork" : new ItemMisc("Fork", 1),
+        "gem" : new ItemMisc("Gem", 8),
+        "goblet" : new ItemMisc("Goblet", 2),
+        "jug" : new ItemMisc("Jug", 3),
+        "kettle" : new ItemMisc("Kettle", 2),
+        "lantern" : new ItemMisc("Lantern", 8),
+        "plate" : new ItemMisc("Plate", 3),
+        "pot" : new ItemMisc("Pot", 3),
+        "rags" : new ItemMisc("Rags", 2),
+        "spoon" : new ItemMisc("Spoon", 1),
+        "statue" : new ItemMisc("Statue", 16),
+        "tankard" : new ItemMisc("Tankard", 3),
     ];
 }
