@@ -1,6 +1,7 @@
 import tile;
 import entity;
 import entity_living;
+import entity_object;
 import enums;
 
 class World
@@ -16,6 +17,8 @@ class World
         }
 
         m_entities ~= new EntityLiving(4,4, 'e', "Enemy", Color.green_dark, 10, [Attributes.Strength : 14]);
+        m_entities ~= new EntityObject(15, 10, '*', Color.gray_dark);
+
         m_entities ~= new EntityLiving(20, 5, 'p', "Player", Color.green, 100, [Attributes.Strength : 20]);
     }
 

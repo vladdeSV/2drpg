@@ -20,14 +20,12 @@ class Game
         m_frame = new Frame;
         m_world = new World;
 
-        resetUpdates();
+        resetTicks();
         while(m_running)
         {
-            foreach(i; 0 .. getUpdates())
+            foreach(i; 0 .. getTicks())
             {
                 tick();
-                //DEBUG: delte this
-                m_world.m_entities[0].update;
             }
             render();
         }
@@ -48,19 +46,19 @@ class Game
             {
                 if(input.key == SK.UP)
                 {
-                    m_world.m_entities[1].m_y -= 1;
+                    m_world.m_entities[$ - 1].m_y -= 1;
                 }
                 else if(input.key == SK.DOWN)
                 {
-                    m_world.m_entities[1].m_y += 1;
+                    m_world.m_entities[$ - 1].m_y += 1;
                 }
                 else if(input.key == SK.RIGHT)
                 {
-                    m_world.m_entities[1].m_x += 1;
+                    m_world.m_entities[$ - 1].m_x += 1;
                 }
                 else if(input.key == SK.LEFT)
                 {
-                    m_world.m_entities[1].m_x -= 1;
+                    m_world.m_entities[$ - 1].m_x -= 1;
                 }
             }
         }
@@ -112,7 +110,7 @@ class Game
     //>> Ticking mechanisms
     private MonoTime lasttime;
     private double msecs = 0;
-    double getUpdates()
+    double getTicks()
     {
         /* Kudos to Yepoleb who helped me with this */
         MonoTime newtime = MonoTime.currTime();
@@ -121,12 +119,12 @@ class Game
 
         lasttime = newtime;
         msecs += durationmsec;
-        int updates = cast(int)(msecs / updateInterval);
-        msecs -= updates * updateInterval;
+        int ticks = cast(int)(msecs / updateInterval);
+        msecs -= ticks * updateInterval;
 
-        return updates;
+        return ticks;
     }
-    void resetUpdates()
+    void resetTicks()
     {
         lasttime = MonoTime.currTime();
     }

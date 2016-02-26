@@ -1,5 +1,8 @@
 import enums;
 import names;
+import enums;
+
+import std.random;
 
 abstract class Entity
 {
@@ -9,6 +12,8 @@ abstract class Entity
         m_y = y;
         m_sprite = sprite;
         m_color = color;
+
+        m_lookingDirection = cast(Direction) uniform(1, 5);
     }
 
     void update() {}
@@ -33,4 +38,6 @@ abstract class Entity
     int m_x, m_y;
     char m_sprite;
     Color m_color;
+
+    Direction m_lookingDirection;
 }

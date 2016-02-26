@@ -1,5 +1,5 @@
 ///Frames per second
-enum FPS = 60;
+enum FPS = 30;
 ///Milliseconds between each frame, which is determined by `enum FPS`
 enum double updateInterval = 1000/FPS;
 
