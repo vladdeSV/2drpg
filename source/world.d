@@ -1,3 +1,6 @@
+import scone;
+import game;
+
 import tile;
 import entity;
 import entity_living;
@@ -16,10 +19,42 @@ class World
             }
         }
 
-        m_entities ~= new EntityLiving(4,4, 'e', "Enemy", Color.green_dark, 10, [Attributes.Strength : 14]);
-        m_entities ~= new EntityObject(15, 10, '*', Color.gray_dark);
+        m_entities ~= new EntityLiving(4,4, 'e', "Enemy", Color.gray_dark, 10, [Attributes.Strength : 14]);
+        m_entities ~= new EntityLiving(6,10, 'e', "Enemy", Color.gray_dark, 10, [Attributes.Strength : 14]);
+        m_entities ~= new EntityLiving(20,2, 'e', "Enemy", Color.gray_dark, 10, [Attributes.Strength : 14]);
 
-        m_entities ~= new EntityLiving(20, 5, 'p', "Player", Color.green, 100, [Attributes.Strength : 20]);
+        m_entities ~= new EntityLiving(20, 5, 'p', "Player", Color.white, 100, [Attributes.Strength : 20]);
+    }
+
+    void update()
+    {
+        foreach(input; getInputs())
+        {
+            if(input.key == SK.ESCAPE)
+            {
+                Game.running = false;
+            }
+
+            if(input.pressed)
+            {
+                if(input.key == SK.UP)
+                {
+                    m_entities[$ - 1].m_y -= 1;
+                }
+                else if(input.key == SK.DOWN)
+                {
+                    m_entities[$ - 1].m_y += 1;
+                }
+                else if(input.key == SK.RIGHT)
+                {
+                    m_entities[$ - 1].m_x += 1;
+                }
+                else if(input.key == SK.LEFT)
+                {
+                    m_entities[$ - 1].m_x -= 1;
+                }
+            }
+        }
     }
 
     auto getChunk(int cx, int cy)
@@ -54,6 +89,7 @@ class Chunk
         return m_tiles[ty][tx];
     }
 
-//private:
+private:
+    int m_cx, m_cy;
     Tile[chunkSize][chunkSize] m_tiles;
 }

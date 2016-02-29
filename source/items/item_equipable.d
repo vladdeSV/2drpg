@@ -19,7 +19,7 @@ abstract class ItemEquipable : Item
     {
         return m_material;
     }
-
+private:
     int[Attributes] m_stats;
     Material m_material;
 }

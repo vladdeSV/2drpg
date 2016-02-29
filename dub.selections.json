@@ -1,6 +1,6 @@
 {
 	"versions": {
-		"scone": "~master"
+		"scone": "0.1.0"
 	},
 	"fileVersion": 1
 }

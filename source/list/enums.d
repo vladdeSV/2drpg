@@ -1,7 +1,13 @@
+///Updates per second
+enum UPS = 30;
+///Milliseconds between each update, which is determined by `enum UPS`
+enum double updateInterval = 1000/UPS;
+
 ///Frames per second
-enum FPS = 30;
+enum FPS = 60;
 ///Milliseconds between each frame, which is determined by `enum FPS`
-enum double updateInterval = 1000/FPS;
+enum double frameInterval = 1000/FPS;
+
 
 ///Chunk's size
 enum chunkSize = 100;
