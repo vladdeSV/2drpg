@@ -5,11 +5,6 @@ import updater;
 
 struct Game
 {
-    static void update()
-    {
-
-    }
-
     static void render()
     {
         Game.frame.clear();
@@ -31,6 +26,7 @@ struct Game
     }
 
     static bool running;
+
     static Updater updater = Updater(updateInterval);
     static Updater frameUpdater = Updater(frameInterval);
     static Frame frame;
