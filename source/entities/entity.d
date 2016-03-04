@@ -8,12 +8,12 @@ abstract class Entity
 {
     this(int x, int y, char sprite, Color color)
     {
-        m_x = x;
-        m_y = y;
-        m_sprite = sprite;
-        m_color = color;
+        _x = x;
+        _y = y;
+        _sprite = sprite;
+        _color = color;
 
-        m_lookingDirection = cast(Direction) uniform(1, 5);
+        _lookingDirection = cast(Direction) uniform(1, 5);
     }
 
     void update() {}
@@ -21,23 +21,24 @@ abstract class Entity
     ///Returns: int[x, y]
     auto position() const @property
     {
-        return [m_x, m_y];
+        return [_x, _y];
     }
 
     auto sprite() const @property
     {
-        return m_sprite;
+        return _sprite;
     }
 
     Color color() const @property
     {
-        return m_color;
+        return _color;
     }
 
-//private:
-    int m_x, m_y;
-    char m_sprite;
-    Color m_color;
+private:
+    ///Local x and y in chunk
+    int _lx, _ly;
+    char _sprite;
+    Color _color;
 
-    Direction m_lookingDirection;
+    Direction _lookingDirection;
 }

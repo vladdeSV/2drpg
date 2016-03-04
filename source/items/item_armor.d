@@ -1,5 +1,5 @@
 import item;
-import item_equipable;
+import ite_equipable;
 import enums;
 
 import std.conv : to;
@@ -9,16 +9,16 @@ class ItemArmor : ItemEquipable
     this(string name, ArmorType type, Material material, int[Attributes] stats, int value)
     {
         super(name, material, stats, value);
-        m_armorType = type;
+        _armorType = type;
     }
 
     auto armorType() const @property
     {
-        return m_armorType;
+        return _armorType;
     }
 
 private:
-    ArmorType m_armorType;
+    ArmorType _armorType;
 }
 
 /**

@@ -7,30 +7,30 @@ class EntityLiving : Entity
     this(int x, int y, char sprite, string name, Color color, int maxHealth, int[Attributes] stats)
     {
         super(x, y, sprite, color);
-        m_name = name;
-        m_maxHealth = m_health = maxHealth;
-        m_stats = stats;
+        _name = name;
+        _maxHealth = _health = maxHealth;
+        _stats = stats;
         foreach(a; [EnumMembers!Attributes])
         {
-            if((a in m_stats) is null)
+            if((a in _stats) is null)
             {
-                m_stats[a] = 0;
+                _stats[a] = 0;
             }
         }
     }
 
     auto name() const @property
     {
-        return m_name;
+        return _name;
     }
 
     auto stats() const @property
     {
-        return m_stats;
+        return _stats;
     }
 
 private:
-    string m_name;
-    int m_maxHealth, m_health;
-    int[Attributes] m_stats;
+    string _name;
+    int _maxHealth, _health;
+    int[Attributes] _stats;
 }

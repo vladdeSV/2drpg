@@ -8,30 +8,30 @@ struct Updater
 
     this(double interval)
     {
-        m_interval = interval;
+        _interval = interval;
     }
 
     double getUpdates()
     {
         /* Kudos to Yepoleb who helped me with this */
         MonoTime newtime = MonoTime.currTime();
-        Duration duration = newtime - m_lasttime;
+        Duration duration = newtime - _lasttime;
         double durationmsec = duration.total!"nsecs" / (10.0 ^^ 6);
 
-        m_lasttime = newtime;
-        m_msecs += durationmsec;
-        int updates = cast(int)(m_msecs / m_interval);
-        m_msecs -= updates * m_interval;
+        _lasttime = newtime;
+        _msecs += durationmsec;
+        int updates = cast(int)(_msecs / _interval);
+        _msecs -= updates * _interval;
 
         return updates;
     }
 
     void resetUpdates()
     {
-        m_lasttime = MonoTime.currTime();
+        _lasttime = MonoTime.currTime();
     }
 
-    private MonoTime m_lasttime;
-    private double m_msecs = 0;
-    private double m_interval;
+    private MonoTime _lasttime;
+    private double _msecs = 0;
+    private double _interval;
 }

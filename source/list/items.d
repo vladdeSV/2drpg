@@ -1,11 +1,11 @@
 import enums;
 import item;
 
-//import item_equipable;
-import item_weapon;
-import item_armor;
-import item_consumable;
-import item_misc;
+//import ite_equipable;
+import ite_weapon;
+import ite_armor;
+import ite_consumable;
+import ite_misc;
 
 immutable static ItemWeapon[string]     ListItemWeapon;
 immutable static ItemConsumable[string] ListItemConsumable;

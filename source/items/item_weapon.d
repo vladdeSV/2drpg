@@ -1,5 +1,5 @@
 import item;
-import item_equipable;
+import ite_equipable;
 import enums;
 
 import std.conv : to;
@@ -9,16 +9,16 @@ class ItemWeapon : ItemEquipable
     this(string name, WeaponType type, Material material, int[Attributes] stats, bool twoHanded, int value)
     {
         super(name, material, stats, value);
-        m_twoHanded = twoHanded;
+        _twoHanded = twoHanded;
     }
 
     auto twoHanded() const @property
     {
-        return m_twoHanded;
+        return _twoHanded;
     }
 
 private:
-    bool m_twoHanded;
+    bool _twoHanded;
 }
 
 /**

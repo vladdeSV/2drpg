@@ -9,7 +9,7 @@ struct Game
     {
         Game.frame.clear();
 
-        //foreach(int sy, ref row; Game.world.m_tiles)
+        //foreach(int sy, ref row; Game.world._tiles)
         //{
         //    foreach(int sx, ref tile; row)
         //    {
@@ -17,7 +17,7 @@ struct Game
         //    }
         //}
 
-        foreach(entity; Game.world.m_entities)
+        foreach(entity; Game.world._entities)
         {
             Game.frame.write(entity.position[0], entity.position[1], cast(fg) entity.color, entity.sprite);
         }

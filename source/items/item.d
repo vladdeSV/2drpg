@@ -4,21 +4,21 @@ abstract class Item
 {
     this(string name, int value)
     {
-        m_name = name;
-        m_value = value;
+        _name = name;
+        _value = value;
     }
 
     auto name() const @property
     {
-        return m_name;
+        return _name;
     }
 
     auto value() const @property
     {
-        return m_value;
+        return _value;
     }
 
 private:
-    string m_name;
-    int m_value;
+    string _name;
+    int _value;
 }

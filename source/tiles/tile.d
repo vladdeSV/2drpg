@@ -4,34 +4,34 @@ class Tile
 {
     this(char sprite, Color color, Color backgroundColor, bool solid = false)
     {
-        m_sprite = sprite;
-        m_solid = solid;
-        m_color = color;
-        m_backgroundColor = backgroundColor;
+        _sprite = sprite;
+        _solid = solid;
+        _color = color;
+        _backgroundColor = backgroundColor;
     }
 
     auto sprite() const @property
     {
-        return m_sprite;
+        return _sprite;
     }
 
     auto solid() const @property
     {
-        return m_solid;
+        return _solid;
     }
 
     Color color() const @property
     {
-        return m_color;
+        return _color;
     }
 
     Color backgroundColor() const @property
     {
-        return m_backgroundColor;
+        return _backgroundColor;
     }
 
 private:
-    char m_sprite;
-    bool m_solid;
-    Color m_color, m_backgroundColor;
+    char _sprite;
+    bool _solid;
+    Color _color, _backgroundColor;
 }

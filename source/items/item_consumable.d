@@ -8,16 +8,16 @@ class ItemConsumable : Item
     this(string name, int healing, int value)
     {
         super(name, value);
-        m_healing = healing;
+        _healing = healing;
     }
 
     auto healing() const @property
     {
-        return m_healing;
+        return _healing;
     }
 
 private:
-    int m_healing;
+    int _healing;
 }
 
 /**

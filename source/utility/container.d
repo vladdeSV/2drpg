@@ -5,29 +5,29 @@ class Container
 {
     this(int size)
     {
-        m_items.length = size;
+        _items.length = size;
     }
 
     this(Item[] startingItems, uint size = 0)
     {
-        m_items = startingItems;
+        _items = startingItems;
 
         if (size > 0)
         {
-            m_items.length = size;
+            _items.length = size;
         }
     }
 
     auto content() @property
     {
-        return m_items;
+        return _items;
     }
 
     auto size() @property
     {
-        return m_items.length;
+        return _items.length;
     }
 
 private:
-    Item[] m_items;
+    Item[] _items;
 }

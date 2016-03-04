@@ -6,20 +6,20 @@ abstract class ItemEquipable : Item
     this(string name, Material material, int[Attributes] stats, int value)
     {
         super(name, value);
-        m_material = material;
-        m_stats = cast(int[Attributes]) stats;
+        _material = material;
+        _stats = cast(int[Attributes]) stats;
     }
 
     auto stats() const @property
     {
-        return m_stats;
+        return _stats;
     }
 
     auto material() const @property
     {
-        return m_material;
+        return _material;
     }
 private:
-    int[Attributes] m_stats;
-    Material m_material;
+    int[Attributes] _stats;
+    Material _material;
 }
