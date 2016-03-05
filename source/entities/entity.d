@@ -8,8 +8,8 @@ abstract class Entity
 {
     this(int x, int y, char sprite, Color color)
     {
-        _x = x;
-        _y = y;
+        _lx = x;
+        _ly = y;
         _sprite = sprite;
         _color = color;
 
@@ -21,7 +21,7 @@ abstract class Entity
     ///Returns: int[x, y]
     auto position() const @property
     {
-        return [_x, _y];
+        return [_lx, _ly];
     }
 
     auto sprite() const @property

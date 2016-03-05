@@ -1,0 +1,9 @@
+rapier	Rapier	sword	steel	str=12	FALSE	100
+longsword	Longsword	sword	iron	str=13	TRUE	50
+schythe	Schythe	sword	steel	str=6	FALSE	30
+sabre	Sabre	sword	steel	str=7	FALSE	20
+sword	Sword	sword	iron	str=6	FALSE	10
+stave	Stave	staff	wood	str=1 int=3	FALSE	5
+staff	Staff	staff	wood	str=3 int=6	TRUE	7
+rod	Rod	staff	iron	str=5	TRUE	6
+axe	Axe	axe	steel	str=5	TRUE	4

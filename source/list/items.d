@@ -1,101 +1,160 @@
 import enums;
 import item;
 
-//import ite_equipable;
-import ite_weapon;
-import ite_armor;
-import ite_consumable;
-import ite_misc;
+import std.conv;
+import std.csv;
+import std.format;
+import std.typecons;
+import std.file;
+import std.array;
+import std.traits;
 
-immutable static ItemWeapon[string]     ListItemWeapon;
+import item_weapon;
+import item_armor;
+import item_consumable;
+import item_misc;
+
+immutable static ItemWeapon[string] ListItemWeapon;
 immutable static ItemConsumable[string] ListItemConsumable;
-immutable static ItemArmor[string]      ListItemArmor;
-immutable static ItemMisc[string]       ListItemMisc;
+immutable static ItemArmor[string] ListItemArmor;
+immutable static ItemMisc[string] ListItemMisc;
 
 shared static this()
 {
-    ListItemWeapon = cast(immutable)
-    [
-        "rapier" : createWeapon("Rapier", WeaponType.Sword, Material.Steel, [Attributes.Strength : 12], false, 100),
-        "longsword" : createWeapon("Longsword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 13], true, 50),
-        "schythe" : createWeapon("Schythe", WeaponType.Sword, Material.Steel, [Attributes.Strength : 6], false, 30),
-        "sabre" : createWeapon("Sabre", WeaponType.Sword, Material.Steel, [Attributes.Strength : 7], false, 20),
-        "sword" : createWeapon("Sword", WeaponType.Sword, Material.Iron, [Attributes.Strength : 6], false, 10),
-        "stave" : createWeapon("Stave", WeaponType.Staff, Material.Wood, [Attributes.Strength : 1, Attributes.Intelligence : 3], false, 5),
-        "staff" : createWeapon("Staff", WeaponType.Staff, Material.Wood, [Attributes.Strength : 3, Attributes.Intelligence : 6], true, 7),
-        "rod" : createWeapon("Rod", WeaponType.Staff, Material.Iron, [Attributes.Strength : 5], true, 6),
-        "axe" : createWeapon("Axe", WeaponType.Axe, Material.Steel, [Attributes.Strength : 5], true, 4),
-    ];
+    ///Create weapons from file 'source/list/csv_weapons.csv'
+    foreach(weapon; csvReader!(Tuple!(string, string, string, string, string, string, string))(readText("source/list/csv_weapons.csv").replace("\t", ",")))
+    {
+        string refId = weapon[0];
+        string name = weapon[1];
+        WeaponType type = weaponTypeFromString(weapon[2]);
+        Material material = materialFromString(weapon[3]);
+    int[Attributes] stats = statsFromAA(/*weapon[4]*/[Attributes.strength : 1]);
+        bool twoHanded = (weapon[5] == "TRUE");
+        int value = to!int(weapon[6]);
+        ListItemWeapon[refId] = cast(immutable)createWeapon(name, type, material, stats, twoHanded, value);
+    }
 
-    ListItemConsumable = cast(immutable)
-    [
-        "apple" : new ItemConsumable("Apple", 3, 1),
-        "beer" : new ItemConsumable("Beer", 0, 7),
-        "blueberries" : new ItemConsumable("Blueberries", 4, 2),
-        "bread" : new ItemConsumable("Bread", 3, 3),
-        "bugmeat" : new ItemConsumable("Bugmeat", -1, 0),
-        "bun" : new ItemConsumable("Bun", 4, 2),
-        "carrot" : new ItemConsumable("Carrot", 3, 1),
-        "chicken" : new ItemConsumable("Chicken", 7, 4),
-        "coffee" : new ItemConsumable("Coffee", 7, 20),
-        "egg" : new ItemConsumable("Egg", 4, 2),
-        "fish" : new ItemConsumable("Fish", 4, 5),
-        "grapes" : new ItemConsumable("Grapes", 3, 4),
-        "grog" : new ItemConsumable("Grog", -1, 15),
-        "herbs" : new ItemConsumable("Herbs", 11, 10),
-        "honeycomb" : new ItemConsumable("Honeycomb", 3, 9),
-        "meat" : new ItemConsumable("Meat", 4, 3),
-        "milk" : new ItemConsumable("Milk", 9, 2),
-        "mushroom" : new ItemConsumable("Mushroom", 2, 1),
-        "nuts" : new ItemConsumable("Nuts", 4, 2),
-        "onion" : new ItemConsumable("Onion", 2, 1),
-        "pear" : new ItemConsumable("Pear", 3, 1),
-        "pork" : new ItemConsumable("Pork", 2, 4),
-        "potatoe" : new ItemConsumable("Potatoe", 3, 1),
-        "healingPotion" : new ItemConsumable("Potion", 34, 20),
-        "raspberries" : new ItemConsumable("Raspberries", 3, 2),
-        "rice" : new ItemConsumable("Rice", 6, 5),
-        "root" : new ItemConsumable("Root", 1, 7),
-        "rum" : new ItemConsumable("Rum", 0, 25),
-        "sausage" : new ItemConsumable("Sausage", 4, 2),
-        "seed" : new ItemConsumable("Seed", 0, 1),
-        "soup" : new ItemConsumable("Soup", 13, 7),
-        "spices" : new ItemConsumable("Spices", 6, 5),
-        "stew" : new ItemConsumable("Stew", 7, 5),
-        "strawberries" : new ItemConsumable("Strawberries", 6, 4),
-        "tea" : new ItemConsumable("Tea", 4, 11),
-        "watermelon" : new ItemConsumable("Watermelon", 2, 5),
-        "wine" : new ItemConsumable("Wine", 0, 24),
-    ];
+    ///Create armors from file 'source/list/csv_armors.csv'
+    foreach(armor; csvReader!(Tuple!(string, string, string, string, string, string))(readText("source/list/csv_armors.csv").replace("\t", ",")))
+    {
+        string refId = armor[0];
+        string name = armor[1];
+        ArmorType type = armorTypeFromString(armor[2]);
+        Material material = materialFromString(armor[3]);
+    int[Attributes] stats = statsFromAA(/*armor[4]*/[Attributes.defense : 1]);
+        int value = to!int(armor[5]);
+        ListItemArmor[refId] = cast(immutable)createArmor(name, type, material, stats, value);
+    }
 
-    ListItemMisc = cast(immutable)
-    [
-        "basket" : new ItemMisc("Basket", 2),
-        "bellows" : new ItemMisc("Bellows", 3),
-        "book" : new ItemMisc("Book", 1),
-        "bottle" : new ItemMisc("Bottle", 2),
-        "bowl" : new ItemMisc("Bowl", 3),
-        "bucket" : new ItemMisc("Bucket", 5),
-        "candlestick" : new ItemMisc("Candlestick", 3),
-        "charcoal" : new ItemMisc("Charcoal", 4),
-        "cup" : new ItemMisc("Cup", 1),
-        "drum" : new ItemMisc("Drum", 2),
-        "firewood" : new ItemMisc("Firewood", 6),
-        "fishingPole" : new ItemMisc("FishingPole", 7),
-        "flag" : new ItemMisc("Flag", 4),
-        "flower" : new ItemMisc("Flower", 1),
-        "flute" : new ItemMisc("Flute", 4),
-        "fork" : new ItemMisc("Fork", 1),
-        "gem" : new ItemMisc("Gem", 8),
-        "goblet" : new ItemMisc("Goblet", 2),
-        "jug" : new ItemMisc("Jug", 3),
-        "kettle" : new ItemMisc("Kettle", 2),
-        "lantern" : new ItemMisc("Lantern", 8),
-        "plate" : new ItemMisc("Plate", 3),
-        "pot" : new ItemMisc("Pot", 3),
-        "rags" : new ItemMisc("Rags", 2),
-        "spoon" : new ItemMisc("Spoon", 1),
-        "statue" : new ItemMisc("Statue", 16),
-        "tankard" : new ItemMisc("Tankard", 3),
-    ];
+    ///Create consumables from file 'source/list/csv_consumables.csv'
+    foreach(consumable; csvReader!(Tuple!(string, string, string, string))(readText("source/list/csv_consumables.csv").replace("\t", ",")))
+    {
+        string refId = consumable[0];
+        string name = consumable[1];
+        int healing = to!int(consumable[2]);
+        int value = to!int(consumable[3]);
+
+        ListItemConsumable[refId] = cast(immutable)createConsumable(name, healing, value);
+    }
+
+    ///Create misc items from file 'source/list/csv_miscs.csv'
+    foreach(misc; csvReader!(Tuple!(string, string, string))(readText("source/list/csv_miscs.csv").replace("\t", ",")))
+    {
+        string refId = misc[0];
+        string name = misc[1];
+        int value = to!int(misc[2]);
+
+        ListItemMisc[refId] = cast(immutable)createMiscItem(name, value);
+    }
+}
+
+private WeaponType weaponTypeFromString(string s)
+{
+    switch(s)
+    {
+    case "sword":
+        return WeaponType.sword;
+    case "bow":
+        return WeaponType.bow;
+    case "staff":
+        return WeaponType.staff;
+    case "sheild":
+        return WeaponType.sheild;
+    case "axe":
+        return WeaponType.axe;
+    case "polearm":
+        return WeaponType.polearm;
+    default:
+        assert(0, format("Unknown weapon type: %s", s));
+    }
+}
+
+private ArmorType armorTypeFromString(string s)
+{
+    switch(s)
+    {
+    case "belt":
+        return ArmorType.belt;
+    case "boots":
+        return ArmorType.boots;
+    case "bracer":
+        return ArmorType.bracer;
+    case "chest":
+        return ArmorType.chest;
+    case "cloak":
+        return ArmorType.cloak;
+    case "gauntlet":
+        return ArmorType.gauntlet;
+    case "glove":
+        return ArmorType.glove;
+    case "helmet":
+        return ArmorType.helmet;
+    case "necklace":
+        return ArmorType.necklace;
+    case "ring":
+        return ArmorType.ring;
+    case "robe":
+        return ArmorType.robe;
+    default:
+        assert(0, format("Unknown armor type: %s", s));
+    }
+}
+
+private Material materialFromString(string s)
+{
+    switch(s)
+    {
+    case "cloth":
+        return Material.cloth;
+    case "leather":
+        return Material.leather;
+    case "wood":
+        return Material.wood;
+    case "stone":
+        return Material.stone;
+    case "bronze":
+        return Material.bronze;
+    case "iron":
+        return Material.iron;
+    case "steel":
+        return Material.steel;
+    case "gold":
+        return Material.gold;
+    case "diamond":
+        return Material.diamond;
+    default:
+        assert(0, format("Unknown material: %s", s));
+    }
+}
+
+private int[Attributes] statsFromAA(int[Attributes] a)
+{
+    foreach(att; EnumMembers!Attributes)
+    {
+        if (att !in a)
+        {
+            a[att] = 0;
+        }
+    }
+    return a.rehash;
 }

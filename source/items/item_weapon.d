@@ -1,5 +1,5 @@
 import item;
-import ite_equipable;
+import item_equipable;
 import enums;
 
 import std.conv : to;
