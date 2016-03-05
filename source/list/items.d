@@ -1,13 +1,13 @@
 import enums;
 import item;
 
+import std.array;
 import std.conv;
 import std.csv;
-import std.format;
-import std.typecons;
 import std.file;
-import std.array;
+import std.format;
 import std.traits;
+import std.typecons;
 
 import item_weapon;
 import item_armor;
@@ -28,7 +28,7 @@ shared static this()
         string name = weapon[1];
         WeaponType type = weaponTypeFromString(weapon[2]);
         Material material = materialFromString(weapon[3]);
-    int[Attributes] stats = statsFromAA(/*weapon[4]*/[Attributes.strength : 1]);
+        int[Attributes] stats = statsFromString(weapon[4]);
         bool twoHanded = (weapon[5] == "TRUE");
         int value = to!int(weapon[6]);
         ListItemWeapon[refId] = cast(immutable)createWeapon(name, type, material, stats, twoHanded, value);
@@ -41,7 +41,7 @@ shared static this()
         string name = armor[1];
         ArmorType type = armorTypeFromString(armor[2]);
         Material material = materialFromString(armor[3]);
-    int[Attributes] stats = statsFromAA(/*armor[4]*/[Attributes.defense : 1]);
+        int[Attributes] stats = statsFromString(armor[4]);
         int value = to!int(armor[5]);
         ListItemArmor[refId] = cast(immutable)createArmor(name, type, material, stats, value);
     }
@@ -147,8 +147,18 @@ private Material materialFromString(string s)
     }
 }
 
-private int[Attributes] statsFromAA(int[Attributes] a)
+private int[Attributes] statsFromString(string s)
 {
+    string[] attrs = s.split();
+
+    int[Attributes] a;
+
+    foreach(attr; attrs)
+    {
+        string[2] b = attr.split("=");
+        a[attributeFromString(b[0])] = to!int(b[1]);
+    }
+
     foreach(att; EnumMembers!Attributes)
     {
         if (att !in a)
@@ -156,5 +166,34 @@ private int[Attributes] statsFromAA(int[Attributes] a)
             a[att] = 0;
         }
     }
-    return a.rehash;
+    return a.rehash();
+}
+
+private Attributes attributeFromString(string s)
+{
+    switch(s)
+    {
+    case "str":
+        return Attributes.strength;
+    case "con":
+        return Attributes.constitution;
+    case "def":
+        return Attributes.defense;
+    case "dex":
+        return Attributes.dexterity;
+    case "int":
+        return Attributes.intelligence;
+    case "cha":
+        return Attributes.charisma;
+    case "wis":
+        return Attributes.wisdom;
+    case "will":
+        return Attributes.willpower;
+    case "perc":
+        return Attributes.perception;
+    case "luck":
+        return Attributes.luck;
+    default:
+        assert(0, format("Unknown attribute: %s", s));
+    }
 }

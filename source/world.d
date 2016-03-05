@@ -18,12 +18,6 @@ class World
                 chunk = new Chunk;
             }
         }
-
-        //_entities ~= new EntityLiving(4,4, 'e', "Enemy", Color.gray_dark, 10, [Attributes.Strength : 14]);
-        //_entities ~= new EntityLiving(6,10, 'e', "Enemy", Color.gray_dark, 10, [Attributes.Strength : 14]);
-        //_entities ~= new EntityLiving(20,2, 'e', "Enemy", Color.gray_dark, 10, [Attributes.Strength : 14]);
-
-        //_entities ~= new EntityLiving(20, 5, 'p', "Player", Color.white, 100, [Attributes.Strength : 20]);
     }
 
     void update()
@@ -34,26 +28,6 @@ class World
             {
                 Game.running = false;
             }
-
-            //if(input.pressed)
-            //{
-            //    if(input.key == SK.UP)
-            //    {
-            //        _entities[$ - 1]._y -= 1;
-            //    }
-            //    else if(input.key == SK.DOWN)
-            //    {
-            //        _entities[$ - 1]._y += 1;
-            //    }
-            //    else if(input.key == SK.RIGHT)
-            //    {
-            //        _entities[$ - 1]._x += 1;
-            //    }
-            //    else if(input.key == SK.LEFT)
-            //    {
-            //        _entities[$ - 1]._x -= 1;
-            //    }
-            //}
         }
     }
 
@@ -67,8 +41,7 @@ class World
         return getChunk(tx / chunkSize, ty / chunkSize);
     }
 
-//private:
-    Entity[] _entities;
+private:
     Chunk[worldSize][worldSize] _chunks;
 }
 
@@ -92,4 +65,5 @@ class Chunk
 private:
     int _cx, _cy;
     Tile[chunkSize][chunkSize] _tiles;
+    Entity[] _entities;
 }

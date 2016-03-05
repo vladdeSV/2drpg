@@ -17,10 +17,10 @@ struct Game
         //    }
         //}
 
-        foreach(entity; Game.world._entities)
-        {
-            Game.frame.write(entity.position[0], entity.position[1], cast(fg) entity.color, entity.sprite);
-        }
+        //foreach(entity; Game.world._entities)
+        //{
+        //    Game.frame.write(entity.position[0], entity.position[1], cast(fg) entity.color, entity.sprite);
+        //}
 
         Game.frame.print();
     }
