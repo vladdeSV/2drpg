@@ -6,4 +6,4 @@ sword	Sword	sword	iron	str=6	FALSE	10
 stave	Stave	staff	wood	str=1 int=3	FALSE	5
 staff	Staff	staff	wood	str=3 int=6	TRUE	7
 rod	Rod	staff	iron	str=5	TRUE	6
-axe	Axe	axe	steel	str=5	TRUE	4
+axe		axe	steel	str=5	TRUE	4

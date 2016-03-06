@@ -27,9 +27,5 @@ private:
  */
 ItemArmor createArmor(string name, ArmorType type, Material material, int[Attributes] stats, int value)
 {
-    if(name is null) {
-        name ~= to!string(material) ~ ' ' ~ to!string(type);
-    }
-
     return new ItemArmor(name, type, material, stats, value);
 }

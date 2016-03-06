@@ -27,9 +27,5 @@ private:
  */
 ItemWeapon createWeapon(string name, WeaponType type, Material material, int[Attributes] stats, bool twoHanded, int value)
 {
-    if(name is null) {
-        name ~= to!string(material) ~ ' ' ~ to!string(type);
-    }
-
     return new ItemWeapon(name, type, material, stats, twoHanded, value);
 }
