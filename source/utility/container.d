@@ -1,33 +1,30 @@
-import item;
-import std.exception;
-
-class Container
+template Container(T)
 {
     this(int size)
     {
-        _items.length = size;
+        _container.length = size;
     }
 
-    this(Item[] startingItems, uint size = 0)
+    this(T startingContainer, uint size = 0)
     {
-        _items = startingItems;
+        _container = startingContainer;
 
         if (size > 0)
         {
-            _items.length = size;
+            _container.length = size;
         }
     }
 
     auto content() @property
     {
-        return _items;
+        return _container;
     }
 
     auto size() @property
     {
-        return _items.length;
+        return _container.length;
     }
 
 private:
-    Item[] _items;
+    T _container;
 }
