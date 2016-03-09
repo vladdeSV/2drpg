@@ -475,7 +475,7 @@ float dot( const int[] g, const float x, const float y, const float z, const flo
 { return g[0]*x + g[1]*y + g[2]*z + g[3]*w; }
 
 // The gradients are the midpoints of the vertices of a cube.
-static const int grad3[12][3] = [
+static const int[3][12] grad3 = [
     [1,1,0], [-1,1,0], [1,-1,0], [-1,-1,0],
     [1,0,1], [-1,0,1], [1,0,-1], [-1,0,-1],
     [0,1,1], [0,-1,1], [0,1,-1], [0,-1,-1]
@@ -483,7 +483,7 @@ static const int grad3[12][3] = [
 
 
 // The gradients are the midpoints of the vertices of a hypercube.
-static const int grad4[32][4]= [
+static const int[4][32] grad4 = [
     [0,1,1,1],  [0,1,1,-1],  [0,1,-1,1],  [0,1,-1,-1],
     [0,-1,1,1], [0,-1,1,-1], [0,-1,-1,1], [0,-1,-1,-1],
     [1,0,1,1],  [1,0,1,-1],  [1,0,-1,1],  [1,0,-1,-1],
@@ -496,7 +496,7 @@ static const int grad4[32][4]= [
 
 
 // Permutation table.  The same list is repeated twice.
-static const int perm[512] = [
+static const int[512] perm = [
     151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,140,36,103,30,69,142,
     8,99,37,240,21,10,23,190,6,148,247,120,234,75,0,26,197,62,94,252,219,203,117,
     35,11,32,57,177,33,88,237,149,56,87,174,20,125,136,171,168,68,175,74,165,71,
@@ -526,7 +526,7 @@ static const int perm[512] = [
 
 
 // A lookup table to traverse the simplex around a given point in 4D.
-static const int simplex[64][4] = [
+static const int[4][64] simplex = [
     [0,1,2,3],[0,1,3,2],[0,0,0,0],[0,2,3,1],[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,2,3,0],
     [0,2,1,3],[0,0,0,0],[0,3,1,2],[0,3,2,1],[0,0,0,0],[0,0,0,0],[0,0,0,0],[1,3,2,0],
     [0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0],

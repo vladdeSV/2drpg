@@ -1,5 +1,5 @@
 ///Updates per second
-enum UPS = 30;
+enum UPS = 60;
 ///Milliseconds between each update, which is determined by `enum UPS`
 enum double updateInterval = 1000/UPS;
 
