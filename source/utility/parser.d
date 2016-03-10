@@ -30,28 +30,22 @@ ArmorType armorTypeFromString(string s)
 {
     switch(s)
     {
-    case "belt":
-        return ArmorType.belt;
-    case "boots":
-        return ArmorType.boots;
-    case "bracer":
-        return ArmorType.bracer;
-    case "chest":
-        return ArmorType.chest;
-    case "cloak":
-        return ArmorType.cloak;
-    case "gauntlet":
-        return ArmorType.gauntlet;
-    case "glove":
-        return ArmorType.glove;
-    case "helmet":
-        return ArmorType.helmet;
-    case "necklace":
-        return ArmorType.necklace;
-    case "ring":
-        return ArmorType.ring;
-    case "robe":
-        return ArmorType.robe;
+    case "head":
+        return ArmorType.head;
+    case "neck":
+        return ArmorType.neck;
+    case "body":
+        return ArmorType.body_;
+    case "arm":
+        return ArmorType.arm;
+    case "hand":
+        return ArmorType.hand;
+    case "hip":
+        return ArmorType.hip;
+    case "leg":
+        return ArmorType.leg;
+    case "boot":
+        return ArmorType.boot;
     default:
         assert(0, format("Unknown armor type: %s", s));
     }

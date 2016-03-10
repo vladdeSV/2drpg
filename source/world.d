@@ -79,7 +79,7 @@ class Chunk
                 }
                 else if(val < 8)
                 {
-                    char sp = [',', '.', ' '][uniform(0, $,gen)];
+                    char sp = [',', '.', ' '][uniform(0, $, gen)];
                     t = new Tile(sp, Color.green, Color.green_dark);
                 }
                 else if(val < 9.5)

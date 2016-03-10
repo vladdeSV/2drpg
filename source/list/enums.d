@@ -74,17 +74,14 @@ enum Attributes
 
 enum ArmorType
 {
-    belt,
-    boots,
-    bracer,
-    chest,
-    cloak,
-    gauntlet,
-    glove,
-    helmet,
-    necklace,
-    ring,
-    robe,
+    head,
+    neck,
+    body_,
+    arm,
+    hand,
+    hip,
+    leg,
+    boot,
 }
 
 enum WeaponType
