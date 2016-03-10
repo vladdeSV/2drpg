@@ -31,7 +31,8 @@ shared static this()
         int[Attributes] stats = statsFromString(weapon[4]);
         bool twoHanded = (weapon[5] == "TRUE");
         int value = to!int(weapon[6]);
-        ListItemWeapon[refId] = cast(immutable)createWeapon(name, type, material, stats, twoHanded, value);
+
+        ListItemWeapon[refId] = cast(immutable) createWeapon(name, type, material, stats, twoHanded, value);
     }
 
     ///Create armors from file 'source/list/csv/armors.csv'
@@ -43,7 +44,8 @@ shared static this()
         Material material = materialFromString(armor[3]);
         int[Attributes] stats = statsFromString(armor[4]);
         int value = to!int(armor[5]);
-        ListItemArmor[refId] = cast(immutable)createArmor(name, type, material, stats, value);
+
+        ListItemArmor[refId] = cast(immutable) createArmor(name, type, material, stats, value);
     }
 
     ///Create consumables from file 'source/list/csv/consumables.csv'
@@ -54,7 +56,7 @@ shared static this()
         int healing = to!int(consumable[2]);
         int value = to!int(consumable[3]);
 
-        ListItemConsumable[refId] = cast(immutable)createConsumable(name, healing, value);
+        ListItemConsumable[refId] = cast(immutable) createConsumable(name, healing, value);
     }
 
     ///Create misc items from file 'source/list/csv/miscs.csv'
@@ -64,6 +66,6 @@ shared static this()
         string name = misc[1];
         int value = to!int(misc[2]);
 
-        ListItemMisc[refId] = cast(immutable)createMiscItem(name, value);
+        ListItemMisc[refId] = cast(immutable) createMiscItem(name, value);
     }
 }

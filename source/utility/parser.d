@@ -79,7 +79,11 @@ Material materialFromString(string s)
 }
 
 /**
- * "str=3 def=4 int=-3"
+ * Example:
+ * --------
+ * statsFromString("str=3 def=4 int=-3");
+ * --------
+ *
  */
 int[Attributes] statsFromString(string s)
 {

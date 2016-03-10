@@ -2,7 +2,7 @@ import enums;
 
 class Tile
 {
-    this(char sprite, Color color, Color backgroundColor, bool solid = false)
+    this(dchar sprite, Color color, Color backgroundColor, bool solid = false)
     {
         _sprite = sprite;
         _solid = solid;
@@ -31,7 +31,7 @@ class Tile
     }
 
 private:
-    char _sprite;
+    dchar _sprite;
     bool _solid;
     Color _color, _backgroundColor;
 }
