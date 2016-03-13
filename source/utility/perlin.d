@@ -100,15 +100,16 @@ float octave_noise_4d(const float octaves, const float persistence, const float 
     return total / maxAmplitude;
 }
 
-/+
 /**
  * 2D Scaled Multi-octave Simplex noise.
  * Returned value will be between loBound and hiBound.
  */
-float scaled_octave_noise_2d(const float octaves, const float persistence, const float scale, const float loBound, const float hiBound, const float x, const float y)
+float scaled_octave_noise_2d(const float octaves, const float persistence, const float scale, const float loBound, const float hiBound, const float x, const float y, const int seed)
 {
-    return octave_noise_2d(octaves, persistence, scale, x, y) * (hiBound - loBound) / 2 + (hiBound + loBound) / 2;
+    return octave_noise_2d(octaves, persistence, scale, x, y, seed) * (hiBound - loBound) / 2 + (hiBound + loBound) / 2;
 }
+
+/+
 
 /**
  * 3D Scaled Multi-octave Simplex noise.

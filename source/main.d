@@ -66,7 +66,6 @@ void main()
         }
 
         Game.frame.clear();
-        Tile tErr = new Tile('?', Color.white, Color.red);
         foreach(int y; 0 .. Game.frame.h)
         {
             foreach(int x; 0 .. Game.frame.w)
@@ -74,14 +73,10 @@ void main()
                 Tile tile;
                 try
                 {
-                    tile = Game.world.getChunk((vx + x) / chunkSize, (vy + y) / chunkSize).getTile((vx + x) % chunkSize, (vy + y) % chunkSize);
-                }
-                catch
-                {
-                    tile = tErr;
-                }
+                    tile = Game.world.getChunk((vx * Game.frame.w + x) / chunkSize, (vy * Game.frame.h + y) / chunkSize).getTile((vx * Game.frame.w + x) % chunkSize, (vy * Game.frame.h + y) % chunkSize);
+                    Game.frame.write(x,y, cast(fg) tile.color, cast(bg) tile.backgroundColor, tile.sprite);
+                } catch { }
 
-                Game.frame.write(x,y, cast(fg) tile.color, cast(bg) tile.backgroundColor, tile.sprite);
             }
         }
         Game.frame.print();

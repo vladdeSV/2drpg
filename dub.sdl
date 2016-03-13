@@ -1,6 +1,6 @@
 name "2drpg"
 description "Console Tile-based RPG"
-copyright "Copyright © 2016,Vladimirs Nordholm"
+copyright "Copyright © 2016, Vladimirs Nordholm"
 license "MIT"
 authors "vladdeSV"
-dependency "scone" version="~>0.1.1"
+dependency "scone" version="~>0.1.2"

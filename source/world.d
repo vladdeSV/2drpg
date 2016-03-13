@@ -3,12 +3,21 @@ import scone;
 import entity;
 import entity_living;
 import entity_object;
+
+import tile_sand;
+import tile_water;
+import tile_rock;
+import tile_grass;
+import tile_tree;
+
 import enums;
 import game;
 import perlin;
 import tile;
 
 import std.random;
+import std.algorithm;
+import std.traits;
 
 class World
 {
@@ -56,8 +65,10 @@ private:
 
 class Chunk
 {
-    float octaves = 2, persistence = 1, frequency = 0.03;
     int seed = 5;
+
+    //float octaves = 2, persistence = 1, frequency = 0.03;
+    //int seed = 5;
 
     this(int cx, int cy)
     {
@@ -69,50 +80,74 @@ class Chunk
         {
             foreach(int tx, ref t; row)
             {
-                //Return a value between 0 and 10
-                float val = (octave_noise_2d(octaves, persistence, frequency, (chunkSize*cx) + tx, (chunkSize*cy) + ty, seed) + 1) * 5;
+                float val = scaled_octave_noise_2d(2, 1, 0.02,      0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, seed);
+                float treeVal = scaled_octave_noise_2d(1, 1, 0.05,  0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, seed);
+                float sandVal = scaled_octave_noise_2d(1, 1, 0.01,  0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, seed);
 
                 if(val < 2)
                 {
-                    t = new Tile(' ', Color.blue, Color.blue_dark, true);
+                    t = new TileWater(false);
                 }
                 else if(val < 2.5)
                 {
-                    t = new Tile('~', Color.blue_dark, Color.blue);
+                    t = new TileWater(true);
                 }
                 else if(val < 3)
                 {
-                    t = new Tile('.', Color.yellow_dark, Color.yellow);
+                    t = new TileSand();
                 }
-                else if(val > 5 && val < 7.5 && uniform(0, 3, gen) == 0)
+                else if(val < 7 && sandVal > 8)
                 {
-                    char sp = ['Y', 'T'][uniform(0, $, gen)];
-                    t = new Tile(sp, Color.yellow_dark, Color.green_dark, true);
+                    t = new TileSand();
+                    continue;
+                }
+                else if(val < 7)
+                {
+                    if(val > 4 && val < 7 && treeVal > 5 && uniform(0, 2, gen) == 0)
+                    {
+                        TreeType tt;
+                        float nv = val - 4;
+
+                        if(nv < 1)
+                        {
+                            tt = TreeType.oak;
+                        }
+                        else if(nv < 1.5)
+                        {
+                            tt = TreeType.oak;
+                            //tt = TreeType.fir;
+                        }
+                        else if(nv < 2.5)
+                        {
+                            tt = TreeType.redwood;
+                        }
+                        else if(nv < 3)
+                        {
+                            tt = TreeType.deadwood;
+                        }
+
+                        t = new TileTree(tt);
+                    }
+                    else
+                    {
+                        t = new TileGrass(uniform(0, 3, gen));
+                    }
+
+                }
+                else if(val < 7.5)
+                {
+                    t = new TileRock(RockType.mountainLow);
                 }
                 else if(val < 8)
                 {
-                    char sp = [',', '.', ' '][uniform(0, $, gen)];
-                    t = new Tile(sp, Color.green, Color.green_dark);
-                }
-                else if(val < 8.3)
-                {
-                    t = new Tile('.', Color.gray, Color.gray);
-                }
-                else if(val < 8.6)
-                {
-                    t = new Tile('*', Color.gray, Color.gray);
+                    t = new TileRock(RockType.mountainMid);
                 }
                 else
                 {
-                    t = new Tile('*', Color.white, Color.gray);
+                    t = new TileRock(RockType.mountainHigh);
                 }
             }
         }
-    }
-
-    auto getTiles()
-    {
-        return _tiles;
     }
 
     auto getTile(int tx, int ty)
@@ -124,4 +159,12 @@ private:
     int _cx, _cy;
     Tile[chunkSize][chunkSize] _tiles;
     Entity[] _entities;
+}
+
+/**
+ * A one out of `chance` to return true.
+ */
+private bool oneOutOf(int chance, Random generator = Random(unpredictableSeed))
+{
+    return uniform(0, chance, generator) == 0;
 }

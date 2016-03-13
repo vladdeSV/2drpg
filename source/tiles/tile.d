@@ -1,6 +1,6 @@
 import enums;
 
-class Tile
+abstract class Tile
 {
     this(dchar sprite, Color color, Color backgroundColor, bool solid = false)
     {
