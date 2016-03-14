@@ -5,19 +5,11 @@ class TileTree : Tile
 {
     this(TreeType type)
     {
-        if(type == TreeType.oak)
-        {
-            super('T', Color.yellow_dark, Color.green_dark);
-        }
-        else if(type == TreeType.redwood)
+        if(type == TreeType.redwood)
         {
             super('Y', Color.red_dark, Color.green_dark);
         }
-        else if(type == TreeType.fir)
-        {
-            super('A', Color.green, Color.green_dark);
-        }
-        else if(type == TreeType.deadwood)
+        else if(type == TreeType.dedwood)
         {
             super('I', Color.red_dark, Color.green_dark);
         }
@@ -30,8 +22,8 @@ class TileTree : Tile
 
 enum TreeType
 {
-    oak,
+    //oak,
     redwood,
-    fir,
-    deadwood,
+    //fir,
+    dedwood,
 }

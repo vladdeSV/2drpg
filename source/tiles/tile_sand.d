@@ -3,8 +3,8 @@ import enums;
 
 class TileSand : Tile
 {
-    this()
+    this(int a)
     {
-        super(',', Color.yellow_dark, Color.yellow);
+        super(a == 0 ? ',' : ' ', Color.yellow_dark, Color.yellow);
     }
 }

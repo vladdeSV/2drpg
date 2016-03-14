@@ -94,11 +94,11 @@ class Chunk
                 }
                 else if(val < 3)
                 {
-                    t = new TileSand();
+                    t = new TileSand(uniform(0, 5, gen));
                 }
                 else if(val < 7 && sandVal > 8)
                 {
-                    t = new TileSand();
+                    t = new TileSand(uniform(0, 5, gen));
                     continue;
                 }
                 else if(val < 8)
@@ -108,35 +108,26 @@ class Chunk
                         TreeType tt;
                         float nv = val - 4;
 
-                        if(nv < 1)
-                        {
-                            tt = TreeType.oak;
-                        }
-                        else if(nv < 2)
-                        {
-                            tt = TreeType.oak;
-                            //tt = TreeType.fir;
-                        }
-                        else if(nv < 3.5)
+                        if(nv < 3)
                         {
                             tt = TreeType.redwood;
                         }
-                        else if(nv < 4)
+                        else
                         {
-                            tt = TreeType.deadwood;
+                            tt = TreeType.dedwood;
                         }
 
                         t = new TileTree(tt);
                     }
                     else
                     {
-                        t = new TileGrass(uniform(0, 3, gen));
+                        t = new TileGrass(uniform(0, 8, gen));
                     }
 
                 }
                 else if(val < 8.5)
                 {
-                    t = new TileRock(RockType.mountainLow);
+                    t = new TileRock(RockType.mountainLow, uniform(0, 2, gen));
                 }
                 else if(val < 8.7)
                 {

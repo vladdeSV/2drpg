@@ -14,18 +14,17 @@ void main()
     std.experimental.logger.log("Staring");
     Game.running = true;
     Game.frame = new Frame();
+    Game.frame.print();
 
     std.experimental.logger.log("Creating world");
     Game.world = new World();
     std.experimental.logger.log("Created world");
 
     Updater updater = Updater(updateInterval);
-    //Updater frameUpdater = Updater(frameInterval);
 
     int vx, vy;
 
     updater.resetUpdates();
-    //frameUpdater.resetUpdates();
     while(Game.running)
     {
         //Maximum of `enum UPS` ticks per second.
@@ -81,6 +80,9 @@ void main()
         }
         Game.frame.print();
     }
+
+    Game.frame.clear();
+    Game.frame.print();
 
     sconeClose();
 }

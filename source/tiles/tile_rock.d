@@ -3,11 +3,11 @@ import enums;
 
 class TileRock : Tile
 {
-    this(RockType type)
+    this(RockType type, int a = -1)
     {
         if(type == RockType.mountainLow)
         {
-            super('.', Color.gray, Color.gray_dark);
+            super(a == 0 ? '.' : ' ', Color.gray, Color.gray_dark);
         }
         else if(type == RockType.mountainMid)
         {

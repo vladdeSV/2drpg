@@ -5,6 +5,6 @@ class TileGrass : Tile
 {
     this(int type)
     {
-        super(['.', ',', ' '][type % $], Color.green, Color.green_dark);
+        super(['.', ',', ' ', ' ', ' ', ' ', ' ', ' '][type % $], Color.green, Color.green_dark);
     }
 }
