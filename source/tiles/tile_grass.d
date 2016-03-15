@@ -1,10 +1,22 @@
 import tile;
 import enums;
+import game;
+
+import std.random;
 
 class TileGrass : Tile
 {
-    this(int type)
+    this()
     {
-        super(['.', ',', ' ', ' ', ' ', ' ', ' ', ' '][type % $], Color.green, Color.green_dark);
+        int grassType = uniform(0, 5, Game.gen);
+        char grassSprite = ' ';
+
+        if(grassType < 2)
+        {
+            //grassType is either 0 or 1
+            grassSprite = grassType ? '.' : ',';
+        }
+
+        super(grassSprite, Color.green, Color.green_dark);
     }
 }

@@ -6,7 +6,7 @@ import entity_object;
 
 import tile_sand;
 import tile_water;
-import tile_rock;
+import tile_mountain;
 import tile_grass;
 import tile_tree;
 
@@ -65,24 +65,17 @@ private:
 
 class Chunk
 {
-    int seed = 5;
-
-    //float octaves = 2, persistence = 1, frequency = 0.03;
-    //int seed = 5;
-
     this(int cx, int cy)
     {
-        //Random generator depending on seed
-        auto gen = Random(seed);
 
         //Generate terrain
         foreach(int ty, ref row; _tiles)
         {
             foreach(int tx, ref t; row)
             {
-                float val = scaled_octave_noise_2d(2, 1, 0.02,      0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, seed);
-                float treeVal = scaled_octave_noise_2d(1, 1, 0.05,  0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, seed);
-                float sandVal = scaled_octave_noise_2d(1, 1, 0.01,  0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, seed);
+                float val = scaled_octave_noise_2d(2, 1, 0.02,      0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
+                float treeVal = scaled_octave_noise_2d(1, 1, 0.05,  0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
+                float sandVal = scaled_octave_noise_2d(1, 1, 0.01,  0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
 
                 if(val < 2)
                 {
@@ -92,18 +85,13 @@ class Chunk
                 {
                     t = new TileWater(true);
                 }
-                else if(val < 3)
+                else if(val < 3 || val < 7 && sandVal > 8)
                 {
-                    t = new TileSand(uniform(0, 5, gen));
-                }
-                else if(val < 7 && sandVal > 8)
-                {
-                    t = new TileSand(uniform(0, 5, gen));
-                    continue;
+                    t = new TileSand();
                 }
                 else if(val < 8)
                 {
-                    if(val > 4 && treeVal > 5 && uniform(0, 2, gen) == 0)
+                    if(val > 4 && treeVal > 5 && uniform(0, 2, Game.gen) == 0)
                     {
                         TreeType tt;
                         float nv = val - 4;
@@ -121,21 +109,21 @@ class Chunk
                     }
                     else
                     {
-                        t = new TileGrass(uniform(0, 8, gen));
+                        t = new TileGrass();
                     }
 
                 }
                 else if(val < 8.5)
                 {
-                    t = new TileRock(RockType.mountainLow, uniform(0, 2, gen));
+                    t = new TileMountain(MountainLevel.low);
                 }
                 else if(val < 8.7)
                 {
-                    t = new TileRock(RockType.mountainMid);
+                    t = new TileMountain(MountainLevel.mid);
                 }
                 else
                 {
-                    t = new TileRock(RockType.mountainHigh);
+                    t = new TileMountain(MountainLevel.high);
                 }
             }
         }
@@ -150,12 +138,4 @@ private:
     int _cx, _cy;
     Tile[chunkSize][chunkSize] _tiles;
     Entity[] _entities;
-}
-
-/**
- * A one out of `chance` to return true.
- */
-private bool oneOutOf(int chance, Random generator = Random(unpredictableSeed))
-{
-    return uniform(0, chance, generator) == 0;
 }

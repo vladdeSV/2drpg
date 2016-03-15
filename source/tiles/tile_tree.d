@@ -1,5 +1,8 @@
 import tile;
 import enums;
+import game;
+
+import std.random;
 
 class TileTree : Tile
 {
@@ -15,7 +18,7 @@ class TileTree : Tile
         }
         else
         {
-            super('?', Color.red, Color.white);
+            super();
         }
     }
 }

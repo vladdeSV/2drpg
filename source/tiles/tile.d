@@ -10,6 +10,14 @@ abstract class Tile
         _backgroundColor = backgroundColor;
     }
 
+    this()
+    {
+        _sprite = '?';
+        _solid = false;
+        _color = Color.red;
+        _backgroundColor = Color.white;
+    }
+
     auto sprite() const @property
     {
         return _sprite;
