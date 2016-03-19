@@ -49,7 +49,7 @@ class World
         }
     }
 
-    ref auto getChunk(int cx, int cy)
+    auto getChunk(int cx, int cy)
     {
         return _chunks[cx][cy];
     }

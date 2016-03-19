@@ -6,7 +6,6 @@ import perlin;
 import updater;
 import world;
 import tile;
-import tile_err;
 
 import std.experimental.logger;
 import std.random;
@@ -25,7 +24,9 @@ void main()
     //<<
 
     Game.world = new World();
+
     Updater updater = Updater(updateInterval);
+    Camera cam = Camera(0, 0, 50, Game.frame.h);
 
     updater.resetUpdates();
     while(Game.running)
@@ -35,6 +36,7 @@ void main()
         {
             //Game.world.update();
 
+            /+
             foreach(input; getInputs())
             {
                 if(input.key == SK.escape)
@@ -61,24 +63,30 @@ void main()
                 //    }
                 //}
             }
+            +/
         }
 
+        cam.vx = cast(int)(Game.world.player.globalLocation[0] / cam.vw);
+        cam.vy = cast(int)(Game.world.player.globalLocation[1] / cam.vh);
+
         Game.frame.clear();
-        foreach(int y; 0 .. Game.frame.h)
+        foreach(int y; 0 .. cam.vh)
         {
-            foreach(int x; 0 .. Game.frame.w)
+            foreach(int x; 0 .. cam.vw)
             {
                 Tile tile;
                 try
                 {
-                    tile = Game.world.getChunk((vx * Game.frame.w + x) / chunkSize, (vy * Game.frame.h + y) / chunkSize).getTile((vx * Game.frame.w + x) % chunkSize, (vy * Game.frame.h + y) % chunkSize);
+                    tile = Game.world
+                    .getChunk((cam.vx * Game.frame.w + x) / chunkSize, (cam.vy * Game.frame.h + y) / chunkSize)
+                    .getTile ((cam.vx * Game.frame.w + x) % chunkSize, (cam.vy * Game.frame.h + y) % chunkSize);
+
                     Game.frame.write(x,y, cast(fg) tile.color, cast(bg) tile.backgroundColor, tile.sprite);
                 }
                 catch
                 {
                     Game.frame.write(x,y, cast(fg) Color.red, cast(bg) Color.white, 'X');
                 }
-
             }
         }
         Game.frame.print();
@@ -88,4 +96,9 @@ void main()
     Game.frame.print();
 
     sconeClose();
+}
+
+Camera
+{
+    int vx, vy, vw, vh;
 }

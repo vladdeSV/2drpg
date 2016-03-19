@@ -11,7 +11,7 @@ enum double frameInterval = 1000/FPS;
 
 ///Chunk's size
 enum chunkSize = 100;
-//World's size in chunks
+///World's size in chunks
 enum worldSize = 20;
 
 ///General direction

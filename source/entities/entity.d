@@ -1,6 +1,5 @@
 import enums;
 import names;
-import enums;
 
 import std.random;
 
@@ -8,8 +7,8 @@ abstract class Entity
 {
     this(int x, int y, char sprite, Color color)
     {
-        _lx = x;
-        _ly = y;
+        _gx = x;
+        _gy = y;
         _sprite = sprite;
         _color = color;
 
@@ -19,9 +18,19 @@ abstract class Entity
     void update() {}
 
     ///Returns: int[x, y]
-    auto position() const @property
+    auto globalLocation() const @property
     {
-        return [_lx, _ly];
+        return [_gx, _gy];
+    }
+
+    auto localLocation() const @property
+    {
+        return [_gx % chunkSize, _gy % chunkSize];
+    }
+
+    auto chunkLocation()
+    {
+        return [cast(int)(_gx / chunkSize), cast(int)(_gy / chunkSize)]
     }
 
     auto sprite() const @property
@@ -35,8 +44,8 @@ abstract class Entity
     }
 
 private:
-    ///Local x and y in chunk
-    int _lx, _ly;
+    ///Global x and y coordinates
+    int _gx, _gy;
     char _sprite;
     Color _color;
 
