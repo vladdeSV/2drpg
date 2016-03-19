@@ -15,32 +15,26 @@ void main()
 {
     sconeInit();
 
-    std.experimental.logger.log("Staring");
     Game.running = true;
     Game.frame = new Frame();
     Game.frame.print();
 
-    //TODO: set at menu
+    //>>TODO: set at menu
     Game.seed = 5;
-
     Game.gen = Random(Game.seed);
+    //<<
 
-    std.experimental.logger.log("Creating world");
     Game.world = new World();
-    std.experimental.logger.log("Created world");
-
     Updater updater = Updater(updateInterval);
-
-    int vx, vy;
 
     updater.resetUpdates();
     while(Game.running)
     {
-
         //Maximum of `enum UPS` ticks per second.
         foreach(i; 0 .. updater.getUpdates())
         {
             //Game.world.update();
+
             foreach(input; getInputs())
             {
                 if(input.key == SK.escape)
@@ -69,7 +63,6 @@ void main()
             }
         }
 
-
         Game.frame.clear();
         foreach(int y; 0 .. Game.frame.h)
         {
@@ -83,8 +76,7 @@ void main()
                 }
                 catch
                 {
-                    tile = new TileError;
-                    Game.frame.write(x,y, cast(fg) tile.color, cast(bg) tile.backgroundColor, tile.sprite);
+                    Game.frame.write(x,y, cast(fg) Color.red, cast(bg) Color.white, 'X');
                 }
 
             }
