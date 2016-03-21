@@ -4,7 +4,7 @@ import std.traits;
 
 class EntityLiving : Entity
 {
-    this(int x, int y, char sprite, string name, Color color, int maxHealth, int[Attributes] stats)
+    this(int x, int y, char sprite, Color color, string name, int maxHealth, int[Attributes] stats)
     {
         super(x, y, sprite, color);
         _name = name;

@@ -1,14 +1,15 @@
-import entity;
+import entity_living;
 import enums;
 
 import scone;
 import game;
 
-class EntityPlayer : Entity
+class EntityPlayer : EntityLiving
 {
+    //this(int x, int y, char sprite, Color color, string name, int maxHealth, int[Attributes] stats)
     this()
     {
-        super(0, 0, 'c', Color.yellow);
+        super(0, 0, 'c', Color.yellow, "Hermando", 10, [Attributes.strength : 10]);
     }
 
     override void update()
