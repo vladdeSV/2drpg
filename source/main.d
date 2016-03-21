@@ -34,40 +34,11 @@ void main()
         //Maximum of `enum UPS` ticks per second.
         foreach(i; 0 .. updater.getUpdates())
         {
-            //Game.world.update();
-
-            /+
-            foreach(input; getInputs())
-            {
-                if(input.key == SK.escape)
-                {
-                    Game.running = false;
-                }
-                //else if(input.pressed)
-                //{
-                //    if(input.key == SK.up)
-                //    {
-                //        --vy;
-                //    }
-                //    else if(input.key == SK.down)
-                //    {
-                //        ++vy;
-                //    }
-                //    else if(input.key == SK.left)
-                //    {
-                //        --vx;
-                //    }
-                //    else if(input.key == SK.right)
-                //    {
-                //        ++vx;
-                //    }
-                //}
-            }
-            +/
+            Game.world.update();
         }
 
-        cam.vx = cast(int)(Game.world.player.globalLocation[0] / cam.vw);
-        cam.vy = cast(int)(Game.world.player.globalLocation[1] / cam.vh);
+        cam.vx = cast(int)(Game.world.player.globalLocation[0]/* / cam.vw*/);
+        cam.vy = cast(int)(Game.world.player.globalLocation[1]/* / cam.vh*/);
 
         Game.frame.clear();
         foreach(int y; 0 .. cam.vh)
@@ -78,7 +49,7 @@ void main()
                 try
                 {
                     tile = Game.world
-                    .getChunk((cam.vx * Game.frame.w + x) / chunkSize, (cam.vy * Game.frame.h + y) / chunkSize)
+                    .getChunk((cam.vx * Game.frame.w) / chunkSize, (cam.vy * Game.frame.h) / chunkSize)
                     .getTile ((cam.vx * Game.frame.w + x) % chunkSize, (cam.vy * Game.frame.h + y) % chunkSize);
 
                     Game.frame.write(x,y, cast(fg) tile.color, cast(bg) tile.backgroundColor, tile.sprite);
@@ -89,6 +60,9 @@ void main()
                 }
             }
         }
+        auto o = Game.world.player;
+        Game.frame.write(o.globalLocation[0] % cam.vw, o.globalLocation[1] % cam.vh, cast(fg) o.color, o.sprite);
+
         Game.frame.print();
     }
 
@@ -98,7 +72,7 @@ void main()
     sconeClose();
 }
 
-Camera
+struct Camera
 {
     int vx, vy, vw, vh;
 }

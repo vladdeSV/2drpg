@@ -15,7 +15,30 @@ abstract class Entity
         _lookingDirection = cast(Direction) uniform(1, 5);
     }
 
-    void update() {}
+    void move(Direction dir)
+    {
+        if(dir == Direction.up)
+        {
+
+        }
+        else if(dir == Direction.down)
+        {
+
+        }
+        else if(dir == Direction.left)
+        {
+
+        }
+        else if(dir == Direction.right)
+        {
+
+        }
+    }
+
+    void update()
+    {
+
+    }
 
     ///Returns: int[x, y]
     auto globalLocation() const @property
@@ -30,7 +53,7 @@ abstract class Entity
 
     auto chunkLocation()
     {
-        return [cast(int)(_gx / chunkSize), cast(int)(_gy / chunkSize)]
+        return [cast(int)(_gx / chunkSize), cast(int)(_gy / chunkSize)];
     }
 
     auto sprite() const @property
@@ -43,7 +66,7 @@ abstract class Entity
         return _color;
     }
 
-private:
+protected:
     ///Global x and y coordinates
     int _gx, _gy;
     char _sprite;

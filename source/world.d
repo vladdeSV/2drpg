@@ -3,6 +3,7 @@ import scone;
 import entity;
 import entity_living;
 import entity_object;
+import entity_player;
 
 import tile_sand;
 import tile_water;
@@ -31,22 +32,14 @@ class World
                 chunk = new Chunk(cx, cy);
             }
         }
+
+        player = new EntityPlayer();
+
     }
 
     void update()
     {
-        foreach(input; getInputs())
-        {
-            //if(input.pressed)
-            //{
-            //    log("Input: ", input.key);
-            //}
-
-            if(input.key == SK.escape)
-            {
-                Game.running = false;
-            }
-        }
+        player.update();
     }
 
     auto getChunk(int cx, int cy)
@@ -58,6 +51,8 @@ class World
     {
         return getChunk(tx / chunkSize, ty / chunkSize);
     }
+
+    EntityPlayer player;
 
 private:
     Chunk[worldSize][worldSize] _chunks;
