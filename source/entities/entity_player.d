@@ -8,7 +8,7 @@ class EntityPlayer : Entity
 {
     this()
     {
-        super(20, 10, 'c', Color.yellow);
+        super(0, 0, 'c', Color.yellow);
     }
 
     override void update()

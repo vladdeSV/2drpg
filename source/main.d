@@ -26,7 +26,7 @@ void main()
     Game.world = new World();
 
     Updater updater = Updater(updateInterval);
-    Camera cam = Camera(0, 0, 50, Game.frame.h);
+    Camera cam = Camera(0, 0, 80, 24);
 
     updater.resetUpdates();
     while(Game.running)
@@ -37,8 +37,8 @@ void main()
             Game.world.update();
         }
 
-        cam.vx = cast(int)(Game.world.player.globalLocation[0]/* / cam.vw*/);
-        cam.vy = cast(int)(Game.world.player.globalLocation[1]/* / cam.vh*/);
+        cam.vx = cast(int)(Game.world.player.globalLocation[0] - cast(int)(cam.vw / 2));
+        cam.vy = cast(int)(Game.world.player.globalLocation[1] - cast(int)(cam.vh / 2));
 
         Game.frame.clear();
         foreach(int y; 0 .. cam.vh)
@@ -49,8 +49,8 @@ void main()
                 try
                 {
                     tile = Game.world
-                    .getChunk((cam.vx * Game.frame.w) / chunkSize, (cam.vy * Game.frame.h) / chunkSize)
-                    .getTile ((cam.vx * Game.frame.w + x) % chunkSize, (cam.vy * Game.frame.h + y) % chunkSize);
+                    .getChunkAtLocation(cam.vx + x, cam.vy + y)
+                    .getTile((cam.vx + x) % chunkSize, (cam.vy + y) % chunkSize);
 
                     Game.frame.write(x,y, cast(fg) tile.color, cast(bg) tile.backgroundColor, tile.sprite);
                 }
@@ -61,7 +61,7 @@ void main()
             }
         }
         auto o = Game.world.player;
-        Game.frame.write(o.globalLocation[0] % cam.vw, o.globalLocation[1] % cam.vh, cast(fg) o.color, o.sprite);
+        Game.frame.write(o.globalLocation[0] - cam.vx, o.globalLocation[1] - cam.vy, cast(fg) o.color, o.sprite);
 
         Game.frame.print();
     }
