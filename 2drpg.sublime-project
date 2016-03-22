@@ -5,5 +5,10 @@
 			"path": "source",
 			"name": "2DRPG",
 		},
+        {
+            "path": "/",
+            "name": "project",
+            "folder_exclude_patterns": ["source"],
+        },
 	]
 }
