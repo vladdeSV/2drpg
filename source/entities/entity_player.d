@@ -19,50 +19,23 @@ class EntityPlayer : EntityLiving
     override void move(Direction dir)
     {
         float nx = _gx, ny = _gy;
+        float vel = playerVelocity;
 
         if(hasFlag(dir, Direction.up))
         {
-            if(_firstMove)
-            {
-                ny -= 1;
-            }
-            else
-            {
-                ny -= playerVelocity;
-            }
+            ny -= _firstMove ? 1 : vel;
         }
         if(hasFlag(dir, Direction.down))
         {
-            if(_firstMove)
-            {
-                ny += 1;
-            }
-            else
-            {
-                ny += playerVelocity;
-            }
+            ny += _firstMove ? 1 : vel;
         }
         if(hasFlag(dir, Direction.left))
         {
-            if(_firstMove)
-            {
-                nx -= 1;
-            }
-            else
-            {
-                nx -= playerVelocity;
-            }
+            nx -= _firstMove ? 1 : vel;
         }
         if(hasFlag(dir, Direction.right))
         {
-            if(_firstMove)
-            {
-                nx += 1;
-            }
-            else
-            {
-                nx += playerVelocity;
-            }
+            nx += _firstMove ? 1 : vel;
         }
 
         //Check x axis
