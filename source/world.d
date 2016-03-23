@@ -10,6 +10,7 @@ import tile_water;
 import tile_mountain;
 import tile_grass;
 import tile_tree;
+import tile_bush;
 
 import enums;
 import game;
@@ -104,9 +105,15 @@ class Chunk
                     }
                     else
                     {
-                        t = new TileGrass();
+                        if(uniform(0, 300, Game.gen) == 0)
+                        {
+                            t = new TileBush();
+                        }
+                        else
+                        {
+                            t = new TileGrass();
+                        }
                     }
-
                 }
                 else if(val < 8.5)
                 {
