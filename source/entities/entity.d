@@ -19,50 +19,7 @@ abstract class Entity
 
     void move(Direction dir)
     {
-        float nx = _gx, ny = _gy;
 
-        if(hasFlag(dir, Direction.up))
-        {
-            ny -= playerVelocity;
-        }
-        if(hasFlag(dir, Direction.down))
-        {
-            ny += playerVelocity;
-        }
-        if(hasFlag(dir, Direction.left))
-        {
-            nx -= playerVelocity;
-        }
-        if(hasFlag(dir, Direction.right))
-        {
-            nx += playerVelocity;
-        }
-
-        //Check x axis
-        if
-        (
-            !(nx < 0 || nx > chunkSize * worldSize) &&
-            !Game.world
-            .getChunk(cast(int)(nx / chunkSize), cast(int)(_gy / chunkSize))
-            .getTile(cast(int) nx % chunkSize, cast(int) _gy % chunkSize)
-            .solid
-        )
-        {
-            _gx = nx;
-        }
-
-        //Check y axis
-        if
-        (
-            !(ny < 0 && chunkSize * worldSize) &&
-            !Game.world
-            .getChunk(cast(int)(_gx / chunkSize), cast(int)(ny / chunkSize))
-            .getTile(cast(int) _gx % chunkSize, cast(int) ny % chunkSize)
-            .solid
-        )
-        {
-            _gy = ny;
-        }
     }
 
     void update()
