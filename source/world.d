@@ -36,6 +36,8 @@ class World
 
         player = new EntityPlayer(10, 10);
 
+        _chunks[0][0]._entities ~= player;
+        _chunks[0][0]._entities ~= new EntityLiving(100, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]);
     }
 
     void update()
@@ -63,7 +65,6 @@ class Chunk
 {
     this(int cx, int cy)
     {
-
         //Generate terrain
         foreach(int ty, ref row; _tiles)
         {
@@ -133,11 +134,18 @@ class Chunk
 
     auto getTile(int tx, int ty)
     {
-        return _tiles[ty][tx];
+        if(_tilesPlaced[ty][tx] !is null)
+        {
+            return _tilesPlaced[ty][tx];
+        }
+        else
+        {
+            return _tiles[ty][tx];
+        }
     }
 
+    Entity[] _entities;
 private:
     int _cx, _cy;
-    Tile[chunkSize][chunkSize] _tiles;
-    Entity[] _entities;
+    Tile[chunkSize][chunkSize] _tiles, _tilesPlaced;
 }

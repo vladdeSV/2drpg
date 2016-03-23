@@ -63,8 +63,17 @@ void main()
                 }
             }
         }
-        auto o = Game.world.player;
-        Game.frame.write(o.globalLocation[0] - cam.vx, o.globalLocation[1] - cam.vy, cast(fg) o.color, o.sprite);
+
+
+        //TODO: Do some sort of check in each chunk
+        foreach(o; Game.world.getChunkAtLocation(Game.world.player.globalLocation[0], Game.world.player.globalLocation[1])._entities)
+        {
+            int ex = o.globalLocation[0], ey = o.globalLocation[1];
+            if(ex >= cam.vx && ex < cam.vx + cam.vw && ey >= cam.vy && ey < cam.vy + cam.vh)
+            {
+                Game.frame.write(ex - cam.vx, ey - cam.vy, cast(fg) o.color, o.sprite);
+            }
+        }
 
         Game.frame.print();
     }
