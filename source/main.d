@@ -22,7 +22,7 @@ void main()
     Game.frame.print();
 
     //>>TODO: set at menu
-    Game.seed = 1;
+    Game.seed = 5;
     Game.gen = Random(Game.seed);
     //<<
 

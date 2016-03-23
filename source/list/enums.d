@@ -14,7 +14,6 @@ enum chunkSize = 100;
 ///World's size in chunks
 enum worldSize = 4;
 
-enum playerVelocity = 0.1;
 ///General direction
 enum Direction
 {

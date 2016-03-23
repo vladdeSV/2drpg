@@ -4,7 +4,7 @@ import enums;
 import scone;
 import game;
 
-import std.stdio;
+enum playerVelocity = 10;
 
 class EntityPlayer : EntityLiving
 {
@@ -21,6 +21,8 @@ class EntityPlayer : EntityLiving
         float nx = _gx, ny = _gy;
         float vel = playerVelocity;
 
+        //Downscale movement
+        vel /= 100;
         if(hasFlag(dir, Direction.up))
         {
             ny -= _firstMove ? 1 : vel;
