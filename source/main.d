@@ -10,6 +10,9 @@ import tile;
 import std.experimental.logger;
 import std.random;
 
+import std.stdio;
+import std.conv;
+
 void main()
 {
     sconeInit();
@@ -19,7 +22,7 @@ void main()
     Game.frame.print();
 
     //>>TODO: set at menu
-    Game.seed = 5;
+    Game.seed = 1;
     Game.gen = Random(Game.seed);
     //<<
 

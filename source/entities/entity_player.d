@@ -9,9 +9,9 @@ import std.stdio;
 class EntityPlayer : EntityLiving
 {
     //this(int x, int y, char sprite, Color color, string name, int maxHealth, int[Attributes] stats)
-    this()
+    this(int x, int y)
     {
-        super(0, 0, char(1), Color.yellow, "Hermando", 10, [Attributes.strength : 150, Attributes.intelligence : -15]);
+        super(x, y, char(1), Color.yellow, "Hermando", 10, [Attributes.strength : 150, Attributes.intelligence : -15]);
     }
 
     override void update()
@@ -64,27 +64,6 @@ class EntityPlayer : EntityLiving
             }
         }
 
-        if(hasFlag(_movingDirection, Direction.up))
-        {
-            _gy -= 0.1;
-        }
-        if(hasFlag(_movingDirection, Direction.down))
-        {
-            _gy += 0.1;
-        }
-        if(hasFlag(_movingDirection, Direction.left))
-        {
-            _gx -= 0.1;
-        }
-        if(hasFlag(_movingDirection, Direction.right))
-        {
-            _gx += 0.1;
-        }
-
+        super.update();
     }
-}
-
-bool hasFlag(Type)(Type check, Type type)
-{
-    return ((check & type) == type);
 }

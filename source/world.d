@@ -34,7 +34,7 @@ class World
             }
         }
 
-        player = new EntityPlayer();
+        player = new EntityPlayer(10, 10);
 
     }
 
