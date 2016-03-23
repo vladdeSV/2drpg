@@ -43,12 +43,12 @@ abstract class Entity
     ///Returns: int[x, y]
     auto globalLocation() const @property
     {
-        return [_gx, _gy];
+        return [cast(int)_gx, cast(int)_gy];
     }
 
     auto localLocation() const @property
     {
-        return [_gx % chunkSize, _gy % chunkSize];
+        return [cast(int)_gx % chunkSize, cast(int)_gy % chunkSize];
     }
 
     auto chunkLocation()
@@ -68,9 +68,10 @@ abstract class Entity
 
 protected:
     ///Global x and y coordinates
-    int _gx, _gy;
+    double _gx, _gy;
     char _sprite;
     Color _color;
 
+    Direction _movingDirection;
     Direction _lookingDirection;
 }
