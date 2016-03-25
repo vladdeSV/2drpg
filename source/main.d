@@ -7,11 +7,11 @@ import updater;
 import world;
 import tile;
 
-import std.experimental.logger;
-import std.random;
+import std.random : Random;
 
-import std.stdio;
-import std.conv;
+//import std.stdio;
+import std.conv : to;
+import std.algorithm : min;
 
 void main()
 {
@@ -22,14 +22,13 @@ void main()
     Game.frame.print();
 
     //>>TODO: set at menu
-    Game.seed = 5;
-    Game.gen = Random(Game.seed);
+    Game.gen = Random(Game.seed = 5);
     //<<
 
     Game.world = new World();
 
     Updater updater = Updater(updateInterval);
-    Camera cam = Camera(0, 0, 80, 24);
+    Camera cam = Camera(0, 0, min(Game.frame.w, chunkSize), min(Game.frame.h, chunkSize));
 
     updater.resetUpdates();
     while(Game.running)
@@ -64,14 +63,19 @@ void main()
             }
         }
 
-
         //TODO: Do some sort of check in each chunk
-        foreach(o; Game.world.getChunkAtLocation(Game.world.player.globalLocation[0], Game.world.player.globalLocation[1])._entities)
+        foreach(e; Game.world.getChunkAtLocation(Game.world.player.globalLocation[0], Game.world.player.globalLocation[1]).entities)
         {
-            int ex = o.globalLocation[0], ey = o.globalLocation[1];
+            int ex = e.globalLocation[0], ey = e.globalLocation[1];
             if(ex >= cam.vx && ex < cam.vx + cam.vw && ey >= cam.vy && ey < cam.vy + cam.vh)
             {
-                Game.frame.write(ex - cam.vx, ey - cam.vy, cast(fg) o.color, o.sprite);
+                Color tbg = Game.world.getChunkAtLocation(ex, ey).getTile(ex % chunkSize, ey % chunkSize).backgroundColor;
+                if(e.color == tbg)
+                {
+                    tbg = Color.black;
+                }
+
+                Game.frame.write(ex - cam.vx, ey - cam.vy, cast(fg) e.color, cast(bg) tbg, e.sprite);
             }
         }
 
@@ -80,7 +84,6 @@ void main()
 
     Game.frame.clear();
     Game.frame.print();
-
     sconeClose();
 }
 

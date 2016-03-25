@@ -36,8 +36,8 @@ class World
 
         player = new EntityPlayer(10, 10);
 
-        _chunks[0][0]._entities ~= player;
-        _chunks[0][0]._entities ~= new EntityLiving(100, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]);
+        _chunks[0][0].entities ~= player;
+        _chunks[0][0].entities ~= new EntityLiving(20, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]);
     }
 
     void update()
@@ -70,9 +70,9 @@ class Chunk
         {
             foreach(int tx, ref t; row)
             {
-                float val = scaled_octave_noise_2d(2, 1, 0.02,      0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
-                float treeVal = scaled_octave_noise_2d(1, 1, 0.05,  0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
-                float sandVal = scaled_octave_noise_2d(1, 1, 0.01,  0,10,  (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
+                float val =     scaled_octave_noise_2d(2, 1, 0.02, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
+                float treeVal = scaled_octave_noise_2d(1, 1, 0.05, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
+                float sandVal = scaled_octave_noise_2d(1, 1, 0.01, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
 
                 if(val < 2)
                 {
@@ -144,7 +144,8 @@ class Chunk
         }
     }
 
-    Entity[] _entities;
+    Entity[] entities;
+
 private:
     int _cx, _cy;
     Tile[chunkSize][chunkSize] _tiles, _tilesPlaced;
