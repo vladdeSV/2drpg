@@ -34,7 +34,7 @@ class World
             }
         }
 
-        player = new EntityPlayer(10, 10);
+        player = new EntityPlayer(80, 10);
 
         _chunks[0][0].entities ~= player;
         _chunks[0][0].entities ~= new EntityLiving(20, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]);
