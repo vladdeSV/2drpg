@@ -16,6 +16,7 @@ import tile_bush;
 import enums;
 import game;
 import perlin;
+import misc;
 
 import std.random;
 import std.algorithm;
@@ -34,10 +35,10 @@ class World
             }
         }
 
-        player = new EntityPlayer(80, 15);
+        player = new EntityPlayer(130, 15);
 
-        _chunks[0][0].entities ~= player;
-        _chunks[0][0].entities ~= new EntityLiving(20, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]);
+        addEntity(player);
+        addEntity(new EntityLiving(20, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]));
     }
 
     void update()
@@ -53,6 +54,12 @@ class World
     auto getChunkAtLocation(int tx, int ty)
     {
         return getChunk(tx / chunkSize, ty / chunkSize);
+    }
+
+    auto addEntity(Entity e)
+    {
+        int ex = e.globalLocation[0], ey = e.globalLocation[1];
+        getChunkAtLocation(ex, ey).entities ~= e;
     }
 
     EntityPlayer player;

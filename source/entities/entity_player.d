@@ -70,8 +70,12 @@ class EntityPlayer : EntityLiving
 
     override void update()
     {
+
         if(_movingDirection == 0)
         {
+            _gx = cast(int) _gx + 0.5;
+            _gy = cast(int) _gy + 0.5;
+
             _firstMove = true;
         }
         else
