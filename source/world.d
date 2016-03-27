@@ -5,6 +5,7 @@ import entity_living;
 import entity_object;
 import entity_player;
 
+import tile;
 import tile_sand;
 import tile_water;
 import tile_mountain;
@@ -15,7 +16,6 @@ import tile_bush;
 import enums;
 import game;
 import perlin;
-import tile;
 
 import std.random;
 import std.algorithm;
@@ -34,7 +34,7 @@ class World
             }
         }
 
-        player = new EntityPlayer(80, 10);
+        player = new EntityPlayer(80, 15);
 
         _chunks[0][0].entities ~= player;
         _chunks[0][0].entities ~= new EntityLiving(20, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]);
@@ -88,7 +88,7 @@ class Chunk
                 }
                 else if(val < 8)
                 {
-                    if(val > 4 && treeVal > 5 && uniform(0, 2, Game.gen) == 0)
+                    if(val > 4 && treeVal > 5 && chance(2))
                     {
                         TreeType tt;
                         float nv = val - 4;
@@ -106,7 +106,7 @@ class Chunk
                     }
                     else
                     {
-                        if(uniform(0, 300, Game.gen) == 0)
+                        if(chance(300))
                         {
                             t = new TileBush();
                         }

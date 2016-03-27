@@ -63,7 +63,7 @@ void main()
             }
         }
 
-        //TODO: Do some sort of check in each chunk
+        //TODO: Do some sort of check in each chunk that is visible
         foreach(e; Game.world.getChunkAtLocation(Game.world.player.globalLocation[0], Game.world.player.globalLocation[1]).entities)
         {
             int ex = e.globalLocation[0], ey = e.globalLocation[1];

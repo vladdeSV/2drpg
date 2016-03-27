@@ -1,7 +1,7 @@
 import enums;
 import names;
 import game;
-import bits;
+import misc;
 
 import std.algorithm.mutation : remove;
 import std.random;
