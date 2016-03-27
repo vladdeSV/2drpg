@@ -35,10 +35,10 @@ class World
             }
         }
 
-        player = new EntityPlayer(130, 15);
+        player = new EntityPlayer(108, 150);
 
         addEntity(player);
-        addEntity(new EntityLiving(20, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]));
+        addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]));
     }
 
     void update()

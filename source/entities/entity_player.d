@@ -1,11 +1,12 @@
+import scone : getInputs, SK, SCK;
+
 import entity_living;
-import tile_water;
+
 import enums;
-
-import scone;
 import game;
+import misc;
 
-enum playerVelocity = 10;
+enum playerVelocity = 0.1;
 
 class EntityPlayer : EntityLiving
 {
@@ -16,14 +17,19 @@ class EntityPlayer : EntityLiving
     }
 
     private bool _firstMove;
+    private bool _running;
+
 
     override void move(Direction dir)
     {
         float nx = _gx, ny = _gy;
         float vel = playerVelocity;
 
-        //Downscale movement
-        vel /= 100;
+        if(_running)
+        {
+            vel += .1;
+        }
+
         if(hasFlag(dir, Direction.up))
         {
             ny -= _firstMove ? 1 : vel;
@@ -91,42 +97,44 @@ class EntityPlayer : EntityLiving
                 break;
             }
 
+            _running = input.hasControlKey(SCK.shift);
+
             if(input.pressed)
             {
                 if(input.key == SK.up)
                 {
-                    _movingDirection |= Direction.up;
+                    addFlag(_movingDirection, Direction.up);
                 }
                 else if(input.key == SK.down)
                 {
-                    _movingDirection |= Direction.down;
+                    addFlag(_movingDirection, Direction.down);
                 }
                 else if(input.key == SK.left)
                 {
-                    _movingDirection |= Direction.left;
+                    addFlag(_movingDirection, Direction.left);
                 }
                 else if(input.key == SK.right)
                 {
-                    _movingDirection |= Direction.right;
+                    addFlag(_movingDirection, Direction.right);
                 }
             }
             else
             {
                 if(input.key == SK.up)
                 {
-                    _movingDirection ^= Direction.up;
+                    removeFlag(_movingDirection, Direction.up);
                 }
                 else if(input.key == SK.down)
                 {
-                    _movingDirection ^= Direction.down;
+                    removeFlag(_movingDirection, Direction.down);
                 }
                 else if(input.key == SK.left)
                 {
-                    _movingDirection ^= Direction.left;
+                    removeFlag(_movingDirection, Direction.left);
                 }
                 else if(input.key == SK.right)
                 {
-                    _movingDirection ^= Direction.right;
+                    removeFlag(_movingDirection, Direction.right);
                 }
             }
         }

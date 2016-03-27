@@ -28,7 +28,8 @@ void main()
     Game.world = new World();
 
     Updater updater = Updater(updateInterval);
-    Camera cam = Camera(0, 0, min(Game.frame.w, chunkSize), min(Game.frame.h, chunkSize));
+    //Camera cam = Camera(0, 0, min(Game.frame.w, chunkSize), min(Game.frame.h, chunkSize));
+    Camera cam = Camera(0, 0, Game.frame.w, Game.frame.h);
 
     updater.resetUpdates();
     while(Game.running)
