@@ -1,3 +1,5 @@
+public import scone.color;
+
 ///Updates per second
 enum UPS = 60;
 ///Milliseconds between each update, which is determined by `enum UPS`
@@ -22,29 +24,6 @@ enum Direction
     down = 2,
     left = 4,
     right = 8,
-}
-
-///Colors
-enum Color
-{
-    init,
-
-    black,
-    blue,
-    blue_dark,
-    cyan,
-    cyan_dark,
-    gray,
-    gray_dark,
-    green,
-    green_dark,
-    magenta,
-    magenta_dark,
-    red,
-    red_dark,
-    white,
-    yellow,
-    yellow_dark,
 }
 
 ///General attributes

@@ -95,7 +95,7 @@ class Chunk
                 }
                 else if(val < 8)
                 {
-                    if(val > 4 && treeVal > 5 && chance(2))
+                    if(val > 4 && treeVal > 5 && sandVal < 7.5 && chance(2))
                     {
                         TreeType tt;
                         float nv = val - 4;

@@ -19,7 +19,6 @@ class EntityPlayer : EntityLiving
     private bool _firstMove;
     private bool _running;
 
-
     override void move(Direction dir)
     {
         float nx = _gx, ny = _gy;
@@ -99,40 +98,47 @@ class EntityPlayer : EntityLiving
 
             _running = input.hasControlKey(SCK.shift);
 
-            if(input.pressed)
+
+            if(input.key == SK.up || input.key == SK.w)
             {
-                if(input.key == SK.up)
+                if(input.pressed)
                 {
                     addFlag(_movingDirection, Direction.up);
                 }
-                else if(input.key == SK.down)
-                {
-                    addFlag(_movingDirection, Direction.down);
-                }
-                else if(input.key == SK.left)
-                {
-                    addFlag(_movingDirection, Direction.left);
-                }
-                else if(input.key == SK.right)
-                {
-                    addFlag(_movingDirection, Direction.right);
-                }
-            }
-            else
-            {
-                if(input.key == SK.up)
+                else
                 {
                     removeFlag(_movingDirection, Direction.up);
                 }
-                else if(input.key == SK.down)
+            }
+            else if(input.key == SK.down || input.key == SK.s)
+            {
+                if(input.pressed)
+                {
+                    addFlag(_movingDirection, Direction.down);
+                }
+                else
                 {
                     removeFlag(_movingDirection, Direction.down);
                 }
-                else if(input.key == SK.left)
+            }
+            else if(input.key == SK.left || input.key == SK.a)
+            {
+                if(input.pressed)
+                {
+                    addFlag(_movingDirection, Direction.left);
+                }
+                else
                 {
                     removeFlag(_movingDirection, Direction.left);
                 }
-                else if(input.key == SK.right)
+            }
+            else if(input.key == SK.right || input.key == SK.d)
+            {
+                if(input.pressed)
+                {
+                    addFlag(_movingDirection, Direction.right);
+                }
+                else
                 {
                     removeFlag(_movingDirection, Direction.right);
                 }

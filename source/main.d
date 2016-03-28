@@ -55,11 +55,11 @@ void main()
                     .getChunkAtLocation(cam.vx  + x, cam.vy + y)
                     .getTile((cam.vx + x) % chunkSize, (cam.vy + y) % chunkSize);
 
-                    Game.frame.write(x,y, cast(fg) tile.color, cast(bg) tile.backgroundColor, tile.sprite);
+                    Game.frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
                 }
                 catch
                 {
-                    Game.frame.write(x,y, cast(fg) Color.red, cast(bg) Color.white, 'X');
+                    Game.frame.write(x,y, fg(Color.red), bg(Color.white), 'X');
                 }
             }
         }
@@ -70,13 +70,21 @@ void main()
             int ex = e.globalLocation[0], ey = e.globalLocation[1];
             if(ex >= cam.vx && ex < cam.vx + cam.vw && ey >= cam.vy && ey < cam.vy + cam.vh)
             {
+                Color col = e.color;
                 Color tbg = Game.world.getChunkAtLocation(ex, ey).getTile(ex % chunkSize, ey % chunkSize).backgroundColor;
                 if(e.color == tbg)
                 {
-                    tbg = Color.black;
+                    if(colorIsDark(col))
+                    {
+                        col = lightColorFromColor(col);
+                    }
+                    else
+                    {
+                        col = darkColorFromColor(col);
+                    }
                 }
 
-                Game.frame.write(ex - cam.vx, ey - cam.vy, cast(fg) e.color, cast(bg) tbg, e.sprite);
+                Game.frame.write(ex - cam.vx, ey - cam.vy, fg(col), bg(tbg), e.sprite);
             }
         }
 
