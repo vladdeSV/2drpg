@@ -7,7 +7,7 @@
 		},
         {
             "path": "/",
-            "name": "project",
+            "name": "project files",
             "folder_exclude_patterns": ["source"],
         },
 	]

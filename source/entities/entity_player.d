@@ -6,7 +6,10 @@ import enums;
 import game;
 import misc;
 
-enum playerVelocity = 0.1;
+import std.math;
+
+enum velPlayer = 0.1;
+enum velPlayerRunning = 0.1;
 
 class EntityPlayer : EntityLiving
 {
@@ -14,39 +17,45 @@ class EntityPlayer : EntityLiving
     this(int x, int y)
     {
         super(x, y, char(1), Color.yellow, "Hermando", 10, [Attributes.strength : 150, Attributes.intelligence : -15]);
-    }
 
-    private bool _firstMove;
-    private bool _running;
+        remembered["tree"] = false;
+        remembered["flowers"] = false;
+        remembered["moving"] = false;
+
+        //memories ~= "You wake up, feeling very hungry.";
+        //memories ~= "Go find something to eat, will you?";
+    }
 
     override void move(Direction dir)
     {
         float nx = _gx, ny = _gy;
-        float vel = playerVelocity;
+        float vel = velPlayer;
 
         if(_running)
         {
-            vel += .1;
+            vel += velPlayerRunning;
         }
 
+        //>>Check moving directions and move accordingly
         if(hasFlag(dir, Direction.up))
         {
-            ny -= _firstMove ? 1 : vel;
+            ny -= _firstMove ? 0.6 : vel;
         }
         if(hasFlag(dir, Direction.down))
         {
-            ny += _firstMove ? 1 : vel;
+            ny += _firstMove ? 0.6 : vel;
         }
         if(hasFlag(dir, Direction.left))
         {
-            nx -= _firstMove ? 1 : vel;
+            nx -= _firstMove ? 0.6 : vel;
         }
         if(hasFlag(dir, Direction.right))
         {
-            nx += _firstMove ? 1 : vel;
+            nx += _firstMove ? 0.6 : vel;
         }
+        //<<
 
-        //Check x axis
+        //>>Check x axis if tile at new location is solid. If not, move.
         if
         (
             !(nx < 0 || nx > chunkSize * worldSize) &&
@@ -56,10 +65,12 @@ class EntityPlayer : EntityLiving
             .solid
         )
         {
+            distanceMoved += abs(nx - _gx);
             _gx = nx;
         }
+        //<<
 
-        //Check y axis
+        //>>Check y axis if tile at new location is solid. If not, move.
         if
         (
             !(ny < 0 && chunkSize * worldSize) &&
@@ -69,13 +80,14 @@ class EntityPlayer : EntityLiving
             .solid
         )
         {
+            distanceMoved += abs(ny - _gy);
             _gy = ny;
         }
+        //<<
     }
 
     override void update()
     {
-
         if(_movingDirection == 0)
         {
             _gx = cast(int) _gx + 0.5;
@@ -96,9 +108,10 @@ class EntityPlayer : EntityLiving
                 break;
             }
 
+            //Check if player should be running
             _running = input.hasControlKey(SCK.shift);
 
-
+            //>>Set movemental direction
             if(input.key == SK.up || input.key == SK.w)
             {
                 if(input.pressed)
@@ -143,8 +156,24 @@ class EntityPlayer : EntityLiving
                     removeFlag(_movingDirection, Direction.right);
                 }
             }
+            //<<
         }
 
         super.update();
+    }
+
+    int flowers, trees;
+    int memory = 20;
+    float distanceMoved = 0;
+    bool[string] remembered;
+    string[] memories;
+
+private:
+    bool _firstMove;
+    bool _running;
+
+    auto addMemory(string memory)
+    {
+        memories ~= memory;
     }
 }

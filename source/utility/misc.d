@@ -1,3 +1,8 @@
+struct Rect
+{
+    int x, y, w, h;
+}
+
 auto hasFlag(E)(E check, E type)
 {
     return (check & type) == type;
@@ -19,4 +24,9 @@ import game;
 bool chance(int oneOutOf)
 {
     return uniform(0, oneOutOf, Game.gen) == 0;
+}
+
+int random(int count)
+{
+    return uniform(0, count, Game.gen);
 }
