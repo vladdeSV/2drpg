@@ -111,10 +111,10 @@ void main()
         {
             mems ~= (wrap(s, 30 - 2) ~ '\n');
         }
-        Game.frame.write(51, 3, mems);
+        Game.frame.write(51, 4, mems);
         //<<
 
-        //Game.frame.write(51, 3, Game.world.player.distanceMoved);
+        Game.frame.write(52, 2, Game.world.player.distanceMoved);
 
         Game.frame.print();
     }
