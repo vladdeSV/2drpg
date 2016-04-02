@@ -194,16 +194,4 @@ private:
     {
         memories ~= memory;
     }
-
-    public auto initThoughts()
-    {
-        thoughts =
-        [
-            timeThought(2, "Where am I?",
-                timeThought(5, "...",
-                    timeThought(15, "Who am I?"))),
-
-            distanceThought(1000, "I've walked quite far."),
-        ];
-    }
 }

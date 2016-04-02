@@ -33,8 +33,8 @@ void main()
 
     auto frame = Game.frame;
     auto player = Game.world.player;
-    player.initThoughts();
 
+    initPlayerThoughts();
     updater.resetUpdates();
 
     while(Game.running)
@@ -129,4 +129,16 @@ void main()
     frame.clear();
     frame.print();
     sconeClose();
+}
+
+void initPlayerThoughts()
+{
+    Game.world.player.thoughts =
+    [
+        timeThought(2, "Where am I?",
+            timeThought(10, "...",
+                timeThought(5, "Who am I?"))),
+
+        distanceThought(1000, "I've walked quite far."),
+    ];
 }
