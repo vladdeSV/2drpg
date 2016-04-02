@@ -3,6 +3,7 @@ import entity_living;
 import enums;
 import game;
 import misc;
+import tile_water;
 
 import thought;
 
@@ -30,6 +31,11 @@ class EntityPlayer : EntityLiving
     {
         float nx = _gx, ny = _gy;
         float vel = velPlayer;
+
+        if(cast(TileWater) Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize) !is null)
+        {
+            vel -= 0.05;
+        }
 
         if(_running)
         {
@@ -197,7 +203,7 @@ private:
                 timeThought(5, "...",
                     timeThought(15, "Who am I?"))),
 
-            distanceThought(100, "2"),
+            distanceThought(1000, "I've walked quite far."),
         ];
     }
 }
