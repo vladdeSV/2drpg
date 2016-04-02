@@ -8,7 +8,7 @@ import world;
 import tile;
 import misc;
 
-import prototype_thought;
+import thought;
 import probar;
 
 //import std.stdio;

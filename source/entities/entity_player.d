@@ -4,7 +4,7 @@ import enums;
 import game;
 import misc;
 
-import prototype_thought;
+import thought;
 
 import std.algorithm;
 import std.math;
@@ -193,20 +193,11 @@ private:
     {
         thoughts =
         [
-            new ThoughtTime(2, "Where am I?",
-            {
-                addThought(new ThoughtTime(5, "...", {addThought(new ThoughtTime(5, "Who am I?"));}));
-                //assert(0);
-            }),
-            //,
-            //new ThoughtTime(15, "Who am I?"),
-            //new ThoughtTime(20, "I'm hungry. So hungry in fact, that I'm starving."),
-            //new ThoughtDistance(100, "2"),
+            timeThought(2, "Where am I?",
+                timeThought(5, "...",
+                    timeThought(15, "Who am I?"))),
+
+            distanceThought(100, "2"),
         ];
     }
-}
-
-private void addThought(Thought t)
-{
-    Game.world.player.thoughts ~= t;
 }

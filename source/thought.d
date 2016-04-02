@@ -23,10 +23,10 @@ void none()
 
 abstract class Thought
 {
-    this(string thought, void delegate() exec)
+    this(string thought, Thought t)
     {
         _thought = thought;
-        _exec = exec;
+        _t = t;
     }
 
     bool check()
@@ -37,9 +37,9 @@ abstract class Thought
         }
         else if(aaa())
         {
-            if(_exec !is null)
+            if(_t !is null)
             {
-                _exec();
+                Game.world.player.thoughts ~= _t;
             }
             return _completed = true;
         }
@@ -55,7 +55,7 @@ abstract class Thought
     }
 
     private bool _completed = false;
-    private void delegate() _exec;
+    private Thought _t;
     protected string _thought;
 
     bool aaa();
@@ -63,10 +63,10 @@ abstract class Thought
 
 class ThoughtDistance : Thought
 {
-    this(float afterDistance, string thought, void delegate() exec = null)
+    this(float distanceSinceCurrentDistance, string thought, Thought t = null)
     {
-        _distance = afterDistance;
-        super(thought, exec);
+        _distance = distanceSinceCurrentDistance + Game.world.player.distanceMoved;
+        super(thought, t);
     }
 
     override bool aaa()
@@ -79,10 +79,10 @@ class ThoughtDistance : Thought
 
 class ThoughtTime : Thought
 {
-    this(int secondsSinceInit, string thought, void delegate() exec = null)
+    this(int secondsSinceInit, string thought, Thought t = null)
     {
         _seconds = secondsSinceInit + secondsFromTicks(Game.ticks);
-        super(thought, exec);
+        super(thought, t);
     }
 
     override bool aaa()
@@ -91,4 +91,14 @@ class ThoughtTime : Thought
     }
 
     private int _seconds;
+}
+
+ThoughtTime timeThought(int time, string thought, Thought t = null)
+{
+    return new ThoughtTime(time, thought, t);
+}
+
+ThoughtDistance distanceThought(float distance, string thought, Thought t = null)
+{
+    return new ThoughtDistance(distance, thought, t);
 }
