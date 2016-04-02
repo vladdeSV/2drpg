@@ -23,22 +23,7 @@ class EntityPlayer : EntityLiving
         remembered["flowers"] = false;
         remembered["moving"] = false;
 
-        _thoughts =
-        [
-            new ThoughtDistance(10, "Where am I?"),
-            new ThoughtDistance(15, "..."),
-            new ThoughtDistance(20, "Who am I?"),
-            new ThoughtTime(10, "I'm hungry. So hungry in fact, that I'm starving."),
-            new ThoughtDistance(30, "2"),
-            new ThoughtDistance(32, "4"),
-            new ThoughtDistance(33, "5"),
-            new ThoughtDistance(34, "6"),
-            new ThoughtDistance(35, "7"),
-            new ThoughtDistance(36, "28"),
-            new ThoughtDistance(37, "38"),
-            new ThoughtDistance(38, "48"),
-            new ThoughtDistance(39, "57"),
-        ];
+        //initThoughts();
     }
 
     override void move(Direction dir)
@@ -171,13 +156,12 @@ class EntityPlayer : EntityLiving
                     removeFlag(_movingDirection, Direction.right);
                 }
             }
-            //<<
         }
 
         import std.conv;
-        if(_thoughts.length)
+        if(thoughts.length)
         {
-            foreach(n, t; _thoughts)
+            foreach(n, t; thoughts)
             {
                 if(t.check())
                 {
@@ -195,8 +179,8 @@ class EntityPlayer : EntityLiving
     bool[string] remembered;
     string[] memories;
 
+    Thought[] thoughts;
 private:
-    Thought[] _thoughts;
     bool _firstMove;
     bool _running;
 
@@ -204,4 +188,25 @@ private:
     {
         memories ~= memory;
     }
+
+    public auto initThoughts()
+    {
+        thoughts =
+        [
+            new ThoughtTime(2, "Where am I?",
+            {
+                addThought(new ThoughtTime(5, "...", {addThought(new ThoughtTime(5, "Who am I?"));}));
+                //assert(0);
+            }),
+            //,
+            //new ThoughtTime(15, "Who am I?"),
+            //new ThoughtTime(20, "I'm hungry. So hungry in fact, that I'm starving."),
+            //new ThoughtDistance(100, "2"),
+        ];
+    }
+}
+
+private void addThought(Thought t)
+{
+    Game.world.player.thoughts ~= t;
 }

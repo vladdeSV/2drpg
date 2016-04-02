@@ -8,6 +8,7 @@ import world;
 import tile;
 import misc;
 
+import prototype_thought;
 import probar;
 
 //import std.stdio;
@@ -24,20 +25,21 @@ void main()
     Game.frame = new Frame(80,24);
     Game.frame.print();
 
-    //>>TODO: set at menu
     Game.gen = Random(Game.seed = 5);
-    //<<
-
     Game.world = new World();
 
     Updater updater = Updater(updateInterval);
     auto cam = Rect(0, 0, 50, 24);
-    //Rect cam = Rect(0, 0, Game.frame.w, Game.frame.h);
+
+    auto frame = Game.frame;
+    auto player = Game.world.player;
+    player.initThoughts();
 
     updater.resetUpdates();
+
     while(Game.running)
     {
-        Game.frame.clear();
+        frame.clear();
 
         //>>Ticking
         //Maximum of `enum UPS` ticks per second.
@@ -49,8 +51,8 @@ void main()
         //<<
 
         //>>View of world
-        cam.x = cast(int)(Game.world.player.globalLocation[0] / cam.w) * cam.w;
-        cam.y = cast(int)(Game.world.player.globalLocation[1] / cam.h) * cam.h;
+        cam.x = cast(int)(player.globalLocation[0] / cam.w) * cam.w;
+        cam.y = cast(int)(player.globalLocation[1] / cam.h) * cam.h;
         foreach(int y; 0 .. cam.h)
         {
             foreach(int x; 0 .. cam.w)
@@ -59,17 +61,17 @@ void main()
                 if(cam.x + x >= 0 && cam.x + x < chunkSize * worldSize && cam.y + y >= 0 && cam.y + y < chunkSize * worldSize)
                 {
                     tile = Game.world.getChunkAtLocation(cam.x + x, cam.y + y).getTile((cam.x + x) % chunkSize, (cam.y + y) % chunkSize);
-                    Game.frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
+                    frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
                 }
                 else
                 {
-                    Game.frame.write(x,y, fg(Color.red), bg(Color.white), 'X');
+                    frame.write(x,y, fg(Color.red), bg(Color.white), 'X');
                 }
             }
         }
 
         //TODO: Do some sort of check in each chunk that is visible
-        foreach(e; Game.world.getChunkAtLocation(Game.world.player.globalLocation[0], Game.world.player.globalLocation[1]).entities)
+        foreach(e; Game.world.getChunkAtLocation(player.globalLocation[0], player.globalLocation[1]).entities)
         {
             int ex = e.globalLocation[0], ey = e.globalLocation[1];
             if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
@@ -81,39 +83,38 @@ void main()
                      col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
                 }
 
-                Game.frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
+                frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
             }
         }
         //<<
 
         //>>Side UI
-        int vw = Game.frame.w - sidebarWidth, vh = Game.frame.h;
-        foreach(int y; 0 .. vh)
+        foreach(int y; 0 .. cam.h)
         {
-            foreach(int x; vw .. vw + sidebarWidth)
+            foreach(int x; cam.w .. cam.w + sidebarWidth)
             {
-                if(!y || y == vh - 1)
+                if(!y || y == cam.h - 1)
                 {
-                    Game.frame.write(x, y, fg(Color.black), bg(Color.black_dark), '#');
+                    frame.write(x, y, fg(Color.black), bg(Color.black_dark), '#');
                 }
                 else
                 {
-                    Game.frame.write(x, y, bg(Color.black_dark));
+                    frame.write(x, y, bg(Color.black_dark));
                 }
             }
         }
 
         string[] mems;
-        foreach_reverse(s; Game.world.player.memories)
+        foreach_reverse(s; player.memories)
         {
-            import prototype_thought;
             mems ~= MessageThought(s).lines;
         }
+        int thoughtsStart = 2;
         foreach(n, s; mems)
         {
-            if(n + 2 < vh - 2)
+            if(n + thoughtsStart < cam.h - 4)
             {
-                Game.frame.write(52, 2 + n, s);
+                frame.write(52, n + thoughtsStart, s);
             }
             else
             {
@@ -122,12 +123,10 @@ void main()
         }
         //<<
 
-        //Game.frame.write(52, 2, Game.world.player.distanceMoved);
-
-        Game.frame.print();
+        frame.print();
     }
 
-    Game.frame.clear();
-    Game.frame.print();
+    frame.clear();
+    frame.print();
     sconeClose();
 }

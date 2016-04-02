@@ -1,21 +1,35 @@
 import game;
 import std.array : split;
 import std.string : wrap;
+import enums : sidebarWidth;
 import misc;
 
 struct MessageThought
 {
+
+
     this(string thought)
     {
-        lines = split(thought.wrap(28), '\n');
+        lines = split(thought.wrap(sidebarWidth - 2), '\n');
     }
 
     string[] lines;
 }
 
+void none()
+{
+
+}
+
 abstract class Thought
 {
-    final bool check()
+    this(string thought, void delegate() exec)
+    {
+        _thought = thought;
+        _exec = exec;
+    }
+
+    bool check()
     {
         if(_completed)
         {
@@ -23,6 +37,10 @@ abstract class Thought
         }
         else if(aaa())
         {
+            if(_exec !is null)
+            {
+                _exec();
+            }
             return _completed = true;
         }
         else
@@ -31,12 +49,13 @@ abstract class Thought
         }
     }
 
-    final string thought() @property
+    string thought() @property
     {
         return _thought;
     }
 
     private bool _completed = false;
+    private void delegate() _exec;
     protected string _thought;
 
     bool aaa();
@@ -44,10 +63,10 @@ abstract class Thought
 
 class ThoughtDistance : Thought
 {
-    this(float afterDistance, string thought)
+    this(float afterDistance, string thought, void delegate() exec = null)
     {
         _distance = afterDistance;
-        _thought = thought;
+        super(thought, exec);
     }
 
     override bool aaa()
@@ -60,10 +79,10 @@ class ThoughtDistance : Thought
 
 class ThoughtTime : Thought
 {
-    this(int secondsAfterStart, string thought)
+    this(int secondsSinceInit, string thought, void delegate() exec = null)
     {
-        _seconds = secondsAfterStart;
-        _thought = thought;
+        _seconds = secondsSinceInit + secondsFromTicks(Game.ticks);
+        super(thought, exec);
     }
 
     override bool aaa()
@@ -73,19 +92,3 @@ class ThoughtTime : Thought
 
     private int _seconds;
 }
-
-//Thought[] thoughts =
-//[
-//    new ThoughtDistance(10, "Where am I?"),
-//    new ThoughtDistance(30, "...")
-//]
-
-//foreach(h; handlers)
-//{
-//    if (distance == h.getDistance())
-//    {
-//        h.doSomething();
-//        handlers.remove(h);
-//        break;
-//    }
-//}
