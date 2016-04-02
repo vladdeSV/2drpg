@@ -1,11 +1,12 @@
 import scone : getInputs, SK, SCK;
-
 import entity_living;
-
 import enums;
 import game;
 import misc;
 
+import prototype_thought;
+
+import std.algorithm;
 import std.math;
 
 enum velPlayer = 0.1;
@@ -22,8 +23,22 @@ class EntityPlayer : EntityLiving
         remembered["flowers"] = false;
         remembered["moving"] = false;
 
-        //memories ~= "You wake up, feeling very hungry.";
-        //memories ~= "Go find something to eat, will you?";
+        _thoughts =
+        [
+            new ThoughtDistance(10, "Where am I?"),
+            new ThoughtDistance(15, "..."),
+            new ThoughtDistance(20, "Who am I?"),
+            new ThoughtTime(10, "I'm hungry. So hungry in fact, that I'm starving."),
+            new ThoughtDistance(30, "2"),
+            new ThoughtDistance(32, "4"),
+            new ThoughtDistance(33, "5"),
+            new ThoughtDistance(34, "6"),
+            new ThoughtDistance(35, "7"),
+            new ThoughtDistance(36, "28"),
+            new ThoughtDistance(37, "38"),
+            new ThoughtDistance(38, "48"),
+            new ThoughtDistance(39, "57"),
+        ];
     }
 
     override void move(Direction dir)
@@ -159,6 +174,18 @@ class EntityPlayer : EntityLiving
             //<<
         }
 
+        import std.conv;
+        if(_thoughts.length)
+        {
+            foreach(n, t; _thoughts)
+            {
+                if(t.check())
+                {
+                    addMemory(t.thought);
+                }
+            }
+        }
+
         super.update();
     }
 
@@ -169,6 +196,7 @@ class EntityPlayer : EntityLiving
     string[] memories;
 
 private:
+    Thought[] _thoughts;
     bool _firstMove;
     bool _running;
 

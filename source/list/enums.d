@@ -16,6 +16,8 @@ enum chunkSize = 100;
 ///World's size in chunks
 enum worldSize = 4;
 
+enum sidebarWidth = 30;
+
 ///General direction
 enum Direction
 {

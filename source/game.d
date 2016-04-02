@@ -8,6 +8,8 @@ struct Game
     static Frame frame;
     static World world;
 
+    static real ticks = 0;
+
     static int seed;
     static Random gen;
 }

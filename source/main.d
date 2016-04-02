@@ -10,7 +10,6 @@ import misc;
 
 import probar;
 
-
 //import std.stdio;
 import std.conv : to;
 import std.algorithm : min;
@@ -35,18 +34,17 @@ void main()
     auto cam = Rect(0, 0, 50, 24);
     //Rect cam = Rect(0, 0, Game.frame.w, Game.frame.h);
 
-    auto memory = Probar(19, 100);
-
     updater.resetUpdates();
     while(Game.running)
     {
-        //Game.frame.clear();
+        Game.frame.clear();
 
         //>>Ticking
         //Maximum of `enum UPS` ticks per second.
         foreach(i; 0 .. updater.getUpdates())
         {
             Game.world.update();
+            Game.ticks += 1;
         }
         //<<
 
@@ -89,32 +87,42 @@ void main()
         //<<
 
         //>>Side UI
-        memory.value = Game.world.player.memory;
-
-        foreach(int y; 0 .. 24)
+        int vw = Game.frame.w - sidebarWidth, vh = Game.frame.h;
+        foreach(int y; 0 .. vh)
         {
-            foreach(int x; 0 .. 30)
+            foreach(int x; vw .. vw + sidebarWidth)
             {
-                if(!x || !y || x == 29 || y == 23)
+                if(!y || y == vh - 1)
                 {
-                    Game.frame.write(50 + x, y, fg(Color.black), bg(Color.black_dark), '#');
+                    Game.frame.write(x, y, fg(Color.black), bg(Color.black_dark), '#');
                 }
                 else
                 {
-                    Game.frame.write(50 + x, y, bg(Color.black_dark));
+                    Game.frame.write(x, y, bg(Color.black_dark));
                 }
             }
         }
 
-        string mems;
+        string[] mems;
         foreach_reverse(s; Game.world.player.memories)
         {
-            mems ~= (wrap(s, 30 - 2) ~ '\n');
+            import prototype_thought;
+            mems ~= MessageThought(s).lines;
         }
-        Game.frame.write(51, 4, mems);
+        foreach(n, s; mems)
+        {
+            if(n + 2 < vh - 2)
+            {
+                Game.frame.write(52, 2 + n, s);
+            }
+            else
+            {
+                break;
+            }
+        }
         //<<
 
-        Game.frame.write(52, 2, Game.world.player.distanceMoved);
+        //Game.frame.write(52, 2, Game.world.player.distanceMoved);
 
         Game.frame.print();
     }

@@ -30,3 +30,20 @@ int random(int count)
 {
     return uniform(0, count, Game.gen);
 }
+
+
+import enums : UPS;
+int secondsFromTicks(ref real ticks)
+{
+    return cast(int) ticks / UPS;
+}
+
+int minutesFromTicks(ref real ticks)
+{
+    return secondsFromTicks(ticks) / 60;
+}
+
+int hoursFromTicks(ref real ticks)
+{
+    return secondsFromTicks(ticks) / 60;
+}
