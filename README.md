@@ -1,7 +1,7 @@
 # 2drpg
 Tile-based RPG, in console/terminal
 
-![2drpg](http://i.imgur.com/GlioxNd.png)
+![gif](/2drpg.gif?raw=true "2DRPG")
 
 ### Introduction
 2DRPG differs much from it's preprocessor [DRPG](https://github.com/vladdeSV/drpg). Much of the aesthetics is differing from the first game, and also a great part of game mechanics have been replaced **(TODO)**.
