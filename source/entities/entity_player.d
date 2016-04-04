@@ -6,6 +6,8 @@ import misc;
 import tile_water;
 
 import thought;
+import thought_time;
+import thought_distance;
 
 import std.algorithm;
 import std.math;
@@ -24,7 +26,11 @@ class EntityPlayer : EntityLiving
         remembered["flowers"] = false;
         remembered["moving"] = false;
 
-        //initThoughts();
+    }
+
+    auto thoughts() @property
+    {
+        return _thoughts;
     }
 
     override void move(Direction dir)
@@ -32,7 +38,7 @@ class EntityPlayer : EntityLiving
         float nx = _gx, ny = _gy;
         float vel = velPlayer;
 
-        if(cast(TileWater) Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize) !is null)
+        if(Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).type == TileType.water)
         {
             vel -= 0.05;
         }
@@ -164,16 +170,9 @@ class EntityPlayer : EntityLiving
             }
         }
 
-        import std.conv;
-        if(thoughts.length)
+        foreach(ref t; thoughts)
         {
-            foreach(n, t; thoughts)
-            {
-                if(t.check())
-                {
-                    addMemory(t.thought);
-                }
-            }
+            t.check();
         }
 
         super.update();
@@ -183,15 +182,21 @@ class EntityPlayer : EntityLiving
     int memory = 20;
     float distanceMoved = 0;
     bool[string] remembered;
-    string[] memories;
 
-    Thought[] thoughts;
+    auto addTimeThought(int time, string thought, void delegate() del = null)
+    {
+        _thoughts ~= new ThoughtTime(time, thought, del);
+    }
+
+    auto addDistanceThought(float distance, string thought, void delegate() del = null)
+    {
+        _thoughts ~= new ThoughtDistance(distance, thought, del);
+    }
+
+
 private:
+    Thought[] _thoughts;
     bool _firstMove;
     bool _running;
 
-    auto addMemory(string memory)
-    {
-        memories ~= memory;
-    }
 }

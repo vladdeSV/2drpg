@@ -10,15 +10,15 @@ class TileMountain : Tile
     {
         if(type == MountainLevel.low)
         {
-            super(uniform(0, 2, Game.gen) == 0 ? '.' : ' ', Color.white_dark, Color.black, true);
+            super(TileType.rock, uniform(0, 2, Game.gen) == 0 ? '.' : ' ', Color.white_dark, Color.black, true);
         }
         else if(type == MountainLevel.mid)
         {
-            super('*', Color.white_dark, Color.black, true);
+            super(TileType.rock, '*', Color.white_dark, Color.black, true);
         }
         else if(type == MountainLevel.high)
         {
-            super('^', Color.white, Color.black, true);
+            super(TileType.rock, '^', Color.white, Color.black, true);
         }
         else
         {

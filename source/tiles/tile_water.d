@@ -7,11 +7,11 @@ class TileWater : Tile
     {
         if(shallow)
         {
-            super('~', Color.blue_dark, Color.blue);
+            super(TileType.water, '~', Color.blue_dark, Color.blue);
         }
         else
         {
-            super(' ', Color.blue, Color.blue_dark, true);
+            super(TileType.water, ' ', Color.blue, Color.blue_dark, true);
         }
     }
 }

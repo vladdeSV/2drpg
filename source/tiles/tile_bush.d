@@ -5,6 +5,6 @@ class TileBush : Tile
 {
     this()
     {
-        super(char(5), Color.magenta, Color.green_dark);
+        super(TileType.tree, char(5), Color.magenta, Color.green_dark);
     }
 }

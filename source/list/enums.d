@@ -95,6 +95,14 @@ enum Gender
     male = 1,   //1 looks like a penis
 }
 
+enum TileType
+{
+    grass,
+    water,
+    rock,
+    sand,
+    tree,
+}
 
 //Broom,
 //Hammer,

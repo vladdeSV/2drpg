@@ -116,6 +116,11 @@ abstract class Entity
         return _color;
     }
 
+    auto setColor(Color c)
+    {
+        _color = c;
+    }
+
 protected:
     ///Global x and y coordinates
     float _gx, _gy;

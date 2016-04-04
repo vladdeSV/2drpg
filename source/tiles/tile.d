@@ -2,8 +2,9 @@ import enums;
 
 abstract class Tile
 {
-    this(dchar sprite, Color color, Color backgroundColor, bool solid = false)
+    this(TileType type, dchar sprite, Color color, Color backgroundColor, bool solid = false)
     {
+        _type = type;
         _sprite = sprite;
         _solid = solid;
         _color = color;
@@ -16,6 +17,11 @@ abstract class Tile
         _solid = false;
         _color = Color.red;
         _backgroundColor = Color.white;
+    }
+
+    TileType type() const @property
+    {
+        return _type;
     }
 
     auto sprite() const @property
@@ -39,6 +45,7 @@ abstract class Tile
     }
 
 private:
+    TileType _type;
     dchar _sprite;
     bool _solid;
     Color _color, _backgroundColor;

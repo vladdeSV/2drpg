@@ -9,6 +9,8 @@ import tile;
 import misc;
 
 import thought;
+import thought_time;
+import thought_distance;
 import probar;
 
 //import std.stdio;
@@ -16,6 +18,9 @@ import std.conv : to;
 import std.algorithm : min;
 import std.random : Random;
 import std.string : wrap;
+import std.array : split;
+
+import std.stdio;
 
 void main()
 {
@@ -34,7 +39,25 @@ void main()
     auto frame = Game.frame;
     auto player = Game.world.player;
 
-    initPlayerThoughts();
+    player.addTimeThought(2, "...",
+    {
+        player.addTimeThought(4, "Where am I?",
+        {
+            player.setColor(Color.blue);
+            player.addTimeThought(2, "Or rather...",
+            {
+                player.addTimeThought(4, "Who am I?",
+                {
+                    player.setColor(Color.yellow);
+                }
+                );
+            }
+            );
+        }
+        );
+    }
+    );
+
     updater.resetUpdates();
 
     while(Game.running)
@@ -105,9 +128,12 @@ void main()
         }
 
         string[] mems;
-        foreach_reverse(s; player.memories)
+        foreach_reverse(ref t; player.thoughts)
         {
-            mems ~= MessageThought(s).lines;
+            if(t.completed)
+            {
+                mems ~= split(t.thought.wrap(sidebarWidth - 2), '\n');
+            }
         }
         int thoughtsStart = 2;
         foreach(n, s; mems)
@@ -129,16 +155,4 @@ void main()
     frame.clear();
     frame.print();
     sconeClose();
-}
-
-void initPlayerThoughts()
-{
-    Game.world.player.thoughts =
-    [
-        timeThought(2, "Where am I?",
-            timeThought(10, "...",
-                timeThought(5, "Who am I?"))),
-
-        distanceThought(1000, "I've walked quite far."),
-    ];
 }

@@ -59,7 +59,7 @@ class TileGrass : Tile
             }
         }
 
-        super(s,c,Color.green_dark);
+        super(TileType.grass,s,c,Color.green_dark);
         //int grassType = uniform(0, 5, Game.gen);
         //char grassSprite = ' ';
         //if(grassType < 2)
