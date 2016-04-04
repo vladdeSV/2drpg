@@ -13,7 +13,6 @@ import thought_time;
 import thought_distance;
 import probar;
 
-//import std.stdio;
 import std.conv : to;
 import std.algorithm : min;
 import std.random : Random;
@@ -25,13 +24,11 @@ import std.stdio;
 void main()
 {
     sconeInit();
-
     Game.running = true;
-    Game.frame = new Frame(80,24);
-    Game.frame.print();
 
-    Game.gen = Random(Game.seed = 5);
+    Game.frame = new Frame(80,24);
     Game.world = new World();
+    Game.gen = Random(Game.seed = 5);
 
     Updater updater = Updater(updateInterval);
     auto cam = Rect(0, 0, 50, 24);
@@ -39,26 +36,10 @@ void main()
     auto frame = Game.frame;
     auto player = Game.world.player;
 
-    player.addTimeThought(2, "...",
-    {
-        player.addTimeThought(4, "Where am I?",
-        {
-            player.setColor(Color.blue);
-            player.addTimeThought(2, "Or rather...",
-            {
-                player.addTimeThought(4, "Who am I?",
-                {
-                    player.setColor(Color.yellow);
-                }
-                );
-            }
-            );
-        }
-        );
-    }
-    );
-
+    Game.frame.print();
     updater.resetUpdates();
+
+    string[] mems;
 
     while(Game.running)
     {
@@ -127,12 +108,12 @@ void main()
             }
         }
 
-        string[] mems;
         foreach_reverse(ref t; player.thoughts)
         {
             if(t.completed)
             {
-                mems ~= split(t.thought.wrap(sidebarWidth - 2), '\n');
+                mems = split(t.thought.wrap(sidebarWidth - 2), '\n') ~ mems;
+                t.disable();
             }
         }
         int thoughtsStart = 2;

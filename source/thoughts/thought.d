@@ -1,21 +1,24 @@
 import game;
 import misc;
 
+import thought_time;
+import thought_distance;
+
 abstract class Thought
 {
-    this(string thought, void delegate() special)
+    this(string thought, void delegate() event)
     {
         _thought = thought;
-        _special = special;
+        _event = event;
     }
 
     bool check()
     {
         if(!_completed && finalCheck())
         {
-            if(_special !is null)
+            if(_event !is null)
             {
-                _special();
+                _event();
             }
             return _completed = true;
         }
@@ -32,12 +35,20 @@ abstract class Thought
 
     bool completed() @property
     {
-        return _completed;
+        return _completed && !_disabled;
+    }
+
+    void disable()
+    {
+        _disabled = true;
     }
 
     bool finalCheck();
 
     private string _thought;
     private bool _completed = false;
-    private void delegate() _special;
+    private bool _disabled = false;
+    private void delegate() _event;
 }
+
+//gö en array av events, varpå du ändast läseer av id:S från gdrive.

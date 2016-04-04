@@ -21,6 +21,7 @@ import misc;
 import std.random;
 import std.algorithm;
 import std.traits;
+import std.conv : to;
 
 class World
 {
@@ -39,6 +40,28 @@ class World
 
         addEntity(player);
         addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]));
+
+        Color oPlayerColor = player.color;
+
+        player.addTimeThought(2, "...",
+        {
+            player.addTimeThought(4, "Where am I?",
+            {
+                player.setColor(Color.blue);
+                player.addTimeThought(2, "Or rather...",
+                {
+                    player.addTimeThought(4, "Who am I?",
+                    {
+                        player.setColor(oPlayerColor);
+                        player.addTimeThought(5, "My name is " ~ to!string(player.name));
+                    }
+                    );
+                }
+                );
+            }
+            );
+        }
+        );
     }
 
     void update()
