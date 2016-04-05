@@ -43,7 +43,7 @@ class World
         player = new EntityPlayer(108, 150);
 
         addEntity(player);
-        addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]));
+        addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "Afromannen", 10, [Attributes.strength : 1]));
 
         events =
         [

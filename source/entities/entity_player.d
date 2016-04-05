@@ -183,6 +183,8 @@ class EntityPlayer : EntityLiving
     int flowers, trees;
     int memory = 20;
     float distanceMoved = 0;
+    float warmth = 6; //Heat goes from 0 to 10
+
     bool[string] remembered;
 
 private:

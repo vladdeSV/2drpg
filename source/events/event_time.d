@@ -4,10 +4,10 @@ import misc : secondsFromTicks;
 
 class EventTime : Event
 {
-    this(int secondsSinceInit, void delegate() event)
+    this(int secondsSinceInit, void delegate() event, int delay)
     {
         _seconds = secondsSinceInit + secondsFromTicks(Game.ticks);
-        super(event);
+        super(event, delay);
     }
 
     override bool finalCheck()
@@ -18,8 +18,8 @@ class EventTime : Event
     private int _seconds;
 }
 
-auto timeEvent(int time, void delegate() del = null)
+auto timeEvent(int time, void delegate() event = null, int delay = 0)
 {
-    return new EventTime(time, del);
+    return new EventTime(time, event, delay);
 }
 
