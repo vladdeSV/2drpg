@@ -8,9 +8,9 @@ import world;
 import tile;
 import misc;
 
-import thought;
-import thought_time;
-import thought_distance;
+import event;
+import event_time;
+import event_distance;
 import probar;
 
 import std.conv : to;
@@ -108,20 +108,12 @@ void main()
             }
         }
 
-        foreach_reverse(ref t; player.thoughts)
+        int eventsStart = 2;
+        foreach(n, s; Game.world.player.thoughts)
         {
-            if(t.completed)
+            if(n + eventsStart < cam.h - 4)
             {
-                mems = split(t.thought.wrap(sidebarWidth - 2), '\n') ~ mems;
-                t.disable();
-            }
-        }
-        int thoughtsStart = 2;
-        foreach(n, s; mems)
-        {
-            if(n + thoughtsStart < cam.h - 4)
-            {
-                frame.write(52, n + thoughtsStart, s);
+                frame.write(52, n + eventsStart, s);
             }
             else
             {

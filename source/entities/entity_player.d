@@ -5,12 +5,14 @@ import game;
 import misc;
 import tile_water;
 
-import thought;
-import thought_time;
-import thought_distance;
+import event;
+import event_time;
+import event_distance;
 
 import std.algorithm;
 import std.math;
+import std.string : wrap;
+import std.array : split;
 
 enum velPlayer = 0.1;
 enum velPlayerRunning = 0.1;
@@ -170,12 +172,12 @@ class EntityPlayer : EntityLiving
             }
         }
 
-        foreach(ref t; thoughts)
-        {
-            t.check();
-        }
-
         super.update();
+    }
+
+    auto addThought(string thought)
+    {
+        _thoughts = split(thought.wrap(sidebarWidth - 2), '\n') ~ _thoughts;
     }
 
     int flowers, trees;
@@ -184,29 +186,9 @@ class EntityPlayer : EntityLiving
     bool[string] remembered;
 
 private:
-
     //gö en array av events, varpå du ändast läseer av id:S från gdrive.
-    Thought[] _thoughts/* =
-    [
-        timeThought(2, "...",
-        {
-            timeThought(4, "Where am I?",
-            {
-                timeThought(2, "Or rather...",
-                {
-                    timeThought(4, "Who am I?",
-                    {
-                        timeThought(5, "My name is " ~ to!string(player.name));
-                    }
-                    );
-                }
-                );
-            }
-            );
-        }
-        );
-    ]*/;
+    string[] _thoughts;
     bool _firstMove;
     bool _running;
-
 }
+

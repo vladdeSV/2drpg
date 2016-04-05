@@ -13,6 +13,10 @@ import tile_grass;
 import tile_tree;
 import tile_bush;
 
+import event;
+import event_time;
+import event_distance;
+
 import enums;
 import game;
 import perlin;
@@ -41,13 +45,78 @@ class World
         addEntity(player);
         addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "lol", 10, [Attributes.strength : 1]));
 
-        Color oPlayerColor = player.color;
-
-
+        events =
+        [
+            timeEvent(2, {
+                Game.world.player.addThought("Where am I?");
+            }),
+            timeEvent(8, {
+                Game.world.player.addThought("lorem ipsum dolor sit amet swagbpys in the house");
+            }),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+            //createEvent({
+            //    Game.world.player.addThought("");
+            //}),
+        ];
     }
 
     void update()
     {
+        foreach(ref e; events)
+        {
+            e.check();
+        }
+
         player.update();
     }
 
@@ -68,6 +137,7 @@ class World
     }
 
     EntityPlayer player;
+    Event[] events;
 
 private:
     Chunk[worldSize][worldSize] _chunks;
@@ -162,3 +232,4 @@ private:
     int _cx, _cy;
     Tile[chunkSize][chunkSize] _tiles, _tilesPlaced;
 }
+
