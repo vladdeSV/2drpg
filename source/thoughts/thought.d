@@ -50,5 +50,3 @@ abstract class Thought
     private bool _disabled = false;
     private void delegate() _event;
 }
-
-//gö en array av events, varpå du ändast läseer av id:S från gdrive.

@@ -183,19 +183,29 @@ class EntityPlayer : EntityLiving
     float distanceMoved = 0;
     bool[string] remembered;
 
-    auto addTimeThought(int time, string thought, void delegate() del = null)
-    {
-        _thoughts ~= new ThoughtTime(time, thought, del);
-    }
-
-    auto addDistanceThought(float distance, string thought, void delegate() del = null)
-    {
-        _thoughts ~= new ThoughtDistance(distance, thought, del);
-    }
-
-
 private:
-    Thought[] _thoughts;
+
+    //gö en array av events, varpå du ändast läseer av id:S från gdrive.
+    Thought[] _thoughts/* =
+    [
+        timeThought(2, "...",
+        {
+            timeThought(4, "Where am I?",
+            {
+                timeThought(2, "Or rather...",
+                {
+                    timeThought(4, "Who am I?",
+                    {
+                        timeThought(5, "My name is " ~ to!string(player.name));
+                    }
+                    );
+                }
+                );
+            }
+            );
+        }
+        );
+    ]*/;
     bool _firstMove;
     bool _running;
 

@@ -17,3 +17,9 @@ class ThoughtTime : Thought
 
     private int _seconds;
 }
+
+auto timeThought(int time, string thought, void delegate() del = null)
+{
+    return new ThoughtTime(time, thought, del);
+}
+

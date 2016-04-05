@@ -17,7 +17,7 @@ class ThoughtDistance : Thought
     private float _distance;
 }
 
-ThoughtDistance distanceThought(float distance, string thought)
+auto distanceThought(float distance, string thought, void delegate() del = null)
 {
-    return new ThoughtDistance(distance, thought);
+    return new ThoughtDistance(distance, thought, del);
 }
