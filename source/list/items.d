@@ -13,11 +13,13 @@ import item_weapon;
 import item_armor;
 import item_consumable;
 import item_misc;
+import item_material;
 
 immutable static ItemWeapon[string] ListItemWeapon;
 immutable static ItemConsumable[string] ListItemConsumable;
 immutable static ItemArmor[string] ListItemArmor;
 immutable static ItemMisc[string] ListItemMisc;
+immutable static ItemMaterial[string] ListItemMaterial;
 
 shared static this()
 {
@@ -64,4 +66,10 @@ shared static this()
 
         ListItemMisc[refId] = cast(immutable) createMiscItem(name);
     }
+
+    ListItemMaterial = cast(immutable)
+    [
+        "wood" : new ItemMaterial("Wood", Material.wood),
+        "stone" : new ItemMaterial("Stone", Material.stone),
+    ];
 }
