@@ -2,10 +2,9 @@ import enums;
 
 abstract class Item
 {
-    this(string name, int value)
+    this(string name)
     {
         _name = name;
-        _value = value;
     }
 
     auto name() const @property
@@ -13,12 +12,6 @@ abstract class Item
         return _name;
     }
 
-    auto value() const @property
-    {
-        return _value;
-    }
-
 private:
     string _name;
-    int _value;
 }

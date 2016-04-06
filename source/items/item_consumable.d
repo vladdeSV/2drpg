@@ -5,9 +5,9 @@ import std.conv : to;
 
 class ItemConsumable : Item
 {
-    this(string name, int healing, int value)
+    this(string name, int healing)
     {
-        super(name, value);
+        super(name);
         _healing = healing;
     }
 
@@ -24,7 +24,7 @@ private:
  * Create consumable.
  * Return: ItemConsumable
  */
-ItemConsumable createConsumable(string name, int healing, int value)
+ItemConsumable createConsumable(string name, int healing)
 {
-    return new ItemConsumable(name, healing, value);
+    return new ItemConsumable(name, healing);
 }

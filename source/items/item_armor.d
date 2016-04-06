@@ -6,9 +6,9 @@ import std.conv : to;
 
 class ItemArmor : ItemEquipable
 {
-    this(string name, ArmorType type, Material material, int[Attributes] stats, int value)
+    this(string name, ArmorType type, Material material, int[Attributes] stats)
     {
-        super(name, material, stats, value);
+        super(name, material, stats);
         _armorType = type;
     }
 
@@ -25,7 +25,7 @@ private:
  * Create armor. If name is null, name becomes "material + type".
  * Return: ItemArmor
  */
-ItemArmor createArmor(string name, ArmorType type, Material material, int[Attributes] stats, int value)
+ItemArmor createArmor(string name, ArmorType type, Material material, int[Attributes] stats)
 {
-    return new ItemArmor(name, type, material, stats, value);
+    return new ItemArmor(name, type, material, stats);
 }

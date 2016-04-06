@@ -3,9 +3,9 @@ import enums;
 
 abstract class ItemEquipable : Item
 {
-    this(string name, Material material, int[Attributes] stats, int value)
+    this(string name, Material material, int[Attributes] stats)
     {
-        super(name, value);
+        super(name);
         _material = material;
         _stats = cast(int[Attributes]) stats;
     }

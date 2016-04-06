@@ -5,9 +5,9 @@ import std.conv : to;
 
 class ItemMisc : Item
 {
-    this(string name, int value)
+    this(string name)
     {
-        super(name, value);
+        super(name);
     }
 }
 
@@ -15,7 +15,7 @@ class ItemMisc : Item
  * Create misc item.
  * Return: ItemMisc
  */
-ItemMisc createMiscItem(string name, int value)
+ItemMisc createMiscItem(string name)
 {
-    return new ItemMisc(name, value);
+    return new ItemMisc(name);
 }
