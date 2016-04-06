@@ -1,5 +1,6 @@
 import entity;
 import enums;
+import item;
 import std.traits;
 
 class EntityLiving : Entity
@@ -28,6 +29,8 @@ class EntityLiving : Entity
     {
         return _stats;
     }
+
+    Item[] items;
 
 private:
     string _name;

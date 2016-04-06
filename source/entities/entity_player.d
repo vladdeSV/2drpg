@@ -170,6 +170,10 @@ class EntityPlayer : EntityLiving
                     removeFlag(_movingDirection, Direction.right);
                 }
             }
+            else if(input.key == SK.e)
+            {
+                Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this);
+            }
         }
 
         super.update();
