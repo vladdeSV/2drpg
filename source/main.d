@@ -111,9 +111,10 @@ void main()
         int eventsStart = 2;
         foreach(n, s; Game.world.player.thoughts)
         {
-            if(n + eventsStart < cam.h - 4)
+            int position = eventsStart + n;
+            if(position < cam.h - 2)
             {
-                frame.write(52, n + eventsStart, s);
+                frame.write(52, position, s);
             }
             else
             {

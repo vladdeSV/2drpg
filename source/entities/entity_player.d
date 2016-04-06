@@ -188,7 +188,6 @@ class EntityPlayer : EntityLiving
     bool[string] remembered;
 
 private:
-    //gö en array av events, varpå du ändast läseer av id:S från gdrive.
     string[] _thoughts;
     bool _firstMove;
     bool _running;

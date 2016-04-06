@@ -1,10 +1,11 @@
 import game;
 import misc;
 
-import event_time;
-import event_distance;
+public import event_time;
+public import event_distance;
+public import event_check;
 
-class Event
+abstract class Event
 {
     this(void delegate() event, int repeatDelay = 0)
     {
@@ -43,9 +44,4 @@ class Event
     private int _timeUntilActive, _repeatDelay;
     private bool _completed = false;
     private void delegate() _event;
-}
-
-auto createEvent(void delegate() event)
-{
-    return new Event(event);
 }
