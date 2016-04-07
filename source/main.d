@@ -24,11 +24,9 @@ import std.stdio;
 void main()
 {
     sconeInit();
-    Game.running = true;
 
     Game.frame = new Frame(80,24);
     Game.world = new World();
-    Game.gen = Random(Game.seed = 5);
 
     Updater updater = Updater(updateInterval);
     auto cam = Rect(0, 0, 50, 24);
@@ -41,6 +39,7 @@ void main()
 
     string[] mems;
 
+    Game.running = true;
     while(Game.running)
     {
         frame.clear();
@@ -55,8 +54,8 @@ void main()
         //<<
 
         //>>View of world
-        cam.x = cast(int)(player.globalLocation[0] / cam.w) * cam.w;
-        cam.y = cast(int)(player.globalLocation[1] / cam.h) * cam.h;
+        cam.x = cast(int) (player.globalLocation[0] / cam.w) * cam.w;
+        cam.y = cast(int) (player.globalLocation[1] / cam.h) * cam.h;
         foreach(int y; 0 .. cam.h)
         {
             foreach(int x; 0 .. cam.w)
@@ -97,7 +96,7 @@ void main()
         {
             foreach(int x; cam.w .. cam.w + sidebarWidth)
             {
-                if(!y || y == cam.h - 1)
+                if(!y || y == cam.h - 1 || y == cam.h - 7)
                 {
                     frame.write(x, y, fg(Color.black), bg(Color.black_dark), '#');
                 }
@@ -112,9 +111,9 @@ void main()
         foreach(n, s; Game.world.player.thoughts)
         {
             int position = eventsStart + n;
-            if(position < cam.h - 2)
+            if(position < cam.h - 8)
             {
-                frame.write(52, position, s);
+                frame.write(51, position, s);
             }
             else
             {

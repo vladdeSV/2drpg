@@ -5,7 +5,14 @@ class EventDistance : Event
 {
     this(float distanceAfterCurrentDistance, void delegate() event, int delay)
     {
-        _distance = distanceAfterCurrentDistance + Game.world.player.distanceMoved;
+        if(Game.running)
+        {
+            _distance = distanceAfterCurrentDistance + Game.world.player.distanceMoved;
+        }
+        else
+        {
+            _distance = distanceAfterCurrentDistance;
+        }
         super(event, delay);
     }
 
@@ -17,7 +24,7 @@ class EventDistance : Event
     private float _distance;
 }
 
-auto distanceEvent(float distance, void delegate() event, int delay)
+auto distanceEvent(float distance, void delegate() event, int delay = 0)
 {
     return new EventDistance(distance, event, delay);
 }

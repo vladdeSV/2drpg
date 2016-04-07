@@ -1,5 +1,5 @@
 import enums;
-import entity_player;
+public import entity_player;
 
 abstract class Tile
 {
@@ -45,10 +45,14 @@ abstract class Tile
         return _backgroundColor;
     }
 
-    void interact(EntityPlayer p) {}
+    bool interact(EntityPlayer p)
+    {
+        return false;
+    }
 protected:
     TileType _type;
     dchar _sprite;
     bool _solid;
     Color _color, _backgroundColor;
+    bool _picked;
 }

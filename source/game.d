@@ -10,6 +10,6 @@ struct Game
 
     static real ticks = 0;
 
-    static int seed;
+    static int seed = 5;
     static Random gen;
 }

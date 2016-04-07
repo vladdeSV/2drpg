@@ -12,6 +12,7 @@ import tile_mountain;
 import tile_grass;
 import tile_tree;
 import tile_bush;
+import tile_barrier;
 
 import event;
 import event_time;
@@ -43,41 +44,17 @@ class World
         player = new EntityPlayer(108, 150);
 
         addEntity(player);
-        addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "Afromannen", 10, [Attributes.strength : 1]));
+        addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "Afromannen", 10));
 
         //gör en array av events, varpå du endast läseer av ID från Google Drive
         events =
         [
             timeEvent(2, {
-                Game.world.player.addThought("Where am I?");
-            }),
-            timeEvent(8, {
-                Game.world.player.addThought("lorem ipsum dolor sit amet swagbpys in the house yes really coos as well");
-            }),
-            timeEvent(6, {
-                Game.world.player.addThought("fakk ma kaffe for hur schloen ska detta fA plats pa en rad");
-            }),
-            timeEvent(3, {
-                Game.world.player.addThought("pfpsmf");
-            }),
-            timeEvent(7, {
-                Game.world.player.addThought("el kafferino");
-            }),
-            timeEvent(2, {
-                Game.world.player.addThought("el kafferino is the way to go when you're tired!");
-            }),
-            timeEvent(4, {
-                Game.world.player.addThought("el kafferino is what my firend Fredirk saays");
-            }),
-            timeEvent(1, {
-                Game.world.player.addThought("lorem ipsum dolor sit amet swagbpys in the house");
-            }),
-            timeEvent(2, {
-                Game.world.player.addThought("mmmm, i really lilke rusty spoons");
+               player.addThought(player.name);
             }),
             checkEvent(
             {
-                return Game.world.player.warmth < 3;
+                return player.warmth < 3;
             },
             {
                 if(player.warmth < 1)
@@ -94,34 +71,46 @@ class World
                 return player.warmth > 9;
             },
             {
-                Game.world.player.addThought("It's hot!");
+               player.addThought("It's hot!");
             }, 4),
+            distanceEvent(1_000,
+            {
+               player.addThought("I've walked quite far, what is the point?");
+            }),
+            distanceEvent(10_000,
+            {
+               player.addThought("Why do I keep on walking? Why do I keep on keeping on?");
+            }),
+            distanceEvent(100_000,
+            {
+               player.addThought("I have walked for so long but even now it doesn't matter.");
+            }),
+            distanceEvent(1_000_000,
+            {
+               player.addThought("[We never planned for someone to walk this much, congrats, I guess] //Vladde och Fredde");
+            }),
+            checkEvent(
+            {
+                return player.health <=player.maxHealth * 0.5;
+            },
+            {
+               player.addThought("It's bloody. I should rest and eat something to recover.");
+            }, 60),
+            checkEvent(
+            {
+                return player.health <=player.maxHealth * 0.25;
+            },
+            {
+               player.addThought("It's bloody. I should rest and eat something to recover.");
+            }, 60),
             //checkEvent({
-            //    Game.world.player.addThought("");
+            //   player.addThought("");
             //}),
             //checkEvent({
-            //    Game.world.player.addThought("");
+            //   player.addThought("");
             //}),
             //checkEvent({
-            //    Game.world.player.addThought("");
-            //}),
-            //checkEvent({
-            //    Game.world.player.addThought("");
-            //}),
-            //checkEvent({
-            //    Game.world.player.addThought("");
-            //}),
-            //checkEvent({
-            //    Game.world.player.addThought("");
-            //}),
-            //checkEvent({
-            //    Game.world.player.addThought("");
-            //}),
-            //checkEvent({
-            //    Game.world.player.addThought("");
-            //}),
-            //checkEvent({
-            //    Game.world.player.addThought("");
+            //   player.addThought("");
             //}),
         ];
     }
@@ -168,6 +157,11 @@ class Chunk
         {
             foreach(int tx, ref t; row)
             {
+                if((!cx && !tx) || (!cy && !ty) || (cx == worldSize - 1 && tx == chunkSize - 1) || (cy == worldSize - 1 && ty == chunkSize - 1))
+                {
+                    t = new TileBarrier();
+                    continue;
+                }
                 float val =     scaled_octave_noise_2d(2, 1, 0.02, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
                 float treeVal = scaled_octave_noise_2d(1, 1, 0.05, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
                 float sandVal = scaled_octave_noise_2d(1, 1, 0.01, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);

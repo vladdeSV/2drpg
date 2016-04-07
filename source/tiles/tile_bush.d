@@ -1,8 +1,8 @@
 import tile;
 import enums;
 import items;
-import item;
 import entity_player;
+import misc;
 
 class TileBush : Tile
 {
@@ -11,17 +11,33 @@ class TileBush : Tile
         super(TileType.tree, char(5), Color.magenta, Color.green_dark);
     }
 
-    override void interact(EntityPlayer p)
+    override bool interact(EntityPlayer p)
     {
         if(!_picked)
         {
-            p.addThought("Berries");
-            p.items ~= cast(Item)ListItemConsumable["strawberries"];
+            int berriesGot = random(2) + 2;
+
+            if(!p.remember("berries"))
+            {
+                p.addThought("These looks like edible berries.");
+            }
+            else
+            {
+                p.addThought([
+                    "Look, more berries.",
+                    "Oh, berries.",
+                    "I like berries.",
+                    "Berries are yummy.",
+                ]);
+            }
+
+            p.berries += berriesGot;
+
             _picked = true;
             _sprite = '1';
             _color = Color.yellow_dark;
+            return true;
         }
+        return false;
     }
-
-    private bool _picked;
 }

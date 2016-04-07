@@ -9,10 +9,13 @@ import event;
 import event_time;
 import event_distance;
 
+import names;
+
 import std.algorithm;
 import std.math;
 import std.string : wrap;
 import std.array : split;
+import std.random;
 
 enum velPlayer = 0.1;
 enum velPlayerRunning = 0.1;
@@ -22,11 +25,22 @@ class EntityPlayer : EntityLiving
     //this(int x, int y, char sprite, Color color, string name, int maxHealth, int[Attributes] stats)
     this(int x, int y)
     {
-        super(x, y, char(1), Color.yellow, "Hermando", 10, [Attributes.strength : 150, Attributes.intelligence : -15]);
+        super(x, y, char(1), Color.yellow, ListName[random($)], 10);
 
-        remembered["tree"] = false;
-        remembered["flowers"] = false;
-        remembered["moving"] = false;
+        foreach(ref s;
+        [
+            "tree",
+            "berries",
+            "stone",
+            "grass",
+            "fire",
+            "berrystick",
+            "treehurt"
+        ]
+        )
+        {
+            remembered[s] = false;
+        }
 
     }
 
@@ -54,18 +68,22 @@ class EntityPlayer : EntityLiving
         if(hasFlag(dir, Direction.up))
         {
             ny -= _firstMove ? 0.6 : vel;
+            _lookingDirection = dir;
         }
         if(hasFlag(dir, Direction.down))
         {
             ny += _firstMove ? 0.6 : vel;
+            _lookingDirection = dir;
         }
         if(hasFlag(dir, Direction.left))
         {
             nx -= _firstMove ? 0.6 : vel;
+            _lookingDirection = dir;
         }
         if(hasFlag(dir, Direction.right))
         {
             nx += _firstMove ? 0.6 : vel;
+            _lookingDirection = dir;
         }
         //<<
 
@@ -170,21 +188,69 @@ class EntityPlayer : EntityLiving
                     removeFlag(_movingDirection, Direction.right);
                 }
             }
-            else if(input.key == SK.e)
+            else if(input.key == SK.e && input.pressed)
             {
-                Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this);
+                if(!Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this))
+                {
+                    int nx = cast(int) _gx, ny = cast(int) _gy;
+                    if(_lookingDirection == Direction.up)
+                    {
+                        --ny;
+                    }
+                    else if(_lookingDirection == Direction.down)
+                    {
+                        ++ny;
+                    }
+                    else if(_lookingDirection == Direction.left)
+                    {
+                        --nx;
+                    }
+                    else if(_lookingDirection == Direction.right)
+                    {
+                        ++nx;
+                    }
+
+                    Game.world.getChunkAtLocation(nx, ny).getTile(nx % chunkSize, ny % chunkSize).interact(this);
+                }
             }
         }
 
         super.update();
     }
 
-    auto addThought(string thought)
+    void addThought(string thought)
     {
-        _thoughts = split(thought.wrap(sidebarWidth - 2), '\n') ~ _thoughts;
+        addThought([thought]);
     }
 
-    int flowers, trees;
+    void addThought(string[] thoughts)
+    {
+        auto thought = thoughts[random($)];
+        if(thought != "")
+        {
+            _thoughts = split(thought.wrap(sidebarWidth - 2), '\n') ~ _thoughts;
+        }
+    }
+
+    bool remember(string s)
+    {
+        if(remembered[s])
+        {
+            return true;
+        }
+        else
+        {
+            auto ans = remembered[s];
+            remembered[s] = true;
+            return ans;
+        }
+
+    }
+
+    //item count
+    int grass, stones, trees, berries;
+    //stats count
+    uint firesLit, housesBuilt;
     int memory = 20;
     float distanceMoved = 0;
     float warmth = 6; //Heat goes from 0 to 10

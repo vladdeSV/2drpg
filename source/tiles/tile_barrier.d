@@ -4,18 +4,18 @@ import misc;
 
 import std.random;
 
-class TileGrass : Tile
+class TileBarrier : Tile
 {
     this()
     {
-        bool chanceGrass = chance(4);
+        bool c = chance(4);
         char s = ' ';
 
-        if(chanceGrass)
+        if(c)
         {
             s = chance(2) ? '.' : ',';
         }
 
-        super(TileType.grass, s, Color.green, Color.green_dark);
+        super(TileType.grass, s, Color.magenta_dark, Color.black_dark, true);
     }
 }
