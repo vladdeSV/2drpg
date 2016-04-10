@@ -1,15 +1,15 @@
-import scone;
 import world;
-import std.random;
+import entity_player;
+
+import std.random : Random;
 
 struct Game
 {
-    static bool running;
-    static Frame frame;
+    static real ticks;
+
     static World world;
+    static EntityPlayer player;
 
-    static real ticks = 0;
-
-    static int seed = 5;
     static Random gen;
+    static int seed;
 }

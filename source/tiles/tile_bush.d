@@ -2,7 +2,8 @@ import tile;
 import enums;
 import items;
 import entity_player;
-import misc;
+import random;
+import items;
 
 class TileBush : Tile
 {
@@ -11,11 +12,27 @@ class TileBush : Tile
         super(TileType.tree, char(5), Color.magenta, Color.green_dark);
     }
 
-    override bool interact(EntityPlayer p)
+    override void interact(EntityPlayer p)
     {
-        if(!_picked)
+        if(!_picked && !p.inventoryFull())
         {
-            int berriesGot = random(2) + 2;
+            int berriesGot = random(2) + 1;
+
+            string berryName;
+
+            switch(random(3))
+            {
+                default:
+                case 0:
+                berryName = "strawberries";
+                break;
+                case 1:
+                berryName = "blueberries";
+                break;
+                case 2:
+                berryName = "raspberries";
+                break;
+            }
 
             if(!p.remember("berries"))
             {
@@ -31,13 +48,15 @@ class TileBush : Tile
                 ]);
             }
 
-            p.berries += berriesGot;
+            p.addItem(ListItemConsumable[berryName]);
 
             _picked = true;
             _sprite = '1';
             _color = Color.yellow_dark;
-            return true;
         }
-        return false;
+        else
+        {
+            p.addThought("My pockets do not fit more berries.");
+        }
     }
 }

@@ -1,36 +1,10 @@
-import scone;
-
-import entity;
-import entity_living;
-import entity_object;
-import entity_player;
-
-import tile;
-import tile_sand;
-import tile_water;
-import tile_mountain;
-import tile_grass;
-import tile_tree;
-import tile_bush;
-import tile_barrier;
-
-import event;
-import event_time;
-import event_distance;
-
 import enums;
-import game;
-import perlin;
-import misc;
-
-import std.random;
-import std.algorithm;
-import std.traits;
-import std.conv : to;
+import entity;
+import entity_player;
 
 class World
 {
-    this()
+this()
     {
         //Init all chunks
         foreach(int cx, ref row; _chunks)
@@ -72,10 +46,10 @@ class World
             },
             {
                player.addThought("It's hot!");
-            }, 4),
+            }, 20),
             distanceEvent(1_000,
             {
-               player.addThought("I've walked quite far, what is the point?");
+               player.addThought("I've walked quite far.");
             }),
             distanceEvent(10_000,
             {
@@ -91,14 +65,14 @@ class World
             }),
             checkEvent(
             {
-                return player.health <=player.maxHealth * 0.5;
+                return player.health <= player.maxHealth * 0.5;
             },
             {
-               player.addThought("It's bloody. I should rest and eat something to recover.");
+               player.addThought("I'm a bit hurt.");
             }, 60),
             checkEvent(
             {
-                return player.health <=player.maxHealth * 0.25;
+                return player.health <= player.maxHealth * 0.25;
             },
             {
                player.addThought("It's bloody. I should rest and eat something to recover.");
@@ -141,12 +115,11 @@ class World
         getChunkAtLocation(ex, ey).entities ~= e;
     }
 
-    EntityPlayer player;
-    Event[] events;
-
 private:
     Chunk[worldSize][worldSize] _chunks;
+    Event[] _events;
 }
+
 
 class Chunk
 {
@@ -242,4 +215,5 @@ private:
     int _cx, _cy;
     Tile[chunkSize][chunkSize] _tiles, _tilesPlaced;
 }
+
 

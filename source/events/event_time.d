@@ -1,6 +1,6 @@
 import game;
 import event;
-import misc : secondsFromTicks;
+import time : secondsFromTicks;
 
 class EventTime : Event
 {

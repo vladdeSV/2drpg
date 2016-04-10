@@ -12,14 +12,6 @@ abstract class Tile
         _backgroundColor = backgroundColor;
     }
 
-    this()
-    {
-        _sprite = '?';
-        _solid = false;
-        _color = Color.red;
-        _backgroundColor = Color.white;
-    }
-
     TileType type() const @property
     {
         return _type;
@@ -45,10 +37,8 @@ abstract class Tile
         return _backgroundColor;
     }
 
-    bool interact(EntityPlayer p)
-    {
-        return false;
-    }
+    void interact(EntityPlayer p) {}
+
 protected:
     TileType _type;
     dchar _sprite;

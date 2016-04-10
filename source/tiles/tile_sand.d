@@ -1,7 +1,8 @@
 import tile;
 import enums;
 import game;
-import misc;
+import random;
+import items;
 
 import std.random;
 
@@ -21,7 +22,7 @@ class TileSand : Tile
 
     override bool interact(EntityPlayer p)
     {
-        if(!_picked)
+        if(!_picked && !p.inventoryFull())
         {
             if(!p.remember("stone"))
             {
@@ -39,12 +40,10 @@ class TileSand : Tile
                 ]);
             }
 
-            p.stones += 1;
+            p.addItem(ListItemMisc["stone"]);
 
             _sprite = ' ';
             _picked = true;
-            return true;
         }
-        return false;
     }
 }

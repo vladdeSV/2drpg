@@ -1,10 +1,5 @@
-import enums;
-import names;
 import game;
-import misc;
-
-import std.algorithm.mutation : remove;
-import std.random;
+import enums;
 
 abstract class Entity
 {
@@ -20,88 +15,13 @@ abstract class Entity
         _lookingDirection = cast(Direction) uniform(1, 5);
     }
 
-    void move(Direction dir)
-    {
-        int ny, nx;
-        if(hasFlag(dir, Direction.up))
-        {
-            ny -= 1;
-        }
-        if(hasFlag(dir, Direction.down))
-        {
-            ny += 1;
-        }
-        if(hasFlag(dir, Direction.left))
-        {
-            nx -= 1;
-        }
-        if(hasFlag(dir, Direction.right))
-        {
-            nx += 1;
-        }
-
-        //Check x axis
-        if
-        (
-            !(nx < 0 || nx > chunkSize * worldSize) &&
-            !Game.world
-            .getChunk(cast(int)(nx / chunkSize), cast(int)(_gy / chunkSize))
-            .getTile(nx % chunkSize, cast(int) _gy % chunkSize)
-            .solid
-        )
-        {
-            _gx = nx;
-        }
-
-        //Check y axis
-        if
-        (
-            !(ny < 0 && chunkSize * worldSize) &&
-            !Game.world
-            .getChunk(cast(int)(_gx / chunkSize), cast(int)(ny / chunkSize))
-            .getTile(cast(int) _gx % chunkSize, ny % chunkSize)
-            .solid
-        )
-        {
-            _gy = ny;
-        }
-    }
-
-
-    void update()
-    {
-        move(_movingDirection);
-
-        if(chunkLocation[0] != _tcx || chunkLocation[1] != _tcy)
-        {
-            foreach (n, e; Game.world.getChunk(_tcx, _tcy).entities)
-            {
-                if(this is e)
-                {
-                    Game.world.getChunk(_tcx, _tcy).entities = remove(Game.world.getChunk(_tcx, _tcy).entities, n);
-                    break;
-                }
-            }
-
-            Game.world.getChunk(chunkLocation[0], chunkLocation[1]).entities ~= this;
-        }
-
-        _tcx = chunkLocation[0];
-        _tcy = chunkLocation[1];
-    }
-
     ///Returns: int[x, y]
     auto globalLocation() const @property
     {
         return [cast(int)_gx, cast(int)_gy];
     }
 
-    auto localLocation() const @property
-    {
-        return [cast(int)_gx % chunkSize, cast(int)_gy % chunkSize];
-    }
-
-    auto chunkLocation()
+    auto chunkLocation() const @property
     {
         return [cast(int)(_gx / chunkSize), cast(int)(_gy / chunkSize)];
     }
@@ -116,19 +36,29 @@ abstract class Entity
         return _color;
     }
 
-    auto setColor(Color c)
+    float velocity() const @property
     {
-        _color = c;
+        return _moveVelocity;
     }
 
-protected:
-    ///Global x and y coordinates
-    float _gx, _gy;
-    ///Current chunk location
-    int _tcx, _tcy;
-    char _sprite;
-    Color _color;
+    Direction movingDirection() const @property
+    {
+        return _movingDirection;
+    }
 
-    Direction _movingDirection;
-    Direction _lookingDirection;
+    Direction lookingDirection() const @property
+    {
+        return _lookingDirection;
+    }
+
+    ///Global x and y coordinates
+    private float _gx, _gy;
+    private char _sprite;
+    private Color _color;
+    private int _ccx, _ccy;
+
+    ///Current chunk location
+    private float _moveVelocity;
+    private Direction _movingDirection;
+    private Direction _lookingDirection;
 }

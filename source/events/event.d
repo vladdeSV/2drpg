@@ -1,5 +1,5 @@
 import game;
-import misc;
+import time : secondsFromTicks;
 
 public import event_time;
 public import event_distance;
