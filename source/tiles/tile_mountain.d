@@ -8,7 +8,6 @@ class TileMountain : Tile
 {
     this(float val)
     {
-
         if(val < 8)
         {
             super(TileType.rock, uniform(0, 2, Game.gen) == 0 ? '.' : ' ', Color.white_dark, Color.black, true);

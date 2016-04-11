@@ -19,7 +19,7 @@ class TileSand : Tile
         super(TileType.sand, sprite, Color.yellow_dark, Color.yellow);
     }
 
-    override void interact(EntityPlayer p)
+    override bool interact(EntityPlayer p)
     {
         if(!_used && !p.inventoryFull())
         {
@@ -45,5 +45,6 @@ class TileSand : Tile
             _sprite = ' ';
             _used = true;
         }
+        return true;
     }
 }

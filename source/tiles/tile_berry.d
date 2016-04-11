@@ -1,7 +1,10 @@
 import tile;
 import enums;
 import slump;
+
 import entity_player;
+
+import item_berry;
 
 class TileBerry : Tile
 {
@@ -10,27 +13,11 @@ class TileBerry : Tile
         super(TileType.tree, char(5), Color.magenta, Color.green_dark);
     }
 
-    override void interact(EntityPlayer p)
+    override bool interact(EntityPlayer p)
     {
         if(!_used && !p.inventoryFull())
         {
             int berriesGot = random(2) + 1;
-
-            string berryName;
-
-            switch(random(3))
-            {
-                default:
-                case 0:
-                berryName = "strawberries";
-                break;
-                case 1:
-                berryName = "blueberries";
-                break;
-                case 2:
-                berryName = "raspberries";
-                break;
-            }
 
             if(!p.hasRemembered("berries"))
             {
@@ -48,7 +35,7 @@ class TileBerry : Tile
                 ]);
             }
 
-            //p.addItem(ListItemConsumable[berryName]);
+            p.addItem(new ItemBerry());
 
             _used = true;
             _sprite = '1';
@@ -58,5 +45,7 @@ class TileBerry : Tile
         {
             p.addThought("My pockets do not fit more berries.");
         }
+
+        return true;
     }
 }

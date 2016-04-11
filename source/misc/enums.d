@@ -2,7 +2,7 @@ public import scone.color;
 
 enum UPS = 60;
 
-enum worldSize = 20;
+enum worldSize = 4;
 enum chunkSize = 100;
 
 enum wView = 50;

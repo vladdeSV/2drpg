@@ -10,14 +10,28 @@ abstract class Item
         _color = color;
     }
 
-    void use(EntityPlayer player)
+    string name() const @property
+    {
+        return _name;
+    }
+
+    void use(EntityPlayer p)
     {
 
     }
 
-    void inspect(EntityPlayer player)
+    void inspect(EntityPlayer p)
     {
+        p.addThought(name ~ ".");
+    }
 
+    char sprite() const @property
+    {
+        return _sprite;
+    }
+    Color color() const @property
+    {
+        return _color;
     }
 
     private string _name;

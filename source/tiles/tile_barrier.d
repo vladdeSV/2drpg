@@ -10,18 +10,17 @@ class TileBarrier : Tile
 {
     this()
     {
-        bool c = chance(4);
         char s = ' ';
 
-        if(c)
+        if(chance(4))
         {
-            s = chance(2) ? '.' : ',';
+            s = coin() ? '.' : ',';
         }
 
         super(TileType.grass, s, Color.magenta_dark, Color.black_dark, true);
     }
 
-    override void interact(EntityPlayer p)
+    override bool interact(EntityPlayer p)
     {
         p.addThought
         ([
@@ -33,5 +32,6 @@ class TileBarrier : Tile
             "I know I can't pass.",
             "I don't want to leave",
         ]);
+        return true;
     }
 }

@@ -37,7 +37,10 @@ abstract class Tile
         return _backgroundColor;
     }
 
-    void interact(EntityPlayer p) {}
+    bool interact(EntityPlayer p)
+    {
+        return false;
+    }
 
 protected:
     TileType _type;

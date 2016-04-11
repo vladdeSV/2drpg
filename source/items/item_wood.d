@@ -9,12 +9,4 @@ class ItemWood : Item
     {
         super("Stick", '/', Color.red_dark);
     }
-
-    override void inspect(EntityPlayer player)
-    {
-        player.addThought
-        ([
-            "This is a wooden stick.",
-        ]);
-    }
 }

@@ -1,13 +1,16 @@
 import game;
 import event;
+import entity_player;
 
 class EventDistance : Event
 {
-    this(float distanceAfterCurrentDistance, void delegate() event, int delay)
+    this(EntityPlayer player, float distanceAfterCurrentDistance, void delegate() event, int delay)
     {
+        _player = player;
+
         if(Game.running)
         {
-            _distance = distanceAfterCurrentDistance + Game.player.distanceMoved;
+            _distance = distanceAfterCurrentDistance + player.distanceMoved;
         }
         else
         {
@@ -18,13 +21,14 @@ class EventDistance : Event
 
     override bool finalCheck()
     {
-        return Game.player.distanceMoved >= _distance;
+        return _player.distanceMoved >= _distance;
     }
 
+    private EntityPlayer _player;
     private float _distance;
 }
 
-auto distanceEvent(float distance, void delegate() event, int delay = 0)
+auto distanceEvent(EntityPlayer player, float distance, void delegate() event, int delay = 0)
 {
-    return new EventDistance(distance, event, delay);
+    return new EventDistance(player, distance, event, delay);
 }

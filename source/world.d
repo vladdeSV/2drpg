@@ -32,75 +32,24 @@ class World
             }
         }
 
-        EntityPlayer player = new EntityPlayer(108, 150);
-        Game.player = player;
-
-        addEntity(player);
-        //addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "Afromannen", 10));
-
-        //gör en array av events, varpå du endast läseer av ID från Google Drive
-        _events =
-        [
-            timeEvent(2, {
-               player.addThought(player.name);
-            }),
-            checkEvent(
-            {
-                return player.warmth < 3;
-            },
-            {
-                if(player.warmth < 1)
-                {
-                    player.addThought("I'm freezing...");
-                }
-                else
-                {
-                    player.addThought("It's very cold...");
-                }
-            }, 20),
-            checkEvent(
-            {
-                return player.warmth > 9;
-            },
-            {
-               player.addThought("It's hot!");
-            }, 20),
-            distanceEvent(1_000,
-            {
-               player.addThought("I've walked quite far.");
-            }),
-            distanceEvent(10_000,
-            {
-               player.addThought("Why do I keep on walking? Why do I keep on keeping on?");
-            }),
-            distanceEvent(100_000,
-            {
-               player.addThought("I have walked for so long but even now it doesn't matter.");
-            }),
-            distanceEvent(1_000_000,
-            {
-               player.addThought("[We never planned for someone to walk this much, congrats, I guess] //Vladde och Fredde");
-            }),
-            //checkEvent({
-            //   player.addThought("");
-            //}),
-            //checkEvent({
-            //   player.addThought("");
-            //}),
-            //checkEvent({
-            //   player.addThought("");
-            //}),
-        ];
+        Game.player = new EntityPlayer(108, 150);
+        addEntity(Game.player);
     }
 
     void update()
     {
-        foreach(ref e; _events)
-        {
-            e.check();
-        }
+        //foreach(ref row; _chunks)
+        //{
+        //    foreach(ref chunk; row)
+        //    {
+        //        foreach(ref e; chunk.entities)
+        //        {
+        //            e.update();
+        //        }
+        //    }
+        //}
 
-        Game.player.update();
+        //Game.player.update();
     }
 
     auto getTileAt(int tx, int ty)
@@ -115,7 +64,7 @@ class World
 
     auto getChunkAtLocation(int tx, int ty)
     {
-        return getChunk(tx / chunkSize, ty / chunkSize);
+        return getChunk(cast(int)(tx / chunkSize), cast(int)(ty / chunkSize));
     }
 
     auto addEntity(Entity e)
@@ -124,9 +73,7 @@ class World
         getChunkAtLocation(ex, ey).entities ~= e;
     }
 
-private:
-    Chunk[worldSize][worldSize] _chunks;
-    Event[] _events;
+    private Chunk[worldSize][worldSize] _chunks;
 }
 
 
@@ -196,9 +143,8 @@ class Chunk
 
     Entity[] entities;
 
-private:
-    int _cx, _cy;
-    Tile[chunkSize][chunkSize] _tiles, _tilesPlaced;
+    private int _cx, _cy;
+    private Tile[chunkSize][chunkSize] _tiles, _tilesPlaced;
 }
 
 
