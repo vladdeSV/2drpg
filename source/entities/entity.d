@@ -1,5 +1,6 @@
 import game;
 import enums;
+import slump;
 
 abstract class Entity
 {
@@ -7,13 +8,15 @@ abstract class Entity
     {
         _gx = x;
         _gy = y;
-        _tcx = chunkLocation[0];
-        _tcy = chunkLocation[1];
+        _ccx = chunkLocation[0];
+        _ccy = chunkLocation[1];
         _sprite = sprite;
         _color = color;
 
-        _lookingDirection = cast(Direction) uniform(1, 5);
+        _lookingDirection = cast(Direction)(random(4) + 1);
     }
+
+    void update() {}
 
     ///Returns: int[x, y]
     auto globalLocation() const @property

@@ -1,8 +1,6 @@
 import tile;
 import enums;
-import misc;
-
-import std.random;
+import slump;
 
 class TileGrass : Tile
 {

@@ -15,7 +15,7 @@ abstract class Item
 
     }
 
-    void instpect(EntityPlayer player)
+    void inspect(EntityPlayer player)
     {
 
     }

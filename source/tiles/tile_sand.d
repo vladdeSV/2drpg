@@ -1,8 +1,7 @@
 import tile;
 import enums;
 import game;
-import random;
-import items;
+import slump;
 
 import std.random;
 
@@ -11,21 +10,22 @@ class TileSand : Tile
     this()
     {
         auto sprite = ' ';
-        _picked = true;
+        _used = true;
         if(chance(5))
         {
             sprite = ',';
-            _picked = false;
+            _used = false;
         }
         super(TileType.sand, sprite, Color.yellow_dark, Color.yellow);
     }
 
-    override bool interact(EntityPlayer p)
+    override void interact(EntityPlayer p)
     {
-        if(!_picked && !p.inventoryFull())
+        if(!_used && !p.inventoryFull())
         {
-            if(!p.remember("stone"))
+            if(!p.hasRemembered("stone"))
             {
+                p.remember("stone");
                 p.addThought("This stone looks like it could be used as a tool.");
             }
             else
@@ -40,10 +40,10 @@ class TileSand : Tile
                 ]);
             }
 
-            p.addItem(ListItemMisc["stone"]);
+            //p.addItem(ListItemMisc["stone"]);
 
             _sprite = ' ';
-            _picked = true;
+            _used = true;
         }
     }
 }

@@ -1,6 +1,6 @@
 import tile;
 import enums;
-import random;
+import slump;
 import entity_player;
 import thought;
 
@@ -23,8 +23,8 @@ class TileBarrier : Tile
 
     override void interact(EntityPlayer p)
     {
-        p.addThought(
-        [
+        p.addThought
+        ([
             "It's the end.",
             "I can't go any further.",
             "There is nothing more.",
@@ -33,6 +33,5 @@ class TileBarrier : Tile
             "I know I can't pass.",
             "I don't want to leave",
         ]);
-        return true;
     }
 }

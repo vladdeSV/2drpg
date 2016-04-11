@@ -1,10 +1,27 @@
 import enums;
+import perlin;
+import game;
+import slump;
+
+import event;
+import event_distance;
+import event_time;
+
 import entity;
 import entity_player;
 
+import tile;
+import tile_barrier;
+import tile_berry;
+import tile_grass;
+import tile_mountain;
+import tile_sand;
+import tile_tree;
+import tile_water;
+
 class World
 {
-this()
+    this()
     {
         //Init all chunks
         foreach(int cx, ref row; _chunks)
@@ -15,13 +32,14 @@ this()
             }
         }
 
-        player = new EntityPlayer(108, 150);
+        EntityPlayer player = new EntityPlayer(108, 150);
+        Game.player = player;
 
         addEntity(player);
-        addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "Afromannen", 10));
+        //addEntity(new EntityLiving(23, 10, 'D', Color.yellow, "Afromannen", 10));
 
         //gör en array av events, varpå du endast läseer av ID från Google Drive
-        events =
+        _events =
         [
             timeEvent(2, {
                player.addThought(player.name);
@@ -63,20 +81,6 @@ this()
             {
                player.addThought("[We never planned for someone to walk this much, congrats, I guess] //Vladde och Fredde");
             }),
-            checkEvent(
-            {
-                return player.health <= player.maxHealth * 0.5;
-            },
-            {
-               player.addThought("I'm a bit hurt.");
-            }, 60),
-            checkEvent(
-            {
-                return player.health <= player.maxHealth * 0.25;
-            },
-            {
-               player.addThought("It's bloody. I should rest and eat something to recover.");
-            }, 60),
             //checkEvent({
             //   player.addThought("");
             //}),
@@ -91,12 +95,17 @@ this()
 
     void update()
     {
-        foreach(ref e; events)
+        foreach(ref e; _events)
         {
             e.check();
         }
 
-        player.update();
+        Game.player.update();
+    }
+
+    auto getTileAt(int tx, int ty)
+    {
+        return getChunkAtLocation(tx, ty).getTile(tx % chunkSize, ty % chunkSize);
     }
 
     auto getChunk(int cx, int cy)
@@ -141,11 +150,7 @@ class Chunk
 
                 if(val < 2)
                 {
-                    t = new TileWater(false);
-                }
-                else if(val < 2.5)
-                {
-                    t = new TileWater(true);
+                    t = new TileWater(val);
                 }
                 else if(val < 3 || val < 7 && sandVal > 8)
                 {
@@ -155,25 +160,13 @@ class Chunk
                 {
                     if(val > 4 && treeVal > 5 && sandVal < 7.5 && chance(2))
                     {
-                        TreeType tt;
-                        float nv = val - 4;
-
-                        if(nv < 3)
-                        {
-                            tt = TreeType.redwood;
-                        }
-                        else
-                        {
-                            tt = TreeType.dedwood;
-                        }
-
-                        t = new TileTree(tt);
+                        t = new TileTree(val);
                     }
                     else
                     {
                         if(chance(300))
                         {
-                            t = new TileBush();
+                            t = new TileBerry();
                         }
                         else
                         {
@@ -181,17 +174,9 @@ class Chunk
                         }
                     }
                 }
-                else if(val < 8.5)
-                {
-                    t = new TileMountain(MountainLevel.low);
-                }
-                else if(val < 8.7)
-                {
-                    t = new TileMountain(MountainLevel.mid);
-                }
                 else
                 {
-                    t = new TileMountain(MountainLevel.high);
+                    t = new TileMountain(val);
                 }
             }
         }

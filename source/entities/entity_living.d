@@ -14,15 +14,5 @@ class EntityLiving : Entity
         return _name;
     }
 
-    int health() const @property
-    {
-        return _health;
-    }
-
-    int maxHealth() const @property
-    {
-        return _maxHealth;
-    }
-
     private string _name;
 }

@@ -3,15 +3,15 @@ import enums;
 
 class TileWater : Tile
 {
-    this(bool shallow)
+    this(float vlad)
     {
-        if(shallow)
+        if(vlad < 2)
         {
-            super(TileType.water, '~', Color.blue_dark, Color.blue);
+            super(TileType.water, ' ', Color.blue, Color.blue_dark, true);
         }
         else
         {
-            super(TileType.water, ' ', Color.blue, Color.blue_dark, true);
+            super(TileType.water, '~', Color.blue_dark, Color.blue);
         }
     }
 }

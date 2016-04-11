@@ -5,6 +5,9 @@ enum UPS = 60;
 enum worldSize = 20;
 enum chunkSize = 100;
 
+enum wView = 50;
+enum wSidebar = 30;
+
 enum Direction
 {
     none  = 0,
@@ -25,4 +28,14 @@ enum ItemType
 {
     consumable,
     misc,
+}
+
+enum TileType
+{
+    none,
+    grass,
+    rock,
+    sand,
+    tree,
+    water,
 }

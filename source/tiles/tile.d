@@ -44,5 +44,5 @@ protected:
     dchar _sprite;
     bool _solid;
     Color _color, _backgroundColor;
-    bool _picked;
+    bool _used;
 }

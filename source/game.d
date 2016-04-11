@@ -6,6 +6,7 @@ import std.random : Random;
 struct Game
 {
     static real ticks;
+    static bool running;
 
     static World world;
     static EntityPlayer player;

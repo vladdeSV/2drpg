@@ -6,27 +6,15 @@ import std.random;
 
 class TileTree : Tile
 {
-    this(TreeType type)
+    this(float val)
     {
-        if(type == TreeType.redwood)
+        if(val - 4 < 3)
         {
             super(TileType.tree, 'Y', Color.red_dark, Color.green_dark, true);
         }
-        else if(type == TreeType.dedwood)
+        else
         {
             super(TileType.tree, 'I', Color.red_dark, Color.green_dark, true);
         }
-        else
-        {
-            super();
-        }
     }
-}
-
-enum TreeType
-{
-    //oak,
-    redwood,
-    //fir,
-    dedwood,
 }

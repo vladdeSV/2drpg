@@ -7,7 +7,7 @@ class EventDistance : Event
     {
         if(Game.running)
         {
-            _distance = distanceAfterCurrentDistance + Game.world.player.distanceMoved;
+            _distance = distanceAfterCurrentDistance + Game.player.distanceMoved;
         }
         else
         {
@@ -18,7 +18,7 @@ class EventDistance : Event
 
     override bool finalCheck()
     {
-        return Game.world.player.distanceMoved >= _distance;
+        return Game.player.distanceMoved >= _distance;
     }
 
     private float _distance;

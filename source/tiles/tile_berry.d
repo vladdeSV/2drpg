@@ -1,11 +1,9 @@
 import tile;
 import enums;
-import items;
+import slump;
 import entity_player;
-import random;
-import items;
 
-class TileBush : Tile
+class TileBerry : Tile
 {
     this()
     {
@@ -14,7 +12,7 @@ class TileBush : Tile
 
     override void interact(EntityPlayer p)
     {
-        if(!_picked && !p.inventoryFull())
+        if(!_used && !p.inventoryFull())
         {
             int berriesGot = random(2) + 1;
 
@@ -34,13 +32,15 @@ class TileBush : Tile
                 break;
             }
 
-            if(!p.remember("berries"))
+            if(!p.hasRemembered("berries"))
             {
+                p.remember("berries");
                 p.addThought("These looks like edible berries.");
             }
             else
             {
-                p.addThought([
+                p.addThought
+                ([
                     "Look, more berries.",
                     "Oh, berries.",
                     "I like berries.",
@@ -48,9 +48,9 @@ class TileBush : Tile
                 ]);
             }
 
-            p.addItem(ListItemConsumable[berryName]);
+            //p.addItem(ListItemConsumable[berryName]);
 
-            _picked = true;
+            _used = true;
             _sprite = '1';
             _color = Color.yellow_dark;
         }
