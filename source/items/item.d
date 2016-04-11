@@ -15,6 +15,16 @@ abstract class Item
         return _name;
     }
 
+    char sprite() const @property
+    {
+        return _sprite;
+    }
+
+    Color color() const @property
+    {
+        return _color;
+    }
+
     void use(EntityPlayer p)
     {
 
@@ -23,15 +33,6 @@ abstract class Item
     void inspect(EntityPlayer p)
     {
         p.addThought(name ~ ".");
-    }
-
-    char sprite() const @property
-    {
-        return _sprite;
-    }
-    Color color() const @property
-    {
-        return _color;
     }
 
     private string _name;

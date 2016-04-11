@@ -277,7 +277,7 @@ class EntityPlayer : EntityLiving
 
         lastThoughtN = n;
 
-        _thoughts ~= split(thoughts[n].wrap(wSidebar - 2), '\n') ~ _thoughts;
+        _thoughts = split(thoughts[n].wrap(wSidebar - 2), '\n') ~ _thoughts;
     }
 
     void remember(string s)

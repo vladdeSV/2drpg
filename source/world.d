@@ -95,7 +95,7 @@ class Chunk
                 float treeVal = scaled_octave_noise_2d(1, 1, 0.05, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
                 float sandVal = scaled_octave_noise_2d(1, 1, 0.01, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
 
-                if(val < 2)
+                if(val < 2.5)
                 {
                     t = new TileWater(val);
                 }

@@ -71,9 +71,7 @@ void main()
                 frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
             }
         }
-        //<<
 
-        //>>Side UI
         foreach(int y; 0 .. cam.h)
         {
             foreach(int x; cam.w .. cam.w + wSidebar)
@@ -89,20 +87,19 @@ void main()
             }
         }
 
-        //int eventsStart = 2;
-        //foreach(n, s; Game.player.thoughts)
-        //{
-        //    int position = eventsStart + n;
-        //    if(position < cam.h - 8)
-        //    {
-        //        frame.write(51, position, s);
-        //    }
-        //    else
-        //    {
-        //        break;
-        //    }
-        //}
-        //<<
+        int eventsStart = 2;
+        foreach(n, s; Game.player.thoughts)
+        {
+            int position = eventsStart + n;
+            if(position < cam.h - 8)
+            {
+                frame.write(51, position, s);
+            }
+            else
+            {
+                break;
+            }
+        }
 
         foreach(n, ref item; Game.player.inventory)
         {

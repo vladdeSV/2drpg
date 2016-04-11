@@ -3,6 +3,8 @@ import enums;
 import game;
 import slump;
 
+import item_wood;
+
 import std.random;
 
 class TileSand : Tile
@@ -40,7 +42,7 @@ class TileSand : Tile
                 ]);
             }
 
-            //p.addItem(ListItemMisc["stone"]);
+            //p.addItem(new ItemStone());
 
             _sprite = ' ';
             _used = true;
