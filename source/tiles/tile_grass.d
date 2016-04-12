@@ -15,6 +15,10 @@ class TileGrass : Tile
         {
             s = chance(2) ? '.' : ',';
         }
+        else
+        {
+            _used = true;
+        }
 
         super(TileType.grass, s, Color.green, Color.green_dark);
     }

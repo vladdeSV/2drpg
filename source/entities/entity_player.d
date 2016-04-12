@@ -30,9 +30,6 @@ class EntityPlayer : EntityLiving
             timeEvent(0,
             {
                 stuck = true;
-                //_events ~= timeEvent(4,
-                //{
-                //});
                 _events ~= timeEvent(3,
                 {
                     addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
@@ -42,13 +39,19 @@ class EntityPlayer : EntityLiving
                 {
                     stuck = false;
                 });
+
+                //_events ~= timeEvent(20,
+                //{
+                //    remember("wasd");
+                //});
             }),
             timeEvent(60,
             {
                 stuck = true;
+
                 _events ~= timeEvent(4,
                 {
-                    addThought("You are hiding behind a large tree trunk. You are counting from one to five, slowly, trying to be quiet. You don’t want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
+                    addThought("You are hiding behind a large tree trunk. You are counting from one to five, slowly, trying to be quiet. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
                 });
 
                 _events ~= timeEvent(14,
@@ -404,9 +407,6 @@ class EntityPlayer : EntityLiving
         return _warmth;
     }
 
-    int memory = 0;
-
-    bool stuck = false;
 
     private float _distanceMoved = 0;
     private float _warmth = 6;
@@ -417,7 +417,9 @@ class EntityPlayer : EntityLiving
     private Event[] _events;
     private bool _running, _firstMove;
 
+    int memory = 0;
     int iii = 0;
+    bool stuck;
 
     private immutable int maxItems = 13;
 }

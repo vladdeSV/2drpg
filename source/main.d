@@ -2,10 +2,10 @@
  * So far, I would like to change:
  * * Chunk's `Entity[] entities` is public, which should be private
  */
-
 import scone;
 
 import enums;
+import slump;
 import updater;
 import game;
 
@@ -16,8 +16,11 @@ void main()
 {
     sconeInit();
 
-    auto frame = new Frame(80, 24);
+    auto frame = new Frame();
+    Game.frame = frame;
     auto updater = Updater(1000/UPS);
+    wSidebar = cast(int)(frame.w / 4);
+    wView = frame.w - wSidebar;
     auto cam = Rect(0, 0, wView, frame.h);
 
     Game.world = new World();
@@ -55,7 +58,7 @@ void main()
                     }
                     else
                     {
-                        frame.write(x,y, fg(Color.red), bg(Color.white), 'X');
+                        frame.write(x,y, fg(Color.magenta_dark), bg(Color.black_dark), chance(2000) ? (coin() ? ',' : '.') : ' ');
                     }
                 }
             }
@@ -98,13 +101,15 @@ void main()
             }
         }
 
+        immutable sidebarStart = wView + 2;
+
         int eventsStart = 2;
         foreach(n, s; Game.player.thoughts)
         {
             int position = eventsStart + n;
             if(position < cam.h - 8)
             {
-                frame.write(52, position, s);
+                frame.write(sidebarStart, position, s);
             }
             else
             {
@@ -114,22 +119,32 @@ void main()
 
         if(Game.player.inventory.length)
         {
-            immutable start = 52;
             if(Game.player.inventory.length > 1)
             {
-                frame.write(start, frame.h - 2, char(27), ' ', char(26));
+                frame.write(sidebarStart, frame.h - 2, char(27), ' ', char(26));
             }
 
-            frame.write(start, frame.h - 4, Game.player.inventory[Game.player.iii].name);
+            frame.write(sidebarStart, frame.h - 4, Game.player.inventory[Game.player.iii].name);
 
             foreach(n, ref item; Game.player.inventory)
             {
-                frame.write(start + n*2, frame.h - 3, fg(item.color), item.sprite, ' ');
+                frame.write(sidebarStart + n*2, frame.h - 3, fg(item.color), item.sprite, ' ');
             }
 
-            frame.write(start + Game.player.iii*2 - 1, frame.h - 3, '[');
-            frame.write(start + Game.player.iii*2 + 1, frame.h - 3, ']');
+            frame.write(sidebarStart + Game.player.iii*2 - 1, frame.h - 3, '[');
+            frame.write(sidebarStart + Game.player.iii*2 + 1, frame.h - 3, ']');
         }
+
+        //if(!Game.player.hasRemembered("wasd"))
+        //{
+        //    int hx = Game.player.globalLocation[0];
+        //    int hy = Game.player.globalLocation[1];
+
+        //    Game.frame.write((hx - 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx - 2, hy + 1).backgroundColor), 'A');
+        //    Game.frame.write((hx + 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx + 2, hy + 1).backgroundColor), 'D');
+        //    Game.frame.write(hx % cam.w, (hy - 1) % cam.h,     fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx, hy - 1)    .backgroundColor), 'W');
+        //    Game.frame.write(hx % cam.w, (hy + 1) % cam.h,     fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx, hy + 1)    .backgroundColor), 'S');
+        //}
 
         frame.print();
     }

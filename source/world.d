@@ -32,7 +32,7 @@ class World
             }
         }
 
-        Game.player = new EntityPlayer(108, 150);
+        Game.player = new EntityPlayer(cast(int)(chunkSize * worldSize / 2) - 10, cast(int)(chunkSize * worldSize / 2) + 10);
         addEntity(Game.player);
     }
 
@@ -83,11 +83,11 @@ class Chunk
         {
             foreach(int tx, ref t; row)
             {
-                if((!cx && !tx) || (!cy && !ty) || (cx == worldSize - 1 && tx == chunkSize - 1) || (cy == worldSize - 1 && ty == chunkSize - 1))
-                {
-                    t = new TileBarrier();
-                    continue;
-                }
+                //if((!cx && !tx) || (!cy && !ty) || (cx == worldSize - 1 && tx == chunkSize - 1) || (cy == worldSize - 1 && ty == chunkSize - 1))
+                //{
+                //    t = new TileBarrier();
+                //    continue;
+                //}
                 float val =     scaled_octave_noise_2d(2, 1, 0.02, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
                 float treeVal = scaled_octave_noise_2d(1, 1, 0.05, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
                 float sandVal = scaled_octave_noise_2d(1, 1, 0.01, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);

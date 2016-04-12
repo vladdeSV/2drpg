@@ -5,8 +5,8 @@ enum UPS = 60;
 enum worldSize = 4;
 enum chunkSize = 100;
 
-enum wView = 50;
-enum wSidebar = 30;
+int wView;
+int wSidebar;
 
 enum Direction
 {
