@@ -5,7 +5,7 @@ import std.random : Random;
 
 struct Game
 {
-    static real ticks;
+    static real ticks = 0;
     static bool running;
 
     static World world;

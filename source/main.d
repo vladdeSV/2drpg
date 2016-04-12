@@ -32,7 +32,7 @@ void main()
         foreach(i; 0 .. updater.getUpdates())
         {
             Game.world.update();
-            Game.player.update();
+            //Game.player.update();
             Game.ticks += 1;
         }
 

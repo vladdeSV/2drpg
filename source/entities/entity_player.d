@@ -25,7 +25,6 @@ class EntityPlayer : EntityLiving
     {
         super(/*ListName[random($)]*/ "Hermando" , x, y, char(1), Color.yellow);
 
-        //gör en array av events, varpå du endast läseer av ID från Google Drive
         _events =
         [
             timeEvent(2, {
@@ -71,7 +70,8 @@ class EntityPlayer : EntityLiving
             }),
             distanceEvent(this, 1_000_000,
             {
-               addThought("[We never planned for someone to walk this much, congrats, I guess] //Vladde och Fredde");
+               addThought("[We never planned for someone to walk this much, congrats, I guess]");
+               //assert(0);
             }),
             //checkEvent(this, {
             //   addThought("");
@@ -179,7 +179,6 @@ class EntityPlayer : EntityLiving
             //Check if player should be running
             _running = input.hasControlKey(SCK.shift);
 
-            //>>Set movemental direction
             if(input.key == SK.up || input.key == SK.w)
             {
                 if(input.pressed)
@@ -227,7 +226,6 @@ class EntityPlayer : EntityLiving
             else if(input.key == SK.e && input.pressed)
             {
                 if(!Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this))
-                //if(!Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this))
                 {
                     int nx = cast(int) _gx, ny = cast(int) _gy;
                     if(_lookingDirection == Direction.up)
@@ -318,7 +316,7 @@ class EntityPlayer : EntityLiving
         }
         else
         {
-            assert(0, "Oopsie, I made a mistake in the code when it comes to items. Sorry ;)");
+            assert(0, "Oops, I made a mistake in the code when it comes to items. Sorry ;)");
         }
     }
 

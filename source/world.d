@@ -38,18 +38,16 @@ class World
 
     void update()
     {
-        //foreach(ref row; _chunks)
-        //{
-        //    foreach(ref chunk; row)
-        //    {
-        //        foreach(ref e; chunk.entities)
-        //        {
-        //            e.update();
-        //        }
-        //    }
-        //}
-
-        //Game.player.update();
+        foreach(ref row; _chunks)
+        {
+            foreach(ref chunk; row)
+            {
+                foreach(ref e; chunk.entities)
+                {
+                    e.update();
+                }
+            }
+        }
     }
 
     auto getTileAt(int tx, int ty)

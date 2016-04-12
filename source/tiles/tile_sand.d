@@ -4,6 +4,7 @@ import game;
 import slump;
 
 import item_wood;
+import item_stone;
 
 import std.random;
 
@@ -42,7 +43,7 @@ class TileSand : Tile
                 ]);
             }
 
-            //p.addItem(new ItemStone());
+            p.addItem(new ItemStone());
 
             _sprite = ' ';
             _used = true;

@@ -41,7 +41,7 @@ class TileBerry : Tile
             _sprite = '1';
             _color = Color.yellow_dark;
         }
-        else
+        else if(p.inventoryFull())
         {
             p.addThought("My pockets do not fit more berries.");
         }
