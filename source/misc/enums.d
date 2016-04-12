@@ -35,6 +35,7 @@ enum TileType
     none,
     grass,
     rock,
+    berry,
     sand,
     tree,
     water,

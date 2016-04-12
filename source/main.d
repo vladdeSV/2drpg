@@ -44,7 +44,7 @@ void main()
         cam.x = cast(int)(Game.player.globalLocation[0] / cam.w) * cam.w;
         cam.y = cast(int)(Game.player.globalLocation[1] / cam.h) * cam.h;
 
-        if(!Game.player.stuck)
+        if(!Game.player.hasRemembered("stuck"))
         {
             foreach(int y; 0 .. cam.h)
             {
@@ -73,7 +73,7 @@ void main()
                 Color col = e.color;
                 Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
 
-                if(Game.player.stuck)
+                if(Game.player.hasRemembered("stuck"))
                 {
                     tbg = Color.black_dark;
                 }
@@ -124,30 +124,34 @@ void main()
                 frame.write(sidebarStart, frame.h - 2, char(27), ' ', char(26));
             }
 
-            frame.write(sidebarStart, frame.h - 4, Game.player.inventory[Game.player.iii].name);
+            frame.write(sidebarStart, frame.h - 4, Game.player.inventory[Game.player.selectedListItem].name);
 
             foreach(n, ref item; Game.player.inventory)
             {
                 frame.write(sidebarStart + n*2, frame.h - 3, fg(item.color), item.sprite, ' ');
             }
 
-            frame.write(sidebarStart + Game.player.iii*2 - 1, frame.h - 3, '[');
-            frame.write(sidebarStart + Game.player.iii*2 + 1, frame.h - 3, ']');
+            frame.write(sidebarStart + Game.player.selectedListItem*2 - 1, frame.h - 3, '[');
+            frame.write(sidebarStart + Game.player.selectedListItem*2 + 1, frame.h - 3, ']');
         }
 
+        int hx = Game.player.globalLocation[0];
+        int hy = Game.player.globalLocation[1];
         if(!Game.player.hasRemembered("wasd"))
         {
-            int hx = Game.player.globalLocation[0];
-            int hy = Game.player.globalLocation[1];
+            Game.frame.write((hx - 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx - 2, hy + 1).backgroundColor), 'A');
+            Game.frame.write((hx + 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 2, hy + 1).backgroundColor), 'D');
+            Game.frame.write(hx % cam.w, (hy - 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy - 1)    .backgroundColor), 'W');
+            Game.frame.write(hx % cam.w, (hy + 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy + 1)    .backgroundColor), 'S');
+        }
 
-            Game.frame.write((hx - 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx - 2, hy + 1).backgroundColor), 'A');
-            Game.frame.write((hx + 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx + 2, hy + 1).backgroundColor), 'D');
-            Game.frame.write(hx % cam.w, (hy - 1) % cam.h,       fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx, hy - 1)    .backgroundColor), 'W');
-            Game.frame.write(hx % cam.w, (hy + 1) % cam.h,       fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx, hy + 1)    .backgroundColor), 'S');
-
-            Game.frame.write((hx + 3) % cam.w, (hy - 1) % cam.h, fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx + 4, hy - 1).backgroundColor), 'E');
-            Game.frame.write((hx + 5) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.stuck) ? Color.black_dark : Game.world.getTileAt(hx + 5, hy + 1).backgroundColor), 'F');
-
+        if( Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).type == TileType.berry &&
+           !Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).used &&
+            Game.player.itemsPicked < 5
+        )
+        {
+            Game.frame.write((hx + 2) % cam.w, (hy - 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 4, hy - 1).backgroundColor), 'E');
+            //Game.frame.write((hx + 5) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 5, hy + 1).backgroundColor), 'F');
         }
 
         frame.print();

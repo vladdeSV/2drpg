@@ -10,7 +10,7 @@ class TileBerry : Tile
 {
     this()
     {
-        super(TileType.tree, char(5), Color.magenta, Color.green_dark);
+        super(TileType.berry, char(5), Color.magenta, Color.green_dark);
     }
 
     override bool interact(EntityPlayer p)

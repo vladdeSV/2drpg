@@ -29,7 +29,7 @@ class EntityPlayer : EntityLiving
         [
             timeEvent(0,
             {
-                stuck = true;
+                _remembered["stuck"] = true;
                 remember("wasd");
                 _events ~= timeEvent(3,
                 {
@@ -42,7 +42,7 @@ class EntityPlayer : EntityLiving
                 });
                 _events ~= timeEvent(16,
                 {
-                    stuck = false;
+                    _remembered["stuck"] = false;
                 });
 
                 _events ~= timeEvent(20,
@@ -52,7 +52,7 @@ class EntityPlayer : EntityLiving
             }),
             timeEvent(60 * 2,
             {
-                stuck = true;
+                _remembered["stuck"] = true;
 
                 _events ~= timeEvent(4,
                 {
@@ -61,12 +61,12 @@ class EntityPlayer : EntityLiving
 
                 _events ~= timeEvent(14,
                 {
-                    stuck = false;
+                    _remembered["stuck"] = false;
                 });
             }),
             timeEvent(60 * 6,
             {
-                stuck = true;
+                _remembered["stuck"] = true;
                 _events ~= timeEvent(3,
                 {
                     addThought("The sea stretches out in front of you. The sand beneath your feet is coarse and rough and it is everywhere. You start running around with your large inflatable ball. You kick it as hard as you can and it flies out over the water. You start crying as the ball sinks into the water.");
@@ -74,7 +74,7 @@ class EntityPlayer : EntityLiving
 
                 _events ~= timeEvent(14,
                 {
-                    stuck = false;
+                    _remembered["stuck"] = false;
                 });
             }),
             checkEvent(
@@ -200,15 +200,19 @@ class EntityPlayer : EntityLiving
         //<<
     }
 
-    override void update()
+    private void updateInventory()
     {
-
         if(_inventory.length)
         {
-            iii %= _inventory.length;
+            selectedListItem %= _inventory.length;
         }
+    }
 
-        if(stuck)
+    override void update()
+    {
+        updateInventory();
+
+        if(hasRemembered("stuck"))
         {
             _movingDirection = Direction.none;
         }
@@ -232,7 +236,7 @@ class EntityPlayer : EntityLiving
                 break;
             }
 
-            if(stuck)
+            if(hasRemembered("stuck"))
             {
                 return;
             }
@@ -313,15 +317,16 @@ class EntityPlayer : EntityLiving
                 {
                     if(input.key == SK.right)
                     {
-                        iii = (iii + 1) % _inventory.length;
+                        selectedListItem = (selectedListItem + 1) % _inventory.length;
                     }
                     else if(input.key == SK.left)
                     {
-                        iii = (iii + _inventory.length - 1) % _inventory.length;
+                        selectedListItem = (selectedListItem + _inventory.length - 1) % _inventory.length;
                     }
                     else if(input.key == SK.f)
                     {
-                        _inventory[iii].use(this);
+                        _inventory[selectedListItem].use(this);
+                        updateInventory();
                     }
                 }
             }
@@ -390,6 +395,7 @@ class EntityPlayer : EntityLiving
         if(!inventoryFull)
         {
             _inventory ~= item;
+            ++itemsPicked;
         }
         else
         {
@@ -422,9 +428,9 @@ class EntityPlayer : EntityLiving
     private Event[] _events;
     private bool _running, _firstMove;
 
-    int memory = 0;
-    int iii = 0;
-    bool stuck;
+    uint itemsPicked = 0;
+    uint memory = 0;
+    uint selectedListItem = 0;
 
     private immutable int maxItems = 13;
 }

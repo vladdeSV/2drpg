@@ -42,6 +42,11 @@ abstract class Tile
         return false;
     }
 
+    bool used() const @property
+    {
+        return _used;
+    }
+
 protected:
     TileType _type;
     dchar _sprite;
