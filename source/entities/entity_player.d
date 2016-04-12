@@ -43,6 +43,7 @@ class EntityPlayer : EntityLiving
                 _events ~= timeEvent(16,
                 {
                     _remembered["stuck"] = false;
+                    remember("sideui");
                 });
 
                 _events ~= timeEvent(20,
@@ -432,5 +433,5 @@ class EntityPlayer : EntityLiving
     uint memory = 0;
     uint selectedListItem = 0;
 
-    private immutable int maxItems = 13;
+    immutable int maxItems = 13;
 }

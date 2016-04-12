@@ -36,10 +36,9 @@ class TileGrass : Tile
             {
                 p.addThought
                 ([
-                    "asd.",
-                    "lorem itpis.",
-                    "gsdfkjd.",
-                    "hello yellow",
+                    "Neat grass.",
+                    "Some weeds laying around.",
+                    "Cow food.",
                 ]);
             }
 
@@ -50,7 +49,7 @@ class TileGrass : Tile
         }
         else if(p.inventoryFull())
         {
-            p.addThought("I can't take more grass.");
+            p.addThought("I can't grasp more grass.");
         }
 
         return true;

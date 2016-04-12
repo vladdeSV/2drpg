@@ -86,17 +86,20 @@ void main()
             }
         }
 
-        foreach(int y; 0 .. cam.h)
+        if(Game.player.hasRemembered("sideui"))
         {
-            foreach(int x; cam.w .. cam.w + wSidebar)
+            foreach(int y; 0 .. cam.h)
             {
-                if(!y || y == cam.h - 1 || y == cam.h - 7)
+                foreach(int x; cam.w .. cam.w + wSidebar)
                 {
-                    frame.write(x, y, fg(Color.black), bg(Color.black_dark), '#');
-                }
-                else
-                {
-                    frame.write(x, y, bg(Color.black_dark));
+                    if(!y || y == cam.h - 1 || y == cam.h - 7 || x == cam.w)
+                    {
+                        frame.write(x, y, fg(Color.black), bg(Color.black_dark), '#');
+                    }
+                    else
+                    {
+                        frame.write(x, y, bg(Color.black_dark));
+                    }
                 }
             }
         }
@@ -133,6 +136,7 @@ void main()
 
             frame.write(sidebarStart + Game.player.selectedListItem*2 - 1, frame.h - 3, '[');
             frame.write(sidebarStart + Game.player.selectedListItem*2 + 1, frame.h - 3, ']');
+            frame.write(sidebarStart + Game.player.maxItems*2, frame.h - 3, '|');
         }
 
         int hx = Game.player.globalLocation[0];
