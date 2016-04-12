@@ -48,6 +48,10 @@ class TileSand : Tile
             _sprite = ' ';
             _used = true;
         }
+        else if(p.inventoryFull())
+        {
+            p.addThought("My pockets do not fit more stones.");
+        }
         return true;
     }
 }

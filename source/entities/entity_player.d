@@ -27,8 +27,47 @@ class EntityPlayer : EntityLiving
 
         _events =
         [
-            timeEvent(2, {
-               addThought(name);
+            timeEvent(0,
+            {
+                stuck = true;
+                //_events ~= timeEvent(4,
+                //{
+                //});
+                _events ~= timeEvent(3,
+                {
+                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+                });
+
+                _events ~= timeEvent(14,
+                {
+                    stuck = false;
+                });
+            }),
+            timeEvent(60,
+            {
+                stuck = true;
+                _events ~= timeEvent(4,
+                {
+                    addThought("You are hiding behind a large tree trunk. You are counting from one to five, slowly, trying to be quiet. You don’t want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
+                });
+
+                _events ~= timeEvent(14,
+                {
+                    stuck = false;
+                });
+            }),
+            timeEvent(60 * 2,
+            {
+                stuck = true;
+                _events ~= timeEvent(3,
+                {
+                    addThought("The sea stretches out in front of you. The sand beneath your feet is coarse and rough and it is everywhere. You start running around with your large inflatable ball. You kick it as hard as you can and it flies out over the water. You start crying as the ball sinks into the water.");
+                });
+
+                _events ~= timeEvent(14,
+                {
+                    stuck = false;
+                });
             }),
             checkEvent(
             {
@@ -71,7 +110,6 @@ class EntityPlayer : EntityLiving
             distanceEvent(this, 1_000_000,
             {
                addThought("[We never planned for someone to walk this much, congrats, I guess]");
-               //assert(0);
             }),
             //checkEvent(this, {
             //   addThought("");
@@ -156,7 +194,17 @@ class EntityPlayer : EntityLiving
 
     override void update()
     {
-        if(_movingDirection == 0)
+
+        if(_inventory.length)
+        {
+            iii %= _inventory.length;
+        }
+
+        if(stuck)
+        {
+            _movingDirection = Direction.none;
+        }
+        else if(_movingDirection == 0)
         {
             _gx = cast(int) _gx + 0.5;
             _gy = cast(int) _gy + 0.5;
@@ -176,10 +224,15 @@ class EntityPlayer : EntityLiving
                 break;
             }
 
+            if(stuck)
+            {
+                return;
+            }
+
             //Check if player should be running
             _running = input.hasControlKey(SCK.shift);
 
-            if(input.key == SK.up || input.key == SK.w)
+            if(input.key == SK.w)
             {
                 if(input.pressed)
                 {
@@ -190,7 +243,7 @@ class EntityPlayer : EntityLiving
                     removeFlag(_movingDirection, Direction.up);
                 }
             }
-            else if(input.key == SK.down || input.key == SK.s)
+            else if(input.key == SK.s)
             {
                 if(input.pressed)
                 {
@@ -201,7 +254,7 @@ class EntityPlayer : EntityLiving
                     removeFlag(_movingDirection, Direction.down);
                 }
             }
-            else if(input.key == SK.left || input.key == SK.a)
+            else if(input.key == SK.a)
             {
                 if(input.pressed)
                 {
@@ -212,7 +265,7 @@ class EntityPlayer : EntityLiving
                     removeFlag(_movingDirection, Direction.left);
                 }
             }
-            else if(input.key == SK.right || input.key == SK.d)
+            else if(input.key == SK.d)
             {
                 if(input.pressed)
                 {
@@ -223,9 +276,9 @@ class EntityPlayer : EntityLiving
                     removeFlag(_movingDirection, Direction.right);
                 }
             }
-            else if(input.key == SK.e && input.pressed)
+            else if(input.pressed)
             {
-                if(!Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this))
+                if(input.key == SK.e && !Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this))
                 {
                     int nx = cast(int) _gx, ny = cast(int) _gy;
                     if(_lookingDirection == Direction.up)
@@ -246,6 +299,22 @@ class EntityPlayer : EntityLiving
                     }
 
                     Game.world.getTileAt(nx, ny).interact(this);
+                }
+
+                if(inventory.length)
+                {
+                    if(input.key == SK.right)
+                    {
+                        iii = (iii + 1) % _inventory.length;
+                    }
+                    else if(input.key == SK.left)
+                    {
+                        iii = (iii + _inventory.length - 1) % _inventory.length;
+                    }
+                    else if(input.key == SK.f)
+                    {
+                        _inventory[iii].use(this);
+                    }
                 }
             }
         }
@@ -275,7 +344,7 @@ class EntityPlayer : EntityLiving
 
         lastThoughtN = n;
 
-        _thoughts = split(thoughts[n].wrap(wSidebar - 2), '\n') ~ _thoughts;
+        _thoughts = split(thoughts[n].wrap(wSidebar - 4), '\n') ~ _thoughts;
     }
 
     void remember(string s)
@@ -337,6 +406,8 @@ class EntityPlayer : EntityLiving
 
     int memory = 0;
 
+    bool stuck = false;
+
     private float _distanceMoved = 0;
     private float _warmth = 6;
     private string[] _thoughts;
@@ -346,5 +417,7 @@ class EntityPlayer : EntityLiving
     private Event[] _events;
     private bool _running, _firstMove;
 
-    private immutable int maxItems = 10;
+    int iii = 0;
+
+    private immutable int maxItems = 13;
 }

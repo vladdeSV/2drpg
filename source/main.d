@@ -25,6 +25,9 @@ void main()
     updater.resetUpdates();
 
     Game.running = true;
+
+    //Force update of player;
+    Game.player.update();
     while(Game.running)
     {
         frame.clear();
@@ -32,25 +35,28 @@ void main()
         foreach(i; 0 .. updater.getUpdates())
         {
             Game.world.update();
-            //Game.player.update();
             Game.ticks += 1;
         }
 
         cam.x = cast(int)(Game.player.globalLocation[0] / cam.w) * cam.w;
         cam.y = cast(int)(Game.player.globalLocation[1] / cam.h) * cam.h;
-        foreach(int y; 0 .. cam.h)
+
+        if(!Game.player.stuck)
         {
-            foreach(int x; 0 .. cam.w)
+            foreach(int y; 0 .. cam.h)
             {
-                Tile tile;
-                if(cam.x + x >= 0 && cam.x + x < chunkSize * worldSize && cam.y + y >= 0 && cam.y + y < chunkSize * worldSize)
+                foreach(int x; 0 .. cam.w)
                 {
-                    tile = Game.world.getChunkAtLocation(cam.x + x, cam.y + y).getTile((cam.x + x) % chunkSize, (cam.y + y) % chunkSize);
-                    frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
-                }
-                else
-                {
-                    frame.write(x,y, fg(Color.red), bg(Color.white), 'X');
+                    Tile tile;
+                    if(cam.x + x >= 0 && cam.x + x < chunkSize * worldSize && cam.y + y >= 0 && cam.y + y < chunkSize * worldSize)
+                    {
+                        tile = Game.world.getChunkAtLocation(cam.x + x, cam.y + y).getTile((cam.x + x) % chunkSize, (cam.y + y) % chunkSize);
+                        frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
+                    }
+                    else
+                    {
+                        frame.write(x,y, fg(Color.red), bg(Color.white), 'X');
+                    }
                 }
             }
         }
@@ -63,9 +69,14 @@ void main()
             {
                 Color col = e.color;
                 Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
-                if(e.color == tbg)
+
+                if(Game.player.stuck)
                 {
-                     col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
+                    tbg = Color.black_dark;
+                }
+                else if(e.color == tbg)
+                {
+                    col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
                 }
 
                 frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
@@ -93,7 +104,7 @@ void main()
             int position = eventsStart + n;
             if(position < cam.h - 8)
             {
-                frame.write(51, position, s);
+                frame.write(52, position, s);
             }
             else
             {
@@ -101,9 +112,23 @@ void main()
             }
         }
 
-        foreach(n, ref item; Game.player.inventory)
+        if(Game.player.inventory.length)
         {
-            frame.write(51 + n*2, frame.h - 4, fg(item.color), item.sprite, ' ');
+            immutable start = 52;
+            if(Game.player.inventory.length > 1)
+            {
+                frame.write(start, frame.h - 2, char(27), ' ', char(26));
+            }
+
+            frame.write(start, frame.h - 4, Game.player.inventory[Game.player.iii].name);
+
+            foreach(n, ref item; Game.player.inventory)
+            {
+                frame.write(start + n*2, frame.h - 3, fg(item.color), item.sprite, ' ');
+            }
+
+            frame.write(start + Game.player.iii*2 - 1, frame.h - 3, '[');
+            frame.write(start + Game.player.iii*2 + 1, frame.h - 3, ']');
         }
 
         frame.print();

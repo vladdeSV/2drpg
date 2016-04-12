@@ -74,7 +74,6 @@ class World
     private Chunk[worldSize][worldSize] _chunks;
 }
 
-
 class Chunk
 {
     this(int cx, int cy)

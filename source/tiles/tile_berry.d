@@ -17,8 +17,6 @@ class TileBerry : Tile
     {
         if(!_used && !p.inventoryFull())
         {
-            int berriesGot = random(2) + 1;
-
             if(!p.hasRemembered("berries"))
             {
                 p.remember("berries");
@@ -43,7 +41,7 @@ class TileBerry : Tile
         }
         else if(p.inventoryFull())
         {
-            p.addThought("My pockets do not fit more berries.");
+            p.addThought("I can't stuff more berries.");
         }
 
         return true;
