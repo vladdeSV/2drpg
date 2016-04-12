@@ -52,7 +52,7 @@ abstract class Entity
         //Check y axis
         if
         (
-            !(ny < 0 && chunkSize * worldSize) &&
+            !(ny < 0 && ny > chunkSize * worldSize) &&
             !Game.world.getTileAt(cast(int) _gx, ny).solid
         )
         {

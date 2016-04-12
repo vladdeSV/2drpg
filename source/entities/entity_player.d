@@ -30,6 +30,7 @@ class EntityPlayer : EntityLiving
             timeEvent(0,
             {
                 stuck = true;
+                remember("wasd");
                 _events ~= timeEvent(3,
                 {
                     addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
@@ -37,15 +38,19 @@ class EntityPlayer : EntityLiving
 
                 _events ~= timeEvent(14,
                 {
+                    _remembered["wasd"] = false;
+                });
+                _events ~= timeEvent(16,
+                {
                     stuck = false;
                 });
 
-                //_events ~= timeEvent(20,
-                //{
-                //    remember("wasd");
-                //});
+                _events ~= timeEvent(20,
+                {
+                    remember("wasd");
+                });
             }),
-            timeEvent(60,
+            timeEvent(60 * 2,
             {
                 stuck = true;
 
@@ -59,7 +64,7 @@ class EntityPlayer : EntityLiving
                     stuck = false;
                 });
             }),
-            timeEvent(60 * 2,
+            timeEvent(60 * 6,
             {
                 stuck = true;
                 _events ~= timeEvent(3,
