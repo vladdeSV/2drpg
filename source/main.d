@@ -6,6 +6,7 @@ import scone;
 
 import enums;
 import slump;
+import time;
 import updater;
 import game;
 
@@ -21,7 +22,7 @@ void main()
     auto updater = Updater(1000/UPS);
     wSidebar = cast(int)(frame.w / 4);
     wView = frame.w - wSidebar;
-    auto cam = Rect(0, 0, wView, frame.h);
+    auto cam = Rect(0, 0, max(80, wView), max(24, frame.h));
 
     Game.world = new World();
     frame.print();
@@ -54,7 +55,10 @@ void main()
                     if(cam.x + x >= 0 && cam.x + x < chunkSize * worldSize && cam.y + y >= 0 && cam.y + y < chunkSize * worldSize)
                     {
                         tile = Game.world.getChunkAtLocation(cam.x + x, cam.y + y).getTile((cam.x + x) % chunkSize, (cam.y + y) % chunkSize);
-                        frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
+                        char sp;
+                        (tile.item is null) ? sp = tile.sprite : tile.item.sprite;
+
+                        frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), sp);
                     }
                     else
                     {
@@ -86,6 +90,8 @@ void main()
             }
         }
 
+        immutable sidebarStart = wView + 2;
+
         if(Game.player.hasRemembered("sideui"))
         {
             foreach(int y; 0 .. cam.h)
@@ -102,9 +108,9 @@ void main()
                     }
                 }
             }
-        }
 
-        immutable sidebarStart = wView + 2;
+            frame.write(sidebarStart + Game.player.maxItems * 2, frame.h - 3, '|');
+        }
 
         int eventsStart = 2;
         foreach(n, s; Game.player.thoughts)
@@ -131,17 +137,16 @@ void main()
 
             foreach(n, ref item; Game.player.inventory)
             {
-                frame.write(sidebarStart + n*2, frame.h - 3, fg(item.color), item.sprite, ' ');
+                frame.write(sidebarStart + n * 2, frame.h - 3, fg(item.color), item.sprite, ' ');
             }
 
             frame.write(sidebarStart + Game.player.selectedListItem*2 - 1, frame.h - 3, '[');
             frame.write(sidebarStart + Game.player.selectedListItem*2 + 1, frame.h - 3, ']');
-            frame.write(sidebarStart + Game.player.maxItems*2, frame.h - 3, '|');
         }
 
         int hx = Game.player.globalLocation[0];
         int hy = Game.player.globalLocation[1];
-        if(!Game.player.hasRemembered("wasd"))
+        if(!Game.player.hasRemembered("wasd") || secondsFromTicks(Game.ticks) > 18 && Game.player.distanceMoved == 0)
         {
             Game.frame.write((hx - 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx - 2, hy + 1).backgroundColor), 'A');
             Game.frame.write((hx + 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 2, hy + 1).backgroundColor), 'D');
@@ -151,7 +156,7 @@ void main()
 
         if( Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).type == TileType.berry &&
            !Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).used &&
-            Game.player.itemsPicked < 5
+            Game.player.itemsPicked < 3
         )
         {
             Game.frame.write((hx + 2) % cam.w, (hy - 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 4, hy - 1).backgroundColor), 'E');

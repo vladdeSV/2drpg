@@ -16,6 +16,7 @@ import event_check;
 
 import std.string : wrap, split;
 import std.algorithm : min;
+import std.algorithm.mutation : remove;
 import std.math : abs;
 
 
@@ -174,10 +175,7 @@ class EntityPlayer : EntityLiving
         if
         (
             !(nx < 0 || nx > chunkSize * worldSize) &&
-            !Game.world
-            .getChunk(cast(int)(nx / chunkSize), cast(int)(_gy / chunkSize))
-            .getTile(cast(int) nx % chunkSize, cast(int) _gy % chunkSize)
-            .solid
+            !Game.world.getTileAt(cast(int) nx, cast(int) _gy).solid
         )
         {
             _distanceMoved += abs(nx - _gx);
@@ -188,11 +186,8 @@ class EntityPlayer : EntityLiving
         //>>Check y axis if tile at new location is solid. If not, move.
         if
         (
-            !(ny < 0 && chunkSize * worldSize) &&
-            !Game.world
-            .getChunk(cast(int)(_gx / chunkSize), cast(int)(ny / chunkSize))
-            .getTile(cast(int) _gx % chunkSize, cast(int) ny % chunkSize)
-            .solid
+            !(ny < 0 || ny > chunkSize * worldSize) &&
+            !Game.world.getTileAt(cast(int) _gx, cast(int) ny).solid
         )
         {
             _distanceMoved += abs(ny - _gy);
@@ -326,8 +321,22 @@ class EntityPlayer : EntityLiving
                     }
                     else if(input.key == SK.f)
                     {
-                        _inventory[selectedListItem].use(this);
+                        if(_inventory[selectedListItem].useable)
+                        {
+                            _inventory[selectedListItem].use(this);
+                            _inventory = _inventory.remove(selectedListItem);
+                        }
+
                         updateInventory();
+                    }
+                    else if(input.key == SK.q)
+                    {
+                        if(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).item is null)
+                        {
+                            Game.world.getTileAt(cast(int) _gx, cast(int) _gy).item = _inventory[selectedListItem];
+                            _inventory = _inventory.remove(selectedListItem);
+                            updateInventory();
+                        }
                     }
                 }
             }

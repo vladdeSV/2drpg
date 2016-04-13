@@ -32,7 +32,8 @@ class World
             }
         }
 
-        Game.player = new EntityPlayer(cast(int)(chunkSize * worldSize / 2) - 10, cast(int)(chunkSize * worldSize / 2) + 10);
+        Game.player = new EntityPlayer(chunkSize * worldSize - 10, 49);
+        //Game.player = new EntityPlayer(cast(int)(chunkSize * worldSize / 2) - 10, cast(int)(chunkSize * worldSize / 2) + 10);
         addEntity(Game.player);
     }
 

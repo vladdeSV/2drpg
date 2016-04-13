@@ -3,11 +3,12 @@ import entity_player;
 
 abstract class Item
 {
-    this(string name, char sprite, Color color)
+    this(string name, char sprite, Color color, bool useable = false)
     {
         _name = name;
         _sprite = sprite;
         _color = color;
+        _useable = useable;
     }
 
     string name() const @property
@@ -30,6 +31,11 @@ abstract class Item
 
     }
 
+    bool useable() const @property
+    {
+        return _useable;
+    }
+
     void inspect(EntityPlayer p)
     {
         p.addThought(name ~ ".");
@@ -38,4 +44,5 @@ abstract class Item
     private string _name;
     private char _sprite;
     private Color _color;
+    private bool _useable;
 }

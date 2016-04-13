@@ -1,9 +1,10 @@
 import enums;
 public import entity_player;
+import item;
 
 abstract class Tile
 {
-    this(TileType type, dchar sprite, Color color, Color backgroundColor, bool solid = false)
+    this(TileType type, char sprite, Color color, Color backgroundColor, bool solid = false)
     {
         _type = type;
         _sprite = sprite;
@@ -47,9 +48,11 @@ abstract class Tile
         return _used;
     }
 
+    Item item;
+
 protected:
     TileType _type;
-    dchar _sprite;
+    char _sprite;
     bool _solid;
     Color _color, _backgroundColor;
     bool _used;

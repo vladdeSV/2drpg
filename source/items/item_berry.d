@@ -14,15 +14,15 @@ class ItemBerry : Item
 
         if(type == 0)
         {
-            super("Raspberries", char(5), Color.red);
+            super("Raspberries", char(5), Color.red, true);
         }
         else if(type == 1)
         {
-            super("Strawberries", char(31), Color.red);
+            super("Strawberries", char(31), Color.red, true);
         }
         else
         {
-            super("Blueberries", 'o', Color.blue);
+            super("Blueberries", 'o', Color.blue, true);
         }
     }
 
@@ -31,10 +31,10 @@ class ItemBerry : Item
         p.memory += 1;
         p.addThought
         ([
-            name ~ " are the best.",
+            (name ~ " are the best."),
             "Sweeter than the store's.",
-            "I like " ~ name.toLower() ~ ".",
-            "Much tastier than bought ", name.toLower(),".",
+            ("I like " ~ name.toLower() ~ "."),
+            ("Much tastier than bought " ~ name.toLower() ~ "."),
         ]);
     }
 

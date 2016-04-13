@@ -12,7 +12,7 @@ class TileMountain : Tile
         {
             super(TileType.rock, uniform(0, 2, Game.gen) == 0 ? '.' : ' ', Color.white_dark, Color.black, true);
         }
-        else if(val < 8.7)
+        else if(val < 9.1)
         {
             super(TileType.rock, '*', Color.white_dark, Color.black, true);
         }

@@ -51,6 +51,10 @@ class TileGrass : Tile
         {
             p.addThought("I can't grasp more grass.");
         }
+        else
+        {
+            return false;
+        }
 
         return true;
     }

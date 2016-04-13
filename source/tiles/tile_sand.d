@@ -52,6 +52,10 @@ class TileSand : Tile
         {
             p.addThought("My pockets do not fit more stones.");
         }
+        else
+        {
+            return false;
+        }
         return true;
     }
 }
