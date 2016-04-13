@@ -11,7 +11,6 @@ import entity;
 import entity_player;
 
 import tile;
-import tile_barrier;
 import tile_berry;
 import tile_grass;
 import tile_mountain;
@@ -32,8 +31,12 @@ class World
             }
         }
 
-        Game.player = new EntityPlayer(chunkSize * worldSize - 10, 49);
-        //Game.player = new EntityPlayer(cast(int)(chunkSize * worldSize / 2) - 10, cast(int)(chunkSize * worldSize / 2) + 10);
+        Game.player = new EntityPlayer
+        (
+            cast(int)((worldSize * chunkSize / wView) / 2 * wView + Game.frame.w / 2 - 11),
+            cast(int)((worldSize * chunkSize / hView) / 2 * hView + Game.frame.h / 2)
+        );
+
         addEntity(Game.player);
     }
 
@@ -84,11 +87,6 @@ class Chunk
         {
             foreach(int tx, ref t; row)
             {
-                //if((!cx && !tx) || (!cy && !ty) || (cx == worldSize - 1 && tx == chunkSize - 1) || (cy == worldSize - 1 && ty == chunkSize - 1))
-                //{
-                //    t = new TileBarrier();
-                //    continue;
-                //}
                 float val =     scaled_octave_noise_2d(2, 1, 0.02, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
                 float treeVal = scaled_octave_noise_2d(1, 1, 0.05, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
                 float sandVal = scaled_octave_noise_2d(1, 1, 0.01, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);

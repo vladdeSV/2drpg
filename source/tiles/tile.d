@@ -38,16 +38,6 @@ abstract class Tile
         return _backgroundColor;
     }
 
-    bool interact(EntityPlayer p)
-    {
-        return false;
-    }
-
-    bool used() const @property
-    {
-        return _used;
-    }
-
     Item item;
 
 protected:

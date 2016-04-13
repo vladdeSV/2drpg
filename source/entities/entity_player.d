@@ -286,28 +286,28 @@ class EntityPlayer : EntityLiving
             }
             else if(input.pressed)
             {
-                if(input.key == SK.e && !Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this))
-                {
-                    int nx = cast(int) _gx, ny = cast(int) _gy;
-                    if(_lookingDirection == Direction.up)
-                    {
-                        --ny;
-                    }
-                    else if(_lookingDirection == Direction.down)
-                    {
-                        ++ny;
-                    }
-                    else if(_lookingDirection == Direction.left)
-                    {
-                        --nx;
-                    }
-                    else if(_lookingDirection == Direction.right)
-                    {
-                        ++nx;
-                    }
+                //if(input.key == SK.e && !Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this))
+                //{
+                //    int nx = cast(int) _gx, ny = cast(int) _gy;
+                //    if(_lookingDirection == Direction.up)
+                //    {
+                //        --ny;
+                //    }
+                //    else if(_lookingDirection == Direction.down)
+                //    {
+                //        ++ny;
+                //    }
+                //    else if(_lookingDirection == Direction.left)
+                //    {
+                //        --nx;
+                //    }
+                //    else if(_lookingDirection == Direction.right)
+                //    {
+                //        ++nx;
+                //    }
 
-                    Game.world.getTileAt(nx, ny).interact(this);
-                }
+                //    Game.world.getTileAt(nx, ny).interact(this);
+                //}
 
                 if(inventory.length)
                 {
@@ -329,15 +329,28 @@ class EntityPlayer : EntityLiving
 
                         updateInventory();
                     }
-                    else if(input.key == SK.q)
-                    {
-                        if(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).item is null)
-                        {
-                            Game.world.getTileAt(cast(int) _gx, cast(int) _gy).item = _inventory[selectedListItem];
-                            _inventory = _inventory.remove(selectedListItem);
-                            updateInventory();
-                        }
-                    }
+                    //else if(input.key == SK.q)
+                    //{
+                    //    if(Game.world.getTileAt(cast(int) _gx +
+                    //                            (_lookingDirection == Direction.right ? 1 : 0) +
+                    //                            (_lookingDirection == Direction.left ? -1 : 0),
+                    //                            cast(int) _gy +
+                    //                            (_lookingDirection == Direction.down ? 1 : 0 ) +
+                    //                            (_lookingDirection == Direction.up  ? -1 : 0 )
+                    //                            ).item is null
+                    //    )
+                    //    {
+                    //        Game.world.getTileAt(cast(int) _gx +
+                    //                            (_lookingDirection == Direction.right ? 1 : 0) +
+                    //                            (_lookingDirection == Direction.left ? -1 : 0),
+                    //                            cast(int) _gy +
+                    //                            (_lookingDirection == Direction.down ? 1 : 0 ) +
+                    //                            (_lookingDirection == Direction.up  ? -1 : 0 )
+                    //                            ).item = _inventory[selectedListItem];
+                    //        _inventory = _inventory.remove(selectedListItem);
+                    //        updateInventory();
+                    //    }
+                    //}
                 }
             }
         }
@@ -442,5 +455,5 @@ class EntityPlayer : EntityLiving
     uint memory = 0;
     uint selectedListItem = 0;
 
-    immutable int maxItems = 13;
+    immutable int maxItems = 8;
 }

@@ -4,8 +4,8 @@ import entity_player;
 
 class ItemGrass : Item
 {
-    this()
+    this(char sprite)
     {
-        super("Grass", ',', Color.green);
+        super("Grass", sprite, Color.green);
     }
 }

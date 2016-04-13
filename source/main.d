@@ -22,6 +22,7 @@ void main()
     auto updater = Updater(1000/UPS);
     wSidebar = cast(int)(frame.w / 4);
     wView = frame.w - wSidebar;
+    hView = frame.h;
     auto cam = Rect(0, 0, max(80, wView), max(24, frame.h));
 
     Game.world = new World();
@@ -55,10 +56,9 @@ void main()
                     if(cam.x + x >= 0 && cam.x + x < chunkSize * worldSize && cam.y + y >= 0 && cam.y + y < chunkSize * worldSize)
                     {
                         tile = Game.world.getChunkAtLocation(cam.x + x, cam.y + y).getTile((cam.x + x) % chunkSize, (cam.y + y) % chunkSize);
-                        char sp;
-                        (tile.item is null) ? sp = tile.sprite : tile.item.sprite;
 
-                        frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), sp);
+                        frame.write(x,y, fg((tile.item is null) ? tile.color : tile.item.color), bg(tile.backgroundColor), (tile.item is null) ? tile.sprite : tile.item.sprite);
+                        //frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
                     }
                     else
                     {
@@ -69,24 +69,29 @@ void main()
         }
 
         //TODO: Do some sort of check in each chunk that is visible
-        foreach(e; Game.world.getChunkAtLocation(Game.player.globalLocation[0], Game.player.globalLocation[1]).entities)
+
+        if(Game.player.hasRemembered("stuck"))
         {
-            int ex = e.globalLocation[0], ey = e.globalLocation[1];
-            if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
+            auto e = Game.player;
+            frame.write(e.globalLocation[0] - cam.x, e.globalLocation[1] - cam.y, fg(e.color), bg(Color.black_dark), e.sprite);
+        }
+        else
+        {
+            foreach(e; Game.world.getChunkAtLocation(Game.player.globalLocation[0], Game.player.globalLocation[1]).entities)
             {
-                Color col = e.color;
-                Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
-
-                if(Game.player.hasRemembered("stuck"))
+                int ex = e.globalLocation[0], ey = e.globalLocation[1];
+                if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
                 {
-                    tbg = Color.black_dark;
-                }
-                else if(e.color == tbg)
-                {
-                    col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
-                }
+                    Color col = e.color;
+                    Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
 
-                frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
+                    if(e.color == tbg)
+                    {
+                        col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
+                    }
+
+                    frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
+                }
             }
         }
 
@@ -148,20 +153,23 @@ void main()
         int hy = Game.player.globalLocation[1];
         if(!Game.player.hasRemembered("wasd") || secondsFromTicks(Game.ticks) > 18 && Game.player.distanceMoved == 0)
         {
-            Game.frame.write((hx - 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx - 2, hy + 1).backgroundColor), 'A');
-            Game.frame.write((hx + 2) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 2, hy + 1).backgroundColor), 'D');
-            Game.frame.write(hx % cam.w, (hy - 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy - 1)    .backgroundColor), 'W');
-            Game.frame.write(hx % cam.w, (hy + 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy + 1)    .backgroundColor), 'S');
+            Game.frame.write((hx - 2), (hy + 1), fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx - 2, hy + 1).backgroundColor), 'A');
+            Game.frame.write((hx + 2), (hy + 1), fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 2, hy + 1).backgroundColor), 'D');
+            Game.frame.write(hx, (hy - 1),       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy - 1)    .backgroundColor), 'W');
+            Game.frame.write(hx, (hy + 1),       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy + 1)    .backgroundColor), 'S');
+
         }
 
         if( Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).type == TileType.berry &&
-           !Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).used &&
+           //!Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).used &&
             Game.player.itemsPicked < 3
         )
         {
+            if(hx + 4 < worldSize * chunkSize && hy < worldSize * chunkSize)
             Game.frame.write((hx + 2) % cam.w, (hy - 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 4, hy - 1).backgroundColor), 'E');
-            //Game.frame.write((hx + 5) % cam.w, (hy + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 5, hy + 1).backgroundColor), 'F');
         }
+
+        //frame.write(0,0, Game.world.getTileAt(hx, hy).item);
 
         frame.print();
     }

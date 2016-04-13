@@ -6,6 +6,7 @@ enum worldSize = 4;
 enum chunkSize = 100;
 
 int wView;
+int hView;
 int wSidebar;
 
 enum Direction

@@ -36,7 +36,7 @@ abstract class Event
         return _completed;
     }
 
-    bool finalCheck()
+    protected bool finalCheck()
     {
         return true;
     }
