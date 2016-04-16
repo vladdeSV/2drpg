@@ -1,5 +1,6 @@
 import item;
 import enums;
+import slump;
 
 import entity_player;
 
@@ -7,12 +8,14 @@ class ItemStone : Item
 {
     this()
     {
-        super("Stone", char(4), Color.black);
-    }
-
-    override void use(EntityPlayer p)
-    {
-
+        if(chance(5))
+        {
+            super("Brown Stone", ',', Color.yellow_dark);
+        }
+        else
+        {
+            super("Stone", ',', Color.black);
+        }
     }
 
     override void inspect(EntityPlayer p)

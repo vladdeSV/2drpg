@@ -1,4 +1,4 @@
-import scone.keyboard : getInputs, SK, SCK;
+import scone.keyboard : getInputs, SK, SCK, clearInputs, KeyEvent;
 
 import enums;
 import slump;
@@ -24,33 +24,36 @@ class EntityPlayer : EntityLiving
 {
     this(int x, int y)
     {
+        _remembered["pilt"] = false;
         super(/*ListName[random($)]*/ "Hermando" , x, y, char(1), Color.yellow);
 
         _events =
         [
             timeEvent(0,
             {
-                _remembered["stuck"] = true;
+                //_remembered["stuck"] = true;
                 remember("wasd");
-                _events ~= timeEvent(3,
-                {
-                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-                });
+                  remember("sideui");
+                //_events ~= timeEvent(3,
+                //{
+                //    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+                //});
 
-                _events ~= timeEvent(14,
-                {
-                    _remembered["wasd"] = false;
-                });
-                _events ~= timeEvent(16,
-                {
-                    _remembered["stuck"] = false;
-                    remember("sideui");
-                });
+                //_events ~= timeEvent(14,
+                //{
+                //    _remembered["wasd"] = false;
+                //});
+                //_events ~= timeEvent(16,
+                //{
+                //    _remembered["stuck"] = false;
+                //    clearInputs();
+                //    remember("sideui");
+                //});
 
-                _events ~= timeEvent(20,
-                {
-                    remember("wasd");
-                });
+                //_events ~= timeEvent(20,
+                //{
+                //    remember("wasd");
+                //});
             }),
             timeEvent(60 * 2,
             {
@@ -286,28 +289,44 @@ class EntityPlayer : EntityLiving
             }
             else if(input.pressed)
             {
-                //if(input.key == SK.e && !Game.world.getChunkAtLocation(cast(int) _gx, cast(int) _gy).getTile(cast(int) _gx % chunkSize, cast(int) _gy % chunkSize).interact(this))
-                //{
-                //    int nx = cast(int) _gx, ny = cast(int) _gy;
-                //    if(_lookingDirection == Direction.up)
-                //    {
-                //        --ny;
-                //    }
-                //    else if(_lookingDirection == Direction.down)
-                //    {
-                //        ++ny;
-                //    }
-                //    else if(_lookingDirection == Direction.left)
-                //    {
-                //        --nx;
-                //    }
-                //    else if(_lookingDirection == Direction.right)
-                //    {
-                //        ++nx;
-                //    }
+                if(input.key == SK.e && Game.world.getTileAt(cast(int) _gx, cast(int) _gy).items.length)
+                {
+                    if(_inventory.length < maxItems)
+                    {
+                        addItem(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).grabItem());
+                        //Game.world.getTileAt(cast(int) _gx, cast(int) _gy).item = null;
+                        updateInventory();
+                    }
+                    else
+                    {
+                        addThought("I can't carry more.");
+                    }
+                }
+                else if(input.key == SK.f)
+                {
+                    if(!Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this))
+                    {
+                        int nx = cast(int) _gx, ny = cast(int) _gy;
+                        if(_lookingDirection == Direction.up)
+                        {
+                            --ny;
+                        }
+                        else if(_lookingDirection == Direction.down)
+                        {
+                            ++ny;
+                        }
+                        else if(_lookingDirection == Direction.left)
+                        {
+                            --nx;
+                        }
+                        else if(_lookingDirection == Direction.right)
+                        {
+                            ++nx;
+                        }
 
-                //    Game.world.getTileAt(nx, ny).interact(this);
-                //}
+                        Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
+                    }
+                }
 
                 if(inventory.length)
                 {
@@ -319,7 +338,7 @@ class EntityPlayer : EntityLiving
                     {
                         selectedListItem = (selectedListItem + _inventory.length - 1) % _inventory.length;
                     }
-                    else if(input.key == SK.f)
+                    else if(input.key == SK.u)
                     {
                         if(_inventory[selectedListItem].useable)
                         {
@@ -329,28 +348,28 @@ class EntityPlayer : EntityLiving
 
                         updateInventory();
                     }
-                    //else if(input.key == SK.q)
-                    //{
-                    //    if(Game.world.getTileAt(cast(int) _gx +
-                    //                            (_lookingDirection == Direction.right ? 1 : 0) +
-                    //                            (_lookingDirection == Direction.left ? -1 : 0),
-                    //                            cast(int) _gy +
-                    //                            (_lookingDirection == Direction.down ? 1 : 0 ) +
-                    //                            (_lookingDirection == Direction.up  ? -1 : 0 )
-                    //                            ).item is null
-                    //    )
-                    //    {
-                    //        Game.world.getTileAt(cast(int) _gx +
-                    //                            (_lookingDirection == Direction.right ? 1 : 0) +
-                    //                            (_lookingDirection == Direction.left ? -1 : 0),
-                    //                            cast(int) _gy +
-                    //                            (_lookingDirection == Direction.down ? 1 : 0 ) +
-                    //                            (_lookingDirection == Direction.up  ? -1 : 0 )
-                    //                            ).item = _inventory[selectedListItem];
-                    //        _inventory = _inventory.remove(selectedListItem);
-                    //        updateInventory();
-                    //    }
-                    //}
+                    else if(input.key == SK.q)
+                    {
+                        //if(Game.world.getTileAt(cast(int) _gx +
+                        //                        (_lookingDirection == Direction.right ? 1 : 0) +
+                        //                        (_lookingDirection == Direction.left ? -1 : 0),
+                        //                        cast(int) _gy +
+                        //                        (_lookingDirection == Direction.down ? 1 : 0 ) +
+                        //                        (_lookingDirection == Direction.up  ? -1 : 0 )
+                        //                        ).items.length
+                        //)
+                        //{
+                            Game.world.getTileAt(cast(int) _gx +
+                                                (_lookingDirection == Direction.right ? 1 : 0) +
+                                                (_lookingDirection == Direction.left ? -1 : 0),
+                                                cast(int) _gy +
+                                                (_lookingDirection == Direction.down ? 1 : 0 ) +
+                                                (_lookingDirection == Direction.up  ? -1 : 0 )
+                                                ).putItem(_inventory[selectedListItem]);
+                            _inventory = _inventory.remove(selectedListItem);
+                            updateInventory();
+                        //}
+                    }
                 }
             }
         }
@@ -455,5 +474,5 @@ class EntityPlayer : EntityLiving
     uint memory = 0;
     uint selectedListItem = 0;
 
-    immutable int maxItems = 8;
+    immutable int maxItems = 12;
 }

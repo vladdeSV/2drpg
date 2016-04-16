@@ -18,6 +18,8 @@ import tile_sand;
 import tile_tree;
 import tile_water;
 
+import std.math : sqrt, abs, pow;
+
 class World
 {
     this()
@@ -31,11 +33,30 @@ class World
             }
         }
 
-        Game.player = new EntityPlayer
-        (
-            cast(int)((worldSize * chunkSize / wView) / 2 * wView + Game.frame.w / 2 - 11),
-            cast(int)((worldSize * chunkSize / hView) / 2 * hView + Game.frame.h / 2)
-        );
+        int px = cast(int)((worldSize * chunkSize / wView) / 2 * wView + Game.frame.w / 2);
+        int py = cast(int)((worldSize * chunkSize / hView) / 2 * hView + Game.frame.h / 2);
+        Game.player = new EntityPlayer(px, py);
+
+        immutable r = 3;
+        foreach(y; py - r .. py + r)
+        {
+            foreach(x; px - r .. px + r)
+            {
+                int a = px - x;
+                int b = py - y;
+
+                int asq = pow(a, 2);
+                int bsq = pow(b, 2);
+
+                if(sqrt(cast(float)(asq + bsq)) <= r)
+                {
+                    getChunkAtLocation(x,y,).setTile(x,y,new TileGrass());
+                }
+
+            //    import std.stdio;
+            //    assert(!true);
+            }
+        }
 
         addEntity(Game.player);
     }
@@ -80,6 +101,11 @@ class World
 
 class Chunk
 {
+    void setTile(int x, int y, Tile tile)
+    {
+        _tiles[y % chunkSize][x % chunkSize] = tile;
+    }
+
     this(int cx, int cy)
     {
         //Generate terrain
