@@ -18,11 +18,11 @@ class ItemBerry : Item
         }
         else if(type == 1)
         {
-            super("Strawberries", char(31), Color.red, true);
+            super("Straw berries", '|'/*char(31)*/, Color.red, true);
         }
         else
         {
-            super("Blueberries", 'o', Color.blue, true);
+            super("Bluberries", 'o', Color.blue, true);
         }
     }
 

@@ -25,12 +25,6 @@ enum Personality
     neutral,
 }
 
-enum ItemType
-{
-    consumable,
-    misc,
-}
-
 enum TileType
 {
     none,

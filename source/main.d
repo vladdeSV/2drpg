@@ -160,33 +160,47 @@ void main()
             Game.frame.write(hx % cam.w, (hy - 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy - 1)    .backgroundColor), 'W');
             Game.frame.write(hx % cam.w, (hy + 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy + 1)    .backgroundColor), 'S');
         }
-        else if(Game.player.hasRemembered("pilt"))
-        {
-            if(flags.hasFlag(Game.player.lookingDirection, Direction.left))
-            {
-                Game.frame.write((hx - 1) % cam.w, (hy) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx - 1, hy).backgroundColor), 'A');
-            }
-            if(flags.hasFlag(Game.player.lookingDirection, Direction.right))
-            {
-                Game.frame.write((hx + 1) % cam.w, (hy) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 1, hy).backgroundColor), 'D');
-            }
-            if(flags.hasFlag(Game.player.lookingDirection, Direction.up))
-            {
-                Game.frame.write(hx % cam.w, (hy - 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy - 1).backgroundColor), 'W');
-            }
-            if(flags.hasFlag(Game.player.lookingDirection, Direction.down))
-            {
-                Game.frame.write(hx % cam.w, (hy + 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy + 1).backgroundColor), 'S');
-            }
-        }
 
-        if(Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).type == TileType.berry &&
-           !Game.world.getTileAt(Game.player.globalLocation[0], Game.player.globalLocation[1]).used &&
-           Game.player.itemsPicked < 3
+        if
+        (
+            Game.player.hasRemembered("pickupstone") &&
+            Game.world.getTileAt(hx, hy).type == TileType.sand &&
+            Game.world.getTileAt(hx, hy).items.length
         )
         {
-            if(hx + 4 < worldSize * chunkSize && hy < worldSize * chunkSize)
-            Game.frame.write((hx + 2) % cam.w, (hy - 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 4, hy - 1).backgroundColor), 'F');
+            Game.frame.write((hx + 2) % cam.w, (hy - 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 2, hy - 1).backgroundColor), 'E');
+        }
+        //else if(Game.player.hasRemembered("pilt"))
+        //{
+        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.left))
+        //    {
+        //        Game.frame.write((hx - 1) % cam.w, (hy) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx - 1, hy).backgroundColor), 'A');
+        //    }
+        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.right))
+        //    {
+        //        Game.frame.write((hx + 1) % cam.w, (hy) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 1, hy).backgroundColor), 'D');
+        //    }
+        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.up))
+        //    {
+        //        Game.frame.write(hx % cam.w, (hy - 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy - 1).backgroundColor), 'W');
+        //    }
+        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.down))
+        //    {
+        //        Game.frame.write(hx % cam.w, (hy + 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx, hy + 1).backgroundColor), 'S');
+        //    }
+        //}
+
+        if
+        (
+            Game.world.getTileAt(hx, hy).type == TileType.berry &&
+           !Game.world.getTileAt(hx, hy).used &&
+            Game.player.itemsPicked < 3
+        )
+        {
+            //if(hx + 4 < worldSize * chunkSize && hy < worldSize * chunkSize)
+            //{
+                Game.frame.write((hx + 3) % cam.w, (hy) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(hx + 3, hy).backgroundColor), 'F');
+            //}
         }
 
         //frame.write(0,0, Game.world.getTileAt(hx, hy).item);

@@ -22,38 +22,43 @@ import std.math : abs;
 
 class EntityPlayer : EntityLiving
 {
+    int puStone;
+    int puBerry;
+    int puTree ;
+
     this(int x, int y)
     {
         _remembered["pilt"] = false;
         super(/*ListName[random($)]*/ "Hermando" , x, y, char(1), Color.yellow);
 
+        //remember("sideui");
+
         _events =
         [
             timeEvent(0,
             {
-                //_remembered["stuck"] = true;
+                _remembered["stuck"] = true;
                 remember("wasd");
-                  remember("sideui");
-                //_events ~= timeEvent(3,
-                //{
-                //    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-                //});
+                _events ~= timeEvent(3,
+                {
+                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+                });
 
-                //_events ~= timeEvent(14,
-                //{
-                //    _remembered["wasd"] = false;
-                //});
-                //_events ~= timeEvent(16,
-                //{
-                //    _remembered["stuck"] = false;
-                //    clearInputs();
-                //    remember("sideui");
-                //});
+                _events ~= timeEvent(14,
+                {
+                    _remembered["wasd"] = false;
+                });
+                _events ~= timeEvent(16,
+                {
+                    _remembered["stuck"] = false;
+                    clearInputs();
+                    remember("sideui");
+                });
 
-                //_events ~= timeEvent(20,
-                //{
-                //    remember("wasd");
-                //});
+                _events ~= timeEvent(20,
+                {
+                    remember("wasd");
+                });
             }),
             timeEvent(60 * 2,
             {
@@ -348,27 +353,21 @@ class EntityPlayer : EntityLiving
 
                         updateInventory();
                     }
+                    else if(input.key == SK.i)
+                    {
+                        _inventory[selectedListItem].inspect(this);
+                    }
                     else if(input.key == SK.q)
                     {
-                        //if(Game.world.getTileAt(cast(int) _gx +
-                        //                        (_lookingDirection == Direction.right ? 1 : 0) +
-                        //                        (_lookingDirection == Direction.left ? -1 : 0),
-                        //                        cast(int) _gy +
-                        //                        (_lookingDirection == Direction.down ? 1 : 0 ) +
-                        //                        (_lookingDirection == Direction.up  ? -1 : 0 )
-                        //                        ).items.length
-                        //)
-                        //{
-                            Game.world.getTileAt(cast(int) _gx +
-                                                (_lookingDirection == Direction.right ? 1 : 0) +
-                                                (_lookingDirection == Direction.left ? -1 : 0),
-                                                cast(int) _gy +
-                                                (_lookingDirection == Direction.down ? 1 : 0 ) +
-                                                (_lookingDirection == Direction.up  ? -1 : 0 )
-                                                ).putItem(_inventory[selectedListItem]);
-                            _inventory = _inventory.remove(selectedListItem);
-                            updateInventory();
-                        //}
+                        Game.world.getTileAt(cast(int) _gx +
+                                            (_lookingDirection == Direction.right ? 1 : 0) +
+                                            (_lookingDirection == Direction.left ? -1 : 0),
+                                            cast(int) _gy +
+                                            (_lookingDirection == Direction.down ? 1 : 0 ) +
+                                            (_lookingDirection == Direction.up  ? -1 : 0 ))
+                                            .putItem(_inventory[selectedListItem]);
+                        _inventory = _inventory.remove(selectedListItem);
+                        updateInventory();
                     }
                 }
             }
