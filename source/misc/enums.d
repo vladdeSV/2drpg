@@ -31,6 +31,6 @@ import item_fiber;
 import item_stone;
 enum CraftList : Craft
 {
-    fiber = Craft(typeid(ItemFiber), [CraftPart(typeid(ItemGrass), 2), CraftPart(typeid(ItemStone), 1)]),
-    stone = Craft(typeid(ItemStone), [CraftPart(typeid(ItemGrass), 2)]),
+    fiber = Craft("String of grass", typeid(ItemFiber), [CraftPart(typeid(ItemGrass), 2), CraftPart(typeid(ItemStone), 1)]),
+    bigstone = Craft("Heavy rock", typeid(ItemStone), [CraftPart(typeid(ItemGrass), 2)]),
 }

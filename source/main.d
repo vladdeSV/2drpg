@@ -17,6 +17,7 @@ import tile;
 import tile_sand;
 
 import std.algorithm : max, min;
+import std.algorithm.searching : findSplitAfter;
 
 void main()
 {
@@ -199,13 +200,20 @@ void main()
                     enoughItems = count[m] >= part[1];
                 }
 
+                string s = text(recipe.desc, " | ");
+                foreach(aaa, part; recipe.parts)
+                {
+                    s ~= text(findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", count[aaa], '/', part.length, "] ");
+                }
+
+
                 if(enoughItems)
                 {
-                    frame.write(sideSpacing + 2, sideSpacing + 2 + 2*itemNumber, fg(Color.green), "PLSHLDR WORKY WORKY");
+                    frame.write(sideSpacing + 2, sideSpacing + 2 + 2*itemNumber, fg(Color.green), s);
                 }
                 else
                 {
-                    frame.write(sideSpacing + 2, sideSpacing + 2 + 2*itemNumber, fg(Color.red), "PLSHLDR NO WORKY");
+                    frame.write(sideSpacing + 2, sideSpacing + 2 + 2*itemNumber, fg(Color.red), s);
                 }
             }
         }
