@@ -10,7 +10,7 @@ class TileBerry : Tile
 {
     this()
     {
-        super(TileType.berry, char(5), Color.magenta, Color.green_dark);
+        super(char(5), Color.magenta, Color.green_dark);
         _used = false;
     }
 

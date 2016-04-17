@@ -75,9 +75,12 @@ class World
         }
     }
 
-    auto getTileAt(int tx, int ty)
+    auto getTileAt(float tx, float ty)
     {
-        return getChunkAtLocation(tx, ty).getTile(tx % chunkSize, ty % chunkSize);
+        int a = cast(int) tx;
+        int b = cast(int) ty;
+
+        return getChunkAtLocation(a, b).getTile(a % chunkSize, b % chunkSize);
     }
 
     auto getChunk(int cx, int cy)

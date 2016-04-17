@@ -9,6 +9,8 @@ import entity_living;
 
 import item;
 
+import tile_water;
+
 import event;
 import event_distance;
 import event_time;
@@ -21,10 +23,6 @@ import std.math : abs;
 
 class EntityPlayer : EntityLiving
 {
-    int puStone;
-    int puBerry;
-    int puTree ;
-
     this(int x, int y)
     {
         _remembered["pilt"] = false;
@@ -145,7 +143,7 @@ class EntityPlayer : EntityLiving
         float nx = _gx, ny = _gy;
         float vel = 0.1;
 
-        if(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).type == TileType.water)
+        if(typeid(Game.world.getTileAt(cast(int) _gx, cast(int) _gy)) == typeid(TileWater))
         {
             vel -= 0.05;
         }

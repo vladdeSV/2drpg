@@ -12,11 +12,11 @@ class TileTree : Tile
     {
         if(val - 4 < 3)
         {
-            super(TileType.tree, 'Y', Color.red_dark, Color.green_dark, true);
+            super('Y', Color.red_dark, Color.green_dark, true);
         }
         else
         {
-            super(TileType.tree, 'I', Color.red_dark, Color.green_dark, true);
+            super('I', Color.red_dark, Color.green_dark, true);
         }
     }
 

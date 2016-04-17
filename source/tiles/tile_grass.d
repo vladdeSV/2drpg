@@ -16,6 +16,6 @@ class TileGrass : Tile
             _items ~= new ItemGrass(coin() ? '.' : ',');
         }
 
-        super(TileType.grass, s, Color.green, Color.green_dark);
+        super(s, Color.green, Color.green_dark);
     }
 }

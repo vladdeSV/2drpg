@@ -17,6 +17,6 @@ class TileSand : Tile
             _items ~= new ItemStone();
         }
 
-        super(TileType.sand, ' ', Color.yellow_dark, Color.yellow);
+        super(' ', Color.yellow_dark, Color.yellow);
     }
 }

@@ -12,7 +12,11 @@ import game;
 import flags;
 
 import world;
+
 import tile;
+import tile_sand;
+
+import std.algorithm : max, min;
 
 void main()
 {
@@ -174,24 +178,34 @@ void main()
             }
 
             import std.traits;
-            foreach(n, craft; EnumMembers!CraftList)
+            foreach(itemNumber, recipe; EnumMembers!CraftList)
             {
-                int c;
+                int[] count = new int[](recipe.parts.length);
+
                 foreach(item; Game.player.inventory)
                 {
-                    if(typeid(item) == craft[0])
+                    foreach(m, part; recipe.parts)
                     {
-                        ++c;
+                        if(typeid(item) == part[0])
+                        {
+                            count[m] += 1;
+                        }
                     }
                 }
-                if(c >= craft[1])
+
+                bool enoughItems;
+                foreach(m, part; recipe.parts)
                 {
-                    //assert(0);
-                    frame.write(sideSpacing + 2, sideSpacing + 2, fg(Color.green), "Fiber");
+                    enoughItems = count[m] >= part[1];
+                }
+
+                if(enoughItems)
+                {
+                    frame.write(sideSpacing + 2, sideSpacing + 2 + 2*itemNumber, fg(Color.green), "PLSHLDR WORKY WORKY");
                 }
                 else
                 {
-                    frame.write(sideSpacing + 2, sideSpacing + 2, fg(Color.red), "Fiber");
+                    frame.write(sideSpacing + 2, sideSpacing + 2 + 2*itemNumber, fg(Color.red), "PLSHLDR NO WORKY");
                 }
             }
         }
@@ -207,7 +221,7 @@ void main()
         //if
         //(
         //    Game.player.hasRemembered("pickupstone") &&
-        //    Game.world.getTileAt(px, py).type == TileType.sand &&
+        //    typeid(Game.world.getTileAt(px, py)) == typeid(TileSand) &&
         //    Game.world.getTileAt(px, py).items.length
         //)
         //{

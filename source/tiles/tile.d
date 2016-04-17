@@ -4,18 +4,12 @@ import item;
 
 abstract class Tile
 {
-    this(TileType type, char sprite, Color color, Color backgroundColor, bool solid = false)
+    this(char sprite, Color color, Color backgroundColor, bool solid = false)
     {
-        _type = type;
         _sprite = sprite;
         _solid = solid;
         _color = color;
         _backgroundColor = backgroundColor;
-    }
-
-    TileType type() const @property
-    {
-        return _type;
     }
 
     auto sprite() const @property
@@ -72,7 +66,6 @@ abstract class Tile
 
 protected:
     Item[] _items;
-    TileType _type;
     char _sprite;
     bool _solid;
     Color _color, _backgroundColor;

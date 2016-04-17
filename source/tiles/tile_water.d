@@ -7,11 +7,11 @@ class TileWater : Tile
     {
         if(vlad < 2)
         {
-            super(TileType.water, ' ', Color.blue, Color.blue_dark, true);
+            super(' ', Color.blue, Color.blue_dark, true);
         }
         else
         {
-            super(TileType.water, '~', Color.blue_dark, Color.blue);
+            super('~', Color.blue_dark, Color.blue);
         }
     }
 }
