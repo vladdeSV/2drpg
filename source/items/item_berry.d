@@ -14,15 +14,15 @@ class ItemBerry : Item
 
         if(type == 0)
         {
-            super("Raspberries", char(5), Color.red, true);
+            super(/*ItemType.berry, */"Raspberries", char(5), Color.red, true);
         }
         else if(type == 1)
         {
-            super("Straw berries", '|'/*char(31)*/, Color.red, true);
+            super(/*ItemType.berry, */"Straw berries", '|', Color.red, true);
         }
         else
         {
-            super("Bluberries", 'o', Color.blue, true);
+            super(/*ItemType.berry, */"Bluberries", 'o', Color.blue, true);
         }
     }
 

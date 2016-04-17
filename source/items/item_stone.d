@@ -10,11 +10,11 @@ class ItemStone : Item
     {
         if(chance(5))
         {
-            super("Brown Stone", ',', Color.yellow_dark);
+            super(/*ItemType.stone, */"Brown Stone", ',', Color.yellow_dark);
         }
         else
         {
-            super("Stone", ',', Color.black);
+            super(/*ItemType.stone, */"Stone", ',', Color.black);
         }
     }
 

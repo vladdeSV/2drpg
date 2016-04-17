@@ -8,7 +8,7 @@ abstract class Item
         _name = name;
         _sprite = sprite;
         _color = color;
-        _useable = useable;
+        _useable = true;
     }
 
     string name() const @property

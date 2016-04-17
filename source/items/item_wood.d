@@ -7,6 +7,6 @@ class ItemWood : Item
 {
     this()
     {
-        super("Stick", '/', Color.red_dark);
+        super(/*ItemType.wood, */"Stick", '/', Color.red_dark);
     }
 }

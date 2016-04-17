@@ -19,7 +19,6 @@ import std.algorithm : min;
 import std.algorithm.mutation : remove;
 import std.math : abs;
 
-
 class EntityPlayer : EntityLiving
 {
     int puStone;
@@ -31,35 +30,35 @@ class EntityPlayer : EntityLiving
         _remembered["pilt"] = false;
         super(/*ListName[random($)]*/ "Hermando" , x, y, char(1), Color.yellow);
 
-        //remember("sideui");
+        remember("sideui");
 
         _events =
         [
-            timeEvent(0,
-            {
-                _remembered["stuck"] = true;
-                remember("wasd");
-                _events ~= timeEvent(3,
-                {
-                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-                });
+            //timeEvent(0,
+            //{
+            //    _remembered["stuck"] = true;
+            //    remember("wasd");
+            //    _events ~= timeEvent(3,
+            //    {
+            //        addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+            //    });
 
-                _events ~= timeEvent(14,
-                {
-                    _remembered["wasd"] = false;
-                });
-                _events ~= timeEvent(16,
-                {
-                    _remembered["stuck"] = false;
-                    clearInputs();
-                    remember("sideui");
-                });
+            //    _events ~= timeEvent(14,
+            //    {
+            //        _remembered["wasd"] = false;
+            //    });
+            //    _events ~= timeEvent(16,
+            //    {
+            //        _remembered["stuck"] = false;
+            //        clearInputs();
+            //        remember("sideui");
+            //    });
 
-                _events ~= timeEvent(20,
-                {
-                    remember("wasd");
-                });
-            }),
+            //    _events ~= timeEvent(20,
+            //    {
+            //        remember("wasd");
+            //    });
+            //}),
             timeEvent(60 * 2,
             {
                 _remembered["stuck"] = true;
@@ -332,8 +331,11 @@ class EntityPlayer : EntityLiving
                         Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
                     }
                 }
-
-                if(inventory.length)
+                else if(input.key == SK.c)
+                {
+                    _crafting = !crafting;
+                }
+                else if(inventory.length)
                 {
                     if(input.key == SK.right)
                     {
@@ -459,6 +461,10 @@ class EntityPlayer : EntityLiving
         return _warmth;
     }
 
+    bool crafting() const @property
+    {
+        return _crafting;
+    }
 
     private float _distanceMoved = 0;
     private float _warmth = 6;
@@ -467,7 +473,7 @@ class EntityPlayer : EntityLiving
     private Personality _personality;
     private Item[] _inventory;
     private Event[] _events;
-    private bool _running, _firstMove;
+    private bool _running, _firstMove, _crafting;
 
     uint itemsPicked = 0;
     uint memory = 0;

@@ -35,3 +35,38 @@ enum TileType
     tree,
     water,
 }
+
+//enum ItemType
+//{
+//    beartreat,
+//    bed,
+//    berrystick,
+//    berry,
+//    bettertool,
+//    cornerstone,
+//    fiber,
+//    firepit,
+//    fishingpole,
+//    grass,
+//    great,
+//    greatwood,
+//    house,
+//    iron,
+//    multitool,
+//    seasalad,
+//    seaweed,
+//    statue,
+//    stone,
+//    stool,
+//    supremeblock,
+//    supremetool,
+//    sweetsalad,
+//    wood,
+//}
+
+import craft_part;
+import item_grass;
+enum CraftList : CraftPart
+{
+    fiber = CraftPart(typeid(ItemGrass), 2)/*, CraftPart(typeid(ItemBerry), 1)]*/
+}
