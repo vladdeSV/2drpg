@@ -1,4 +1,4 @@
-# 2drpg
+# 2DRPG
 Tile-based RPG, in console/terminal
 
 ![gif](/2drpg.gif?raw=true "2DRPG")
