@@ -15,6 +15,7 @@ import world;
 
 import tile;
 import tile_sand;
+import tile_berry;
 
 import std.algorithm : max, min;
 import std.algorithm.searching : findSplitAfter;
@@ -52,8 +53,8 @@ void main()
         int px = Game.player.globalLocation[0];
         int py = Game.player.globalLocation[1];
 
-        cam.x = cast(int)(px / cam.w) * cam.w;
-        cam.y = cast(int)(py / cam.h) * cam.h;
+        cam.x = cast(int)(px / cam.w) * cam.w/* + cast(int)(((chunkSize * worldSize) % cam.w) / 2)*/;
+        cam.y = cast(int)(py / cam.h) * cam.h/* + cast(int)(((chunkSize * worldSize) % cam.h) / 2)*/;
 
         if(!Game.player.hasRemembered("stuck"))
         {
@@ -66,7 +67,7 @@ void main()
                     {
                         tile = Game.world.getTileAt(cam.x + x, cam.y + y);
 
-                        frame.write(x,y, fg((!tile.items.length) ? tile.color : tile.items[$-1].color), bg(tile.backgroundColor), (!tile.items.length) ? tile.sprite : tile.items[$-1].sprite);
+                        frame.write(x,y, fg(!tile.items.length ? tile.color : (tile.items.length > 1 ? Color.red_dark : (tile.items[$-1].color))), bg(tile.backgroundColor), !tile.items.length ? tile.sprite : (tile.items.length > 1 ? char(30) : tile.items[$-1].sprite));
                         //frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
                     }
                     else
@@ -154,6 +155,11 @@ void main()
                 frame.write(sidebarStart + n * 2, frame.h - 3, fg(item.color), item.sprite, ' ');
             }
 
+            if(Game.player.inventory[Game.player.selectedListItem].usable)
+            {
+                frame.write(frame.w - 3, frame.h - 2, fg(Color.white), "[U]");
+            }
+
             frame.write(sidebarStart + Game.player.selectedListItem * 2 - 1, frame.h - 3, '[');
             frame.write(sidebarStart + Game.player.selectedListItem * 2 + 1, frame.h - 3, ']');
         }
@@ -178,96 +184,91 @@ void main()
                 }
             }
 
+            int yaxis;
             import std.traits;
-            foreach(itemNumber, recipe; EnumMembers!CraftList)
+            foreach(craftNumber, craft; CraftList)
             {
-                int[] count = new int[](recipe.parts.length);
+                int[] itemCount = new int[](craft.parts.length);
 
                 foreach(item; Game.player.inventory)
                 {
-                    foreach(m, part; recipe.parts)
+                    foreach(m, part; craft.parts)
                     {
                         if(typeid(item) == part[0])
                         {
-                            count[m] += 1;
+                            itemCount[m] += 1;
                         }
                     }
                 }
 
-                bool enoughItems;
-                foreach(m, part; recipe.parts)
+                string craftName = ' ' ~ craft.desc;
+                if(craftNumber == Game.player.selectedCraftItem)
                 {
-                    enoughItems = count[m] >= part[1];
+                    craftName = text(char(16), craftName);
+                    //frame.write(sideSpacing + 2, sideSpacing + 1 + yaxis, char(24));
+                    //frame.write(sideSpacing + 2, sideSpacing + 3 + yaxis, char(25));
                 }
 
-                string s = text(recipe.desc, " | ");
-                foreach(aaa, part; recipe.parts)
-                {
-                    s ~= text(findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", count[aaa], '/', part.length, "] ");
-                }
+                frame.write(sideSpacing + 1, sideSpacing + 2 + yaxis, ' ', craftName);
 
-
-                if(enoughItems)
+                foreach(aaa, part; craft.parts)
                 {
-                    frame.write(sideSpacing + 2, sideSpacing + 2 + 2*itemNumber, fg(Color.green), s);
+                    string req = text(findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", itemCount[aaa], '/', part[1], "] ");
+                    frame.write(sideSpacing + 45 - req.length - 1, sideSpacing + 2 + yaxis, fg((itemCount[aaa] >= part[1]) ? Color.green : Color.red), req);
+                    ++yaxis;
                 }
-                else
-                {
-                    frame.write(sideSpacing + 2, sideSpacing + 2 + 2*itemNumber, fg(Color.red), s);
-                }
+                ++yaxis;
             }
         }
 
-        //if(!Game.player.hasRemembered("wasd") || secondsFromTicks(Game.ticks) > 18 && Game.player.distanceMoved == 0)
-        //{
-        //    Game.frame.write((px - 2) % cam.w, (py + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px - 2, py + 1).backgroundColor), 'A');
-        //    Game.frame.write((px + 2) % cam.w, (py + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 2, py + 1).backgroundColor), 'D');
-        //    Game.frame.write(px % cam.w, (py - 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py - 1)    .backgroundColor), 'W');
-        //    Game.frame.write(px % cam.w, (py + 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py + 1)    .backgroundColor), 'S');
-        //}
+        if(!Game.player.hasRemembered("wasd") || secondsFromTicks(Game.ticks) > 18 && Game.player.distanceMoved == 0)
+        {
+            Game.frame.write((px - 2) % cam.w, (py + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px - 2, py + 1).backgroundColor), 'A');
+            Game.frame.write((px + 2) % cam.w, (py + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 2, py + 1).backgroundColor), 'D');
+            Game.frame.write(px % cam.w, (py - 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py - 1)    .backgroundColor), 'W');
+            Game.frame.write(px % cam.w, (py + 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py + 1)    .backgroundColor), 'S');
+        }
 
-        //if
-        //(
-        //    Game.player.hasRemembered("pickupstone") &&
-        //    typeid(Game.world.getTileAt(px, py)) == typeid(TileSand) &&
-        //    Game.world.getTileAt(px, py).items.length
-        //)
-        //{
-        //    Game.frame.write((px + 2) % cam.w, (py - 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 2, py - 1).backgroundColor), 'E');
-        //}
-        //else if(Game.player.hasRemembered("pilt"))
-        //{
-        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.left))
-        //    {
-        //        Game.frame.write((px - 1) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px - 1, py).backgroundColor), 'A');
-        //    }
-        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.right))
-        //    {
-        //        Game.frame.write((px + 1) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 1, py).backgroundColor), 'D');
-        //    }
-        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.up))
-        //    {
-        //        Game.frame.write(px % cam.w, (py - 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py - 1).backgroundColor), 'W');
-        //    }
-        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.down))
-        //    {
-        //        Game.frame.write(px % cam.w, (py + 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py + 1).backgroundColor), 'S');
-        //    }
-        //}
-        //if
-        //(
-        //    Game.world.getTileAt(px, py).type == TileType.berry &&
-        //   !Game.world.getTileAt(px, py).used &&
-        //    Game.player.itemsPicked < 3
-        //)
-        //{
-        //    //if(px + 4 < worldSize * chunkSize && py < worldSize * chunkSize)
-        //    //{
-        //        Game.frame.write((px + 3) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 3, py).backgroundColor), 'F');
-        //    //}
-        //}
-
-        //frame.write(0,0, Game.world.getTileAt(px, py).item);
+        if
+        (
+            Game.player.hasRemembered("pickupstone") &&
+            typeid(Game.world.getTileAt(px, py)) == typeid(TileSand) &&
+            Game.world.getTileAt(px, py).items.length
+        )
+        {
+            Game.frame.write((px + 2) % cam.w, (py - 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 2, py - 1).backgroundColor), 'E');
+        }
+        else if(Game.player.hasRemembered("pilt"))
+        {
+            if(flags.hasFlag(Game.player.lookingDirection, Direction.left))
+            {
+                Game.frame.write((px - 1) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px - 1, py).backgroundColor), 'A');
+            }
+            if(flags.hasFlag(Game.player.lookingDirection, Direction.right))
+            {
+                Game.frame.write((px + 1) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 1, py).backgroundColor), 'D');
+            }
+            if(flags.hasFlag(Game.player.lookingDirection, Direction.up))
+            {
+                Game.frame.write(px % cam.w, (py - 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py - 1).backgroundColor), 'W');
+            }
+            if(flags.hasFlag(Game.player.lookingDirection, Direction.down))
+            {
+                Game.frame.write(px % cam.w, (py + 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py + 1).backgroundColor), 'S');
+            }
+        }
+        if
+        (
+            typeid(Game.world.getTileAt(px, py)) == typeid(TileBerry) &&
+           !Game.world.getTileAt(px, py).used &&
+            Game.player.itemsPicked < 3
+        )
+        {
+            //if(px + 4 < worldSize * chunkSize && py < worldSize * chunkSize)
+            //{
+                Game.frame.write((px + 3) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 3, py).backgroundColor), 'F');
+            //}
+        }
 
         frame.print();
     }

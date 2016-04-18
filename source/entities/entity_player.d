@@ -4,10 +4,12 @@ import enums;
 import slump;
 import flags;
 import game;
+import craft_part;
 
 import entity_living;
 
 import item;
+import item_stone;
 
 import tile_water;
 
@@ -20,6 +22,7 @@ import std.string : wrap, split;
 import std.algorithm : min;
 import std.algorithm.mutation : remove;
 import std.math : abs;
+import std.traits : EnumMembers;
 
 class EntityPlayer : EntityLiving
 {
@@ -29,34 +32,35 @@ class EntityPlayer : EntityLiving
         super(/*ListName[random($)]*/ "Hermando" , x, y, char(1), Color.yellow);
 
         remember("sideui");
+        remember("wasd");
 
         _events =
         [
-            //timeEvent(0,
-            //{
-            //    _remembered["stuck"] = true;
-            //    remember("wasd");
-            //    _events ~= timeEvent(3,
-            //    {
-            //        addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-            //    });
+        //    timeEvent(0,
+        //    {
+        //        _remembered["stuck"] = true;
+        //        remember("wasd");
+        //        _events ~= timeEvent(3,
+        //        {
+        //            addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+        //        });
 
-            //    _events ~= timeEvent(14,
-            //    {
-            //        _remembered["wasd"] = false;
-            //    });
-            //    _events ~= timeEvent(16,
-            //    {
-            //        _remembered["stuck"] = false;
-            //        clearInputs();
-            //        remember("sideui");
-            //    });
+        //        _events ~= timeEvent(14,
+        //        {
+        //            _remembered["wasd"] = false;
+        //        });
+        //        _events ~= timeEvent(16,
+        //        {
+        //            _remembered["stuck"] = false;
+        //            clearInputs();
+        //            remember("sideui");
+        //        });
 
-            //    _events ~= timeEvent(20,
-            //    {
-            //        remember("wasd");
-            //    });
-            //}),
+        //        _events ~= timeEvent(20,
+        //        {
+        //            remember("wasd");
+        //        });
+        //    }),
             timeEvent(60 * 2,
             {
                 _remembered["stuck"] = true;
@@ -345,7 +349,7 @@ class EntityPlayer : EntityLiving
                     }
                     else if(input.key == SK.u)
                     {
-                        if(_inventory[selectedListItem].useable)
+                        if(_inventory[selectedListItem].usable)
                         {
                             _inventory[selectedListItem].use(this);
                             _inventory = _inventory.remove(selectedListItem);
@@ -359,15 +363,74 @@ class EntityPlayer : EntityLiving
                     }
                     else if(input.key == SK.q)
                     {
-                        Game.world.getTileAt(cast(int) _gx +
-                                            (_lookingDirection == Direction.right ? 1 : 0) +
-                                            (_lookingDirection == Direction.left ? -1 : 0),
-                                            cast(int) _gy +
-                                            (_lookingDirection == Direction.down ? 1 : 0 ) +
-                                            (_lookingDirection == Direction.up  ? -1 : 0 ))
-                                            .putItem(_inventory[selectedListItem]);
-                        _inventory = _inventory.remove(selectedListItem);
-                        updateInventory();
+
+                        if(!Game.world.getTileAt(cast(int) _gx + (_lookingDirection == Direction.right ? 1 : 0) + (_lookingDirection == Direction.left ? -1 : 0),
+                                                cast(int) _gy + (_lookingDirection == Direction.down ? 1 : 0 ) + (_lookingDirection == Direction.up  ? -1 : 0 )).solid)
+                        {
+                            Game.world.getTileAt(cast(int) _gx +
+                                                (_lookingDirection == Direction.right ? 1 : 0) +
+                                                (_lookingDirection == Direction.left ? -1 : 0),
+                                                cast(int) _gy +
+                                                (_lookingDirection == Direction.down ? 1 : 0 ) +
+                                                (_lookingDirection == Direction.up  ? -1 : 0 ))
+                                                .putItem(_inventory[selectedListItem]);
+                            _inventory = _inventory.remove(selectedListItem);
+                            updateInventory();
+                        }
+                    }
+                }
+
+                if(crafting && input.pressed)
+                {
+                    if(input.key == SK.up)
+                    {
+                        selectedCraftItem = (selectedCraftItem + CraftList.length - 1) % CraftList.length;
+                    }
+                    else if(input.key == SK.down)
+                    {
+                        selectedCraftItem = (selectedCraftItem + 1) % CraftList.length;
+                    }
+                    else if(input.key == SK.space)
+                    {
+                        auto craft = CraftList[selectedCraftItem];
+
+                        int[] itemCount = new int[](craft.parts.length);
+
+                        foreach(item; _inventory)
+                        {
+                            foreach(m, part; craft.parts)
+                            {
+                                if(typeid(item) == part[0])
+                                {
+                                    itemCount[m] += 1;
+                                }
+                            }
+                        }
+
+                        bool allMaterials = true;
+                        foreach(n, part; craft.parts)
+                        {
+                            allMaterials &= itemCount[n] >= part[1];
+                        }
+
+                        if(allMaterials)
+                        {
+                            //foreach(item; _inventory)
+                            //{
+                            //    foreach(m, part; craft.parts)
+                            //    {
+                            //        if(itemCount[m] > 0 && (typeid(item) == part[0])
+                            //            {
+                            //                itemCount[m] -= 1;
+                            //            }
+                            //        }
+                            //    }
+                            //}
+
+                            //THIS IS A SHIT DEBUG METHOD
+                            _inventory = null;
+                            addItem(cast(Item) craft.itemType.create());
+                        }
                     }
                 }
             }
@@ -476,6 +539,7 @@ class EntityPlayer : EntityLiving
     uint itemsPicked = 0;
     uint memory = 0;
     uint selectedListItem = 0;
+    int selectedCraftItem = 0;
 
-    immutable int maxItems = 12;
+    immutable int maxItems = 10;
 }
