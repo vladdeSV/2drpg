@@ -422,15 +422,17 @@ class EntityPlayer : EntityLiving
 
                         if(allMaterials)
                         {
+                                        import std.stdio : writeln;
                             for(int i = 0; i < _inventory.length; ++i)
                             {
                                 foreach(n, part; craft.parts)
                                 {
-                                    if(itemsNeeded[n] > 0 && typeid(_inventory[i]) == part[0])
+                                    if(itemsNeeded[n] >= 0 && typeid(_inventory[i]) == part[0])
                                     {
                                         itemsNeeded[n] -= 1;
                                         _inventory = _inventory.remove(i);
                                         --i;
+                                        break;
                                     }
                                 }
                             }
