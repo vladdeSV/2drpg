@@ -16,6 +16,7 @@ import world;
 import tile;
 import tile_sand;
 import tile_berry;
+import item_stone;
 
 import std.algorithm : max, min;
 import std.algorithm.searching : findSplitAfter;
@@ -223,51 +224,49 @@ void main()
 
         if(!Game.player.hasRemembered("wasd") || secondsFromTicks(Game.ticks) > 18 && Game.player.distanceMoved == 0)
         {
-            Game.frame.write((px - 2) % cam.w, (py + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px - 2, py + 1).backgroundColor), 'A');
-            Game.frame.write((px + 2) % cam.w, (py + 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 2, py + 1).backgroundColor), 'D');
-            Game.frame.write(px % cam.w, (py - 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py - 1)    .backgroundColor), 'W');
-            Game.frame.write(px % cam.w, (py + 1) % cam.h,       fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py + 1)    .backgroundColor), 'S');
+            Game.frame.write((px - 4) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'A', fg(Color.yellow), ']');
+            Game.frame.write((px + 2) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'D', fg(Color.yellow), ']');
+            Game.frame.write((px - 1) % cam.w, (py - 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'W', fg(Color.yellow), ']');
+            Game.frame.write((px - 1) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'S', fg(Color.yellow), ']');
         }
 
         if
         (
-            Game.player.hasRemembered("pickupstone") &&
+            Game.player.counter(typeid(ItemStone)) <= 3 &&
             typeid(Game.world.getTileAt(px, py)) == typeid(TileSand) &&
             Game.world.getTileAt(px, py).items.length
         )
         {
-            Game.frame.write((px + 2) % cam.w, (py - 1) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 2, py - 1).backgroundColor), 'E');
+            Game.frame.write((px + 2) % cam.w, (py - 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'E', fg(Color.yellow), ']');
         }
-        else if(Game.player.hasRemembered("pilt"))
-        {
-            if(flags.hasFlag(Game.player.lookingDirection, Direction.left))
-            {
-                Game.frame.write((px - 1) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px - 1, py).backgroundColor), 'A');
-            }
-            if(flags.hasFlag(Game.player.lookingDirection, Direction.right))
-            {
-                Game.frame.write((px + 1) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 1, py).backgroundColor), 'D');
-            }
-            if(flags.hasFlag(Game.player.lookingDirection, Direction.up))
-            {
-                Game.frame.write(px % cam.w, (py - 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py - 1).backgroundColor), 'W');
-            }
-            if(flags.hasFlag(Game.player.lookingDirection, Direction.down))
-            {
-                Game.frame.write(px % cam.w, (py + 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py + 1).backgroundColor), 'S');
-            }
-        }
+        //else if(Game.player.hasRemembered("pilt"))
+        //{
+        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.left))
+        //    {
+        //        Game.frame.write((px - 1) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px - 1, py).backgroundColor), 'A');
+        //    }
+        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.right))
+        //    {
+        //        Game.frame.write((px + 1) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 1, py).backgroundColor), 'D');
+        //    }
+        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.up))
+        //    {
+        //        Game.frame.write(px % cam.w, (py - 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py - 1).backgroundColor), 'W');
+        //    }
+        //    if(flags.hasFlag(Game.player.lookingDirection, Direction.down))
+        //    {
+        //        Game.frame.write(px % cam.w, (py + 1) % cam.h,   fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px, py + 1).backgroundColor), 'S');
+        //    }
+        //}
+
         if
         (
             typeid(Game.world.getTileAt(px, py)) == typeid(TileBerry) &&
            !Game.world.getTileAt(px, py).used &&
-            Game.player.itemsPicked < 3
+            Game.player.counter(typeid(TileBerry)) < 3
         )
         {
-            //if(px + 4 < worldSize * chunkSize && py < worldSize * chunkSize)
-            //{
-                Game.frame.write((px + 3) % cam.w, (py) % cam.h, fg(Color.white), bg((Game.player.hasRemembered("stuck")) ? Color.black_dark : Game.world.getTileAt(px + 3, py).backgroundColor), 'F');
-            //}
+            Game.frame.write((px + 5) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'F', fg(Color.yellow), ']');
         }
 
         frame.print();

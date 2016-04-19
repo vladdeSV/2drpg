@@ -36,31 +36,31 @@ class EntityPlayer : EntityLiving
 
         _events =
         [
-        //    timeEvent(0,
-        //    {
-        //        _remembered["stuck"] = true;
-        //        remember("wasd");
-        //        _events ~= timeEvent(3,
-        //        {
-        //            addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-        //        });
+            timeEvent(0,
+            {
+                _remembered["stuck"] = true;
+                remember("wasd");
+                _events ~= timeEvent(3,
+                {
+                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+                });
 
-        //        _events ~= timeEvent(14,
-        //        {
-        //            _remembered["wasd"] = false;
-        //        });
-        //        _events ~= timeEvent(16,
-        //        {
-        //            _remembered["stuck"] = false;
-        //            clearInputs();
-        //            remember("sideui");
-        //        });
+                _events ~= timeEvent(14,
+                {
+                    _remembered["wasd"] = false;
+                });
+                _events ~= timeEvent(16,
+                {
+                    _remembered["stuck"] = false;
+                    clearInputs();
+                    remember("sideui");
+                });
 
-        //        _events ~= timeEvent(20,
-        //        {
-        //            remember("wasd");
-        //        });
-        //    }),
+                _events ~= timeEvent(20,
+                {
+                    remember("wasd");
+                });
+            }),
             timeEvent(60 * 2,
             {
                 _remembered["stuck"] = true;
@@ -392,6 +392,8 @@ class EntityPlayer : EntityLiving
                     }
                     else if(input.key == SK.space)
                     {
+                        //This entire part is stupid and NOT good.
+
                         Craft craft = CraftList[selectedCraftItem];
 
                         int[] itemCount = new int[](craft.parts.length);
@@ -422,7 +424,6 @@ class EntityPlayer : EntityLiving
 
                         if(allMaterials)
                         {
-                                        import std.stdio : writeln;
                             for(int i = 0; i < _inventory.length; ++i)
                             {
                                 foreach(n, part; craft.parts)
@@ -508,8 +509,17 @@ class EntityPlayer : EntityLiving
     {
         if(!inventoryFull)
         {
+            if((typeid(item) in _counter) is null)
+            {
+                _counter[typeid(item)] = 1;
+            }
+            else
+            {
+                _counter[typeid(item)] += 1;
+            }
+
             _inventory ~= item;
-            ++itemsPicked;
+            //++itemsPicked;
         }
         else
         {
@@ -537,19 +547,32 @@ class EntityPlayer : EntityLiving
         return _crafting;
     }
 
+    int counter(TypeInfo_Class type) @property
+    {
+        if((type in _counter) is null)
+        {
+            return _counter[type] = 0;
+        }
+        else
+        {
+            return _counter[type];
+        }
+    }
+
     private float _distanceMoved = 0;
     private float _warmth = 6;
     private string[] _thoughts;
     private bool[string] _remembered;
+    private int[TypeInfo_Class] _counter;
     private Personality _personality;
     private Item[] _inventory;
     private Event[] _events;
     private bool _running, _firstMove, _crafting;
 
-    uint itemsPicked = 0;
-    uint memory = 0;
-    uint selectedListItem = 0;
-    int selectedCraftItem = 0;
+            uint itemsPicked = 0;
+            uint memory = 0;
+            uint selectedListItem = 0;
+            uint selectedCraftItem = 0;
 
     immutable int maxItems = 10;
 }
