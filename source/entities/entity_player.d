@@ -392,7 +392,7 @@ class EntityPlayer : EntityLiving
                     }
                     else if(input.key == SK.space)
                     {
-                        auto craft = CraftList[selectedCraftItem];
+                        Craft craft = CraftList[selectedCraftItem];
 
                         int[] itemCount = new int[](craft.parts.length);
 
@@ -413,24 +413,32 @@ class EntityPlayer : EntityLiving
                             allMaterials &= itemCount[n] >= part[1];
                         }
 
+                        int[] itemsNeeded;
+
+                        foreach(p; craft.parts)
+                        {
+                            itemsNeeded ~= p[1];
+                        }
+
                         if(allMaterials)
                         {
-                            //foreach(item; _inventory)
-                            //{
-                            //    foreach(m, part; craft.parts)
-                            //    {
-                            //        if(itemCount[m] > 0 && (typeid(item) == part[0])
-                            //            {
-                            //                itemCount[m] -= 1;
-                            //            }
-                            //        }
-                            //    }
-                            //}
+                            for(int i = 0; i < _inventory.length; ++i)
+                            {
+                                foreach(n, part; craft.parts)
+                                {
+                                    if(itemsNeeded[n] > 0 && typeid(_inventory[i]) == part[0])
+                                    {
+                                        itemsNeeded[n] -= 1;
+                                        _inventory = _inventory.remove(i);
+                                        --i;
+                                    }
+                                }
+                            }
 
-                            //THIS IS A SHIT DEBUG METHOD
-                            _inventory = null;
                             addItem(cast(Item) craft.itemType.create());
                         }
+
+                        updateInventory();
                     }
                 }
             }

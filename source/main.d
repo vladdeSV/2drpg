@@ -157,7 +157,7 @@ void main()
 
             if(Game.player.inventory[Game.player.selectedListItem].usable)
             {
-                frame.write(frame.w - 3, frame.h - 2, fg(Color.white), "[U]");
+                frame.write(frame.w - 4, frame.h - 3, fg(Color.yellow), '[', fg(Color.white), 'U', fg(Color.yellow), ']');
             }
 
             frame.write(sidebarStart + Game.player.selectedListItem * 2 - 1, frame.h - 3, '[');
