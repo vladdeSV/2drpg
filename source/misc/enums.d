@@ -31,9 +31,37 @@ import item_berry;
 import item_fiber;
 import item_stone;
 import item_wood;
+import item_greatwood;
+import item_fishingpole;
+import item_seasalad;
+import item_seaweed;
+import item_sweetsalad;
+import item_beartreat;
+import item_cornerstone;
 Craft[] CraftList =
 [
-    Craft("String of grass", typeid(ItemFiber), [CraftPart(typeid(ItemGrass), 2), CraftPart(typeid(ItemStone), 1)]),
-    Craft("Stone rock", typeid(ItemStone), [CraftPart(typeid(ItemGrass), 2)]),
-    Craft("S U P E R  W O O D", typeid(ItemWood), [CraftPart(typeid(ItemWood), 8)]),
+    //Craft("Stone rock", typeid(ItemStone), [CraftPart(typeid(ItemGrass), 2)]),
+    Craft("String of grass",  typeid(ItemFiber),       [CraftPart(typeid(ItemGrass),   8)]),
+
+    Craft("Stock",            typeid(ItemGreatWood),   [CraftPart(typeid(ItemWood),    8)]),
+
+    Craft("Big rock",         typeid(ItemCornerStone), [CraftPart(typeid(ItemStone),   8)]),
+
+    Craft("Seaweed grabber",  typeid(ItemFishingPole), [CraftPart(typeid(ItemWood),    2),
+                                                        CraftPart(typeid(ItemStone),   1),
+                                                        CraftPart(typeid(ItemFiber),   2)]),
+
+    Craft("Green food",       typeid(ItemSeaSalad),    [CraftPart(typeid(ItemSeaWeed), 3)]),
+
+    Craft("Other color food", typeid(ItemSweetSalad),  [CraftPart(typeid(ItemSeaWeed), 3),
+                                                        CraftPart(typeid(ItemBerry),   3)]),
+
+    Craft("Friend food",      typeid(ItemBearTreat),   [CraftPart(typeid(ItemBerry),   8)]),
+
+    Craft("Seaweed grabber",  typeid(ItemFishingPole), [CraftPart(typeid(ItemWood),    2),
+                                                        CraftPart(typeid(ItemStone),   1),
+                                                        CraftPart(typeid(ItemFiber),   2)]),
+
 ];
+
+

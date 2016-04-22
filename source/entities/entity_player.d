@@ -31,36 +31,38 @@ class EntityPlayer : EntityLiving
         _remembered["pilt"] = false;
         super(/*ListName[random($)]*/ "Hermando" , x, y, char(1), Color.yellow);
 
-        remember("sideui");
         remember("wasd");
+
+        remember("sideui");
+        //remember("stuck");
 
         _events =
         [
-            timeEvent(0,
-            {
-                _remembered["stuck"] = true;
-                remember("wasd");
-                _events ~= timeEvent(3,
-                {
-                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-                });
+            //timeEvent(0,
+            //{
+            //    _remembered["stuck"] = true;
+            //    remember("wasd");
+            //    _events ~= timeEvent(3,
+            //    {
+            //        addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+            //    });
 
-                _events ~= timeEvent(14,
-                {
-                    _remembered["wasd"] = false;
-                });
-                _events ~= timeEvent(16,
-                {
-                    _remembered["stuck"] = false;
-                    clearInputs();
-                    remember("sideui");
-                });
+            //    _events ~= timeEvent(14,
+            //    {
+            //        _remembered["wasd"] = false;
+            //    });
+            //    _events ~= timeEvent(16,
+            //    {
+            //        _remembered["stuck"] = false;
+            //        clearInputs();
+            //        remember("sideui");
+            //    });
 
-                _events ~= timeEvent(20,
-                {
-                    remember("wasd");
-                });
-            }),
+            //    _events ~= timeEvent(20,
+            //    {
+            //        remember("wasd");
+            //    });
+            //}),
             timeEvent(60 * 2,
             {
                 _remembered["stuck"] = true;
@@ -220,6 +222,7 @@ class EntityPlayer : EntityLiving
         if(hasRemembered("stuck"))
         {
             _movingDirection = Direction.none;
+            _crafting = false;
         }
         else if(_movingDirection == 0)
         {
@@ -231,6 +234,15 @@ class EntityPlayer : EntityLiving
         else
         {
             _firstMove = false;
+        }
+
+        if(hasRemembered("stuck"))
+        {
+            _remembered["sideui"] = false;
+        }
+        else
+        {
+            _remembered["sideui"] = true;
         }
 
         foreach(input; getInputs())
@@ -428,7 +440,7 @@ class EntityPlayer : EntityLiving
                             {
                                 foreach(n, part; craft.parts)
                                 {
-                                    if(itemsNeeded[n] >= 0 && typeid(_inventory[i]) == part[0])
+                                    if(itemsNeeded[n] > 0 && typeid(_inventory[i]) == part[0])
                                     {
                                         itemsNeeded[n] -= 1;
                                         _inventory = _inventory.remove(i);

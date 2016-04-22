@@ -126,6 +126,29 @@ void main()
             }
 
             frame.write(sidebarStart + Game.player.maxItems * 2, frame.h - 3, '|');
+
+            if(Game.player.inventory.length)
+            {
+                if(Game.player.inventory.length > 1)
+                {
+                    frame.write(sidebarStart - 1 + Game.player.selectedListItem * 2, frame.h - 2, char(27), ' ', char(26));
+                }
+
+                frame.write(sidebarStart, frame.h - 4, Game.player.inventory[Game.player.selectedListItem].name);
+
+                foreach(n, ref item; Game.player.inventory)
+                {
+                    frame.write(sidebarStart + n * 2, frame.h - 3, fg(item.color), item.sprite, ' ');
+                }
+
+                if(Game.player.inventory[Game.player.selectedListItem].usable)
+                {
+                    frame.write(frame.w - 4, frame.h - 3, fg(Color.yellow), '[', fg(Color.white), 'U', fg(Color.yellow), ']');
+                }
+
+                frame.write(sidebarStart + Game.player.selectedListItem * 2 - 1, frame.h - 3, '[');
+                frame.write(sidebarStart + Game.player.selectedListItem * 2 + 1, frame.h - 3, ']');
+            }
         }
 
         int eventsStart = 2;
@@ -139,86 +162,6 @@ void main()
             else
             {
                 break;
-            }
-        }
-
-        if(Game.player.inventory.length)
-        {
-            if(Game.player.inventory.length > 1)
-            {
-                frame.write(sidebarStart - 1 + Game.player.selectedListItem * 2, frame.h - 2, char(27), ' ', char(26));
-            }
-
-            frame.write(sidebarStart, frame.h - 4, Game.player.inventory[Game.player.selectedListItem].name);
-
-            foreach(n, ref item; Game.player.inventory)
-            {
-                frame.write(sidebarStart + n * 2, frame.h - 3, fg(item.color), item.sprite, ' ');
-            }
-
-            if(Game.player.inventory[Game.player.selectedListItem].usable)
-            {
-                frame.write(frame.w - 4, frame.h - 3, fg(Color.yellow), '[', fg(Color.white), 'U', fg(Color.yellow), ']');
-            }
-
-            frame.write(sidebarStart + Game.player.selectedListItem * 2 - 1, frame.h - 3, '[');
-            frame.write(sidebarStart + Game.player.selectedListItem * 2 + 1, frame.h - 3, ']');
-        }
-
-        //>>CRAFTING SYSTEM
-        if(Game.player.crafting)
-        {
-            immutable sideSpacing = 2;
-
-            foreach(y; 0 .. hView - sideSpacing*2)
-            {
-                foreach(x; 0 .. 45)
-                {
-                    if(!x || !y || x == 44 || y == hView - sideSpacing*2-1)
-                    {
-                        Game.frame.write(sideSpacing + x, sideSpacing + y, fg(Color.white_dark), bg(Color.black_dark), char(4));
-                    }
-                    else
-                    {
-                        Game.frame.write(sideSpacing + x, sideSpacing + y, bg(Color.black_dark), ' ');
-                    }
-                }
-            }
-
-            int yaxis;
-            import std.traits;
-            foreach(craftNumber, craft; CraftList)
-            {
-                int[] itemCount = new int[](craft.parts.length);
-
-                foreach(item; Game.player.inventory)
-                {
-                    foreach(m, part; craft.parts)
-                    {
-                        if(typeid(item) == part[0])
-                        {
-                            itemCount[m] += 1;
-                        }
-                    }
-                }
-
-                string craftName = ' ' ~ craft.desc;
-                if(craftNumber == Game.player.selectedCraftItem)
-                {
-                    craftName = text(char(16), craftName);
-                    //frame.write(sideSpacing + 2, sideSpacing + 1 + yaxis, char(24));
-                    //frame.write(sideSpacing + 2, sideSpacing + 3 + yaxis, char(25));
-                }
-
-                frame.write(sideSpacing + 1, sideSpacing + 2 + yaxis, ' ', craftName);
-
-                foreach(aaa, part; craft.parts)
-                {
-                    string req = text(findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", itemCount[aaa], '/', part[1], "] ");
-                    frame.write(sideSpacing + 45 - req.length - 1, sideSpacing + 2 + yaxis, fg((itemCount[aaa] >= part[1]) ? Color.green : Color.red), req);
-                    ++yaxis;
-                }
-                ++yaxis;
             }
         }
 
@@ -267,6 +210,63 @@ void main()
         )
         {
             Game.frame.write((px + 5) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'F', fg(Color.yellow), ']');
+        }
+
+         //>>CRAFTING SYSTEM
+        if(Game.player.crafting)
+        {
+            immutable sideSpacing = 2;
+
+            foreach(y; 0 .. hView - sideSpacing*2)
+            {
+                foreach(x; 0 .. 45)
+                {
+                    if(!x || !y || x == 44 || y == hView - sideSpacing*2-1)
+                    {
+                        Game.frame.write(sideSpacing + x, sideSpacing + y, fg(Color.white_dark), bg(Color.black_dark), char(4));
+                    }
+                    else
+                    {
+                        Game.frame.write(sideSpacing + x, sideSpacing + y, bg(Color.black_dark), ' ');
+                    }
+                }
+            }
+
+            int yaxis;
+            import std.traits;
+            foreach(craftNumber, craft; CraftList)
+            {
+                int[] itemCount = new int[](craft.parts.length);
+
+                foreach(item; Game.player.inventory)
+                {
+                    foreach(m, part; craft.parts)
+                    {
+                        if(typeid(item) == part[0])
+                        {
+                            itemCount[m] += 1;
+                        }
+                    }
+                }
+
+
+                string craftName = ' ' ~ craft.desc;
+                if(craftNumber == Game.player.selectedCraftItem)
+                {
+                    craftName = text(char(16), craftName);
+                }
+
+                frame.write(sideSpacing + 1, sideSpacing + 2 + yaxis, ' ', craftName);
+
+                foreach(aaa, part; craft.parts)
+                {
+                    bool enoughItems = itemCount[aaa] >= part[1];
+                    int req = text(findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", itemCount[aaa], '/', part[1], "] ").length;
+                    frame.write(sideSpacing + 45 - req - 1, sideSpacing + 2 + yaxis, findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", fg((enoughItems) ? Color.green : Color.red), itemCount[aaa], fg(Color.white_dark), '/', part[1], "] ");
+                    ++yaxis;
+                }
+                ++yaxis;
+            }
         }
 
         frame.print();
