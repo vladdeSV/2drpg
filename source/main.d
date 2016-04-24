@@ -165,23 +165,23 @@ void main()
             }
         }
 
-        if(!Game.player.hasRemembered("wasd") || secondsFromTicks(Game.ticks) > 18 && Game.player.distanceMoved == 0)
-        {
-            Game.frame.write((px - 4) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'A', fg(Color.yellow), ']');
-            Game.frame.write((px + 2) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'D', fg(Color.yellow), ']');
-            Game.frame.write((px - 1) % cam.w, (py - 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'W', fg(Color.yellow), ']');
-            Game.frame.write((px - 1) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'S', fg(Color.yellow), ']');
-        }
+        //if(!Game.player.hasRemembered("wasd") || secondsFromTicks(Game.ticks) > 18 && Game.player.distanceMoved == 0)
+        //{
+        //    Game.frame.write((px - 4) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'A', fg(Color.yellow), ']');
+        //    Game.frame.write((px + 2) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'D', fg(Color.yellow), ']');
+        //    Game.frame.write((px - 1) % cam.w, (py - 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'W', fg(Color.yellow), ']');
+        //    Game.frame.write((px - 1) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'S', fg(Color.yellow), ']');
+        //}
 
-        if
-        (
-            Game.player.counter(typeid(ItemStone)) <= 3 &&
-            typeid(Game.world.getTileAt(px, py)) == typeid(TileSand) &&
-            Game.world.getTileAt(px, py).items.length
-        )
-        {
-            Game.frame.write((px + 2) % cam.w, (py - 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'E', fg(Color.yellow), ']');
-        }
+        //if
+        //(
+        //    Game.player.counter(typeid(ItemStone)) <= 3 &&
+        //    typeid(Game.world.getTileAt(px, py)) == typeid(TileSand) &&
+        //    Game.world.getTileAt(px, py).items.length
+        //)
+        //{
+        //    Game.frame.write((px + 2) % cam.w, (py - 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'E', fg(Color.yellow), ']');
+        //}
         //else if(Game.player.hasRemembered("pilt"))
         //{
         //    if(flags.hasFlag(Game.player.lookingDirection, Direction.left))
@@ -202,15 +202,15 @@ void main()
         //    }
         //}
 
-        if
-        (
-            typeid(Game.world.getTileAt(px, py)) == typeid(TileBerry) &&
-           !Game.world.getTileAt(px, py).used &&
-            Game.player.counter(typeid(TileBerry)) < 3
-        )
-        {
-            Game.frame.write((px + 5) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'F', fg(Color.yellow), ']');
-        }
+        //if
+        //(
+        //    typeid(Game.world.getTileAt(px, py)) == typeid(TileBerry) &&
+        //   !Game.world.getTileAt(px, py).used &&
+        //    Game.player.counter(typeid(TileBerry)) < 3
+        //)
+        //{
+        //    Game.frame.write((px + 5) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'F', fg(Color.yellow), ']');
+        //}
 
          //>>CRAFTING SYSTEM
         if(Game.player.crafting)
@@ -248,7 +248,6 @@ void main()
                         }
                     }
                 }
-
 
                 string craftName = ' ' ~ craft.desc;
                 if(craftNumber == Game.player.selectedCraftItem)

@@ -1,5 +1,9 @@
 import tile;
 import enums;
+import slump;
+
+import item_fishingpole;
+import item_seaweed;
 
 class TileWater : Tile
 {
@@ -13,5 +17,45 @@ class TileWater : Tile
         {
             super('~', Color.blue_dark, Color.blue);
         }
+
+        _used = false;
+    }
+
+    override bool interact(EntityPlayer p)
+    {
+        if(_used)
+        {
+            return false;
+        }
+
+        if(p.hasItem(typeid(ItemFishingPole)))
+        {
+            if(chance(5))
+            {
+                p.addThought([
+                    "Lucky!",
+                    "Yes!",
+                    "Wohoo!",
+                    ":)",
+                ]);
+
+                p.addItem(new ItemSeaWeed);
+
+                return _used = true;
+            }
+            else
+            {
+                p.addThought([
+                    "No luck here...",
+                    ":(",
+                    "Naw...",
+                    "No catch today.",
+                ]);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

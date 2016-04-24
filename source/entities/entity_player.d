@@ -33,36 +33,36 @@ class EntityPlayer : EntityLiving
 
         remember("wasd");
 
-        remember("sideui");
-        //remember("stuck");
+        //remember("sideui");
+        remember("stuck");
 
         _events =
         [
-            //timeEvent(0,
-            //{
-            //    _remembered["stuck"] = true;
-            //    remember("wasd");
-            //    _events ~= timeEvent(3,
-            //    {
-            //        addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-            //    });
+            timeEvent(0,
+            {
+                _remembered["stuck"] = true;
+                remember("wasd");
+                _events ~= timeEvent(3,
+                {
+                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+                });
 
-            //    _events ~= timeEvent(14,
-            //    {
-            //        _remembered["wasd"] = false;
-            //    });
-            //    _events ~= timeEvent(16,
-            //    {
-            //        _remembered["stuck"] = false;
-            //        clearInputs();
-            //        remember("sideui");
-            //    });
+                _events ~= timeEvent(14,
+                {
+                    _remembered["wasd"] = false;
+                });
+                _events ~= timeEvent(16,
+                {
+                    _remembered["stuck"] = false;
+                    clearInputs();
+                    remember("sideui");
+                });
 
-            //    _events ~= timeEvent(20,
-            //    {
-            //        remember("wasd");
-            //    });
-            //}),
+                _events ~= timeEvent(20,
+                {
+                    remember("wasd");
+                });
+            }),
             timeEvent(60 * 2,
             {
                 _remembered["stuck"] = true;
@@ -213,6 +213,19 @@ class EntityPlayer : EntityLiving
         {
             selectedListItem %= _inventory.length;
         }
+    }
+
+    bool hasItem(TypeInfo_Class item)
+    {
+        foreach(i; _inventory)
+        {
+            if(item == typeid(i))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     override void update()
@@ -472,7 +485,7 @@ class EntityPlayer : EntityLiving
         addThought([s]);
     }
 
-    int lastThoughtN = 0;
+    private int lastThoughtN = 0;
     void addThought(string[] thoughts)
     {
         int n = min(random(thoughts.length), random(thoughts.length));
@@ -535,7 +548,13 @@ class EntityPlayer : EntityLiving
         }
         else
         {
-            assert(0, "Oops, I made a mistake in the code when it comes to items. Sorry ;)");
+            addThought([
+                "I can't carry more, on the ground it goes.",
+                "Oops, I dropped it.",
+                "Aww, I can't carry more.",
+                "Things shouldn't lay on the ground."
+            ]);
+            Game.world.getTileAt(_gx, _gy).putItem(item);
         }
     }
 
@@ -571,6 +590,11 @@ class EntityPlayer : EntityLiving
         }
     }
 
+    Item equippedItem() @property
+    {
+        return _equippedItem;
+    }
+
     private float _distanceMoved = 0;
     private float _warmth = 6;
     private string[] _thoughts;
@@ -580,6 +604,7 @@ class EntityPlayer : EntityLiving
     private Item[] _inventory;
     private Event[] _events;
     private bool _running, _firstMove, _crafting;
+    private Item _equippedItem;
 
             uint itemsPicked = 0;
             uint memory = 0;

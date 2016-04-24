@@ -58,9 +58,9 @@ Craft[] CraftList =
 
     Craft("Friend food",      typeid(ItemBearTreat),   [CraftPart(typeid(ItemBerry),   8)]),
 
-    Craft("Seaweed grabber",  typeid(ItemFishingPole), [CraftPart(typeid(ItemWood),    2),
-                                                        CraftPart(typeid(ItemStone),   1),
-                                                        CraftPart(typeid(ItemFiber),   2)]),
+    //Craft("Seaweed grabber",  typeid(ItemFishingPole), [CraftPart(typeid(ItemWood),    2),
+    //                                                    CraftPart(typeid(ItemStone),   1),
+    //                                                    CraftPart(typeid(ItemFiber),   2)]),
 
 ];
 
