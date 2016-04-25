@@ -11,24 +11,35 @@ class ItemBerry : Item
     this()
     {
         int type = random(3);
+        string name;
+        char sprite;
+        Color color;
 
         if(type == 0)
         {
-            super("Raspberries", char(5), Color.red, true);
+            name = "Raspberries";
+            sprite = char(5);
+            color = Color.red;
         }
         else if(type == 1)
         {
-            super("Straw berries", '|', Color.red, true);
+            name = "Straw berries";
+            sprite = '|';
+            color = Color.red;
         }
         else
         {
-            super("Bluberries", 'o', Color.blue, true);
+            name = "Bluberries";
+            sprite = 'o';
+            color = Color.blue;
         }
+
+        super(name, sprite, color, "berryInspects!(name).inspects[random($)]", true);
     }
 
     override void use(EntityPlayer p)
     {
-        p.memory += 1;
+        //p.memory += 1;
         p.addThought
         ([
             (name ~ " are the best."),
@@ -37,9 +48,14 @@ class ItemBerry : Item
             ("Much tastier than bought " ~ name.toLower() ~ "."),
         ]);
     }
+}
 
-    override void inspect(EntityPlayer p)
-    {
-        p.addThought("Some " ~ name.toLower() ~ ".");
-    }
+template berryInspects(string berries)
+{
+    string[] inspect =
+    [
+        berries ~ " are yummy.",
+        "I really like " ~ berries,
+        ":)"
+    ];
 }

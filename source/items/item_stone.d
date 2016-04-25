@@ -8,22 +8,25 @@ class ItemStone : Item
 {
     this()
     {
+        string name = "Stone";
+        Color color = Color.black;
+
         if(chance(5))
         {
-            super(/*ItemType.stone, */"Brown Stone", ',', Color.yellow_dark);
+            name = "Brown Stone";
+            color = Color.yellow_dark;
         }
-        else
-        {
-            super(/*ItemType.stone, */"Stone", ',', Color.black);
-        }
-    }
 
-    override void inspect(EntityPlayer p)
-    {
-        p.addThought
-        ([
-            "It's a sharp stone.",
-            "The edges of this stone are sharp.",
-        ]);
+        super(name, ',', color, inspects[random($)]);
     }
 }
+
+string[] inspects =
+[
+    "This stone looks stoned.",
+    "Sharp edged stone.",
+    "Lollygag.",
+    "Lollygag2.",
+    "Lollygag3.",
+    "Lollygag4.",
+];

@@ -28,7 +28,7 @@ class TileWater : Tile
             return false;
         }
 
-        if(p.hasItem(typeid(ItemFishingPole)))
+        if(p.equipped == (typeid(ItemFishingPole)))
         {
             if(chance(5))
             {
@@ -42,15 +42,6 @@ class TileWater : Tile
                 p.addItem(new ItemSeaWeed);
 
                 return _used = true;
-            }
-            else
-            {
-                p.addThought([
-                    "No luck here...",
-                    ":(",
-                    "Naw...",
-                    "No catch today.",
-                ]);
             }
 
             return true;

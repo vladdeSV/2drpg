@@ -5,6 +5,6 @@ class EntityBear : EntityLiving
 {
     this(int x, int y)
     {
-        super("Barry Bear", x, y, 'G', Color.yellow_dark);
+        super("Baer Grills", x, y, '@', Color.red);
     }
 }

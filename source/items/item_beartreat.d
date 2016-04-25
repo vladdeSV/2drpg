@@ -5,6 +5,6 @@ class ItemBearTreat : Item
 {
     this()
     {
-        super("Bear treat", '$', Color.magenta, true);
+        super("Bear treat", '$', Color.magenta);
     }
 }

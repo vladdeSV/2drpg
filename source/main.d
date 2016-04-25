@@ -41,7 +41,6 @@ void main()
 
     frame.print();
     Game.world = new World();
-    assert(Game.world.getChunkAtLocation(Game.player.globalLocation[0], Game.player.globalLocation[1]).entities.length > 1);
 
     //Force update of player;
     Game.player.update();
@@ -96,21 +95,27 @@ void main()
         }
         else
         {
-            foreach(e; Game.world.getChunkAtLocation(px, py).entities)
+            //Could I make this more effective?
+
+            foreach(chunks; Game.world._chunks)
+            foreach(chunk; chunks)
             {
-                int ex = e.globalLocation[0], ey = e.globalLocation[1];
-                if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
+                foreach(e; chunk.entities)
                 {
-
-                    Color col = e.color;
-                    Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
-
-                    if(e.color == tbg)
+                    int ex = e.globalLocation[0], ey = e.globalLocation[1];
+                    if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
                     {
-                        col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
-                    }
 
-                    frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
+                        Color col = e.color;
+                        Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
+
+                        if(e.color == tbg)
+                        {
+                            col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
+                        }
+
+                        frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
+                    }
                 }
             }
         }
@@ -138,11 +143,6 @@ void main()
 
             if(Game.player.inventory.length)
             {
-                if(Game.player.inventory.length > 1)
-                {
-                    frame.write(sidebarStart - 1 + Game.player.selectedListItem * 2, frame.h - 2, char(27), ' ', char(26));
-                }
-
                 frame.write(sidebarStart, frame.h - 4, Game.player.inventory[Game.player.selectedListItem].name);
 
                 foreach(n, ref item; Game.player.inventory)
@@ -150,13 +150,20 @@ void main()
                     frame.write(sidebarStart + n * 2, frame.h - 3, fg(item.color), item.sprite, ' ');
                 }
 
+                if(Game.player.inventory.length > 1)
+                {
+                    frame.write(sidebarStart - 1 + Game.player.selectedListItem * 2, frame.h - 3, fg(Color.yellow), char(27));
+                    frame.write(sidebarStart + 1 + Game.player.selectedListItem * 2, frame.h - 3, fg(Color.yellow), char(26));
+                }
+
                 if(Game.player.inventory[Game.player.selectedListItem].usable)
                 {
                     frame.write(frame.w - 4, frame.h - 3, fg(Color.yellow), '[', fg(Color.white), 'U', fg(Color.yellow), ']');
                 }
 
-                frame.write(sidebarStart + Game.player.selectedListItem * 2 - 1, frame.h - 3, '[');
-                frame.write(sidebarStart + Game.player.selectedListItem * 2 + 1, frame.h - 3, ']');
+                //frame.write(sidebarStart + Game.player.selectedListItem * 2 - 1, frame.h - 3, '[');
+                //frame.write(sidebarStart + Game.player.selectedListItem * 2 + 1, frame.h - 3, ']');
+                frame.write(sidebarStart + Game.player.selectedListItem * 2, frame.h - 2, /*fg(Color.yellow),*/ char(24));
             }
         }
 

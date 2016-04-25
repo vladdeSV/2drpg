@@ -85,10 +85,7 @@ class World
 
     auto getEntityAt(float ex, float ey)
     {
-        int a = cast(int) ex;
-        int b = cast(int) ey;
-
-        foreach(e; getChunkAtLocation(a, b).entities)
+        foreach(e; getChunkAtLocation(cast(int) ex, cast(int) ey).entities)
         {
             if(e.globalLocation == [cast(int) ex, cast(int) ey])
             {
@@ -114,7 +111,7 @@ class World
         getChunkAtLocation(ex, ey).entities ~= e;
     }
 
-    private Chunk[worldSize][worldSize] _chunks;
+    /*private*/ Chunk[worldSize][worldSize] _chunks;
 }
 
 class Chunk

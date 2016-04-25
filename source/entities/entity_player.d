@@ -213,7 +213,7 @@ class EntityPlayer : EntityLiving
     {
         if(_inventory.length)
         {
-            selectedListItem %= _inventory.length;
+            _selectedListItem %= _inventory.length;
         }
     }
 
@@ -262,9 +262,16 @@ class EntityPlayer : EntityLiving
 
         foreach(input; getInputs())
         {
-            if(input.key == SK.escape)
+            if(input.key == SK.escape && input.pressed)
             {
-                Game.running = false;
+                if(_crafting)
+                {
+                    _crafting = false;
+                }
+                else
+                {
+                    Game.running = false;
+                }
                 break;
             }
 
@@ -368,25 +375,25 @@ class EntityPlayer : EntityLiving
                 {
                     if(input.key == SK.right)
                     {
-                        selectedListItem = (selectedListItem + 1) % _inventory.length;
+                        _selectedListItem = (_selectedListItem + 1) % _inventory.length;
                     }
                     else if(input.key == SK.left)
                     {
-                        selectedListItem = (selectedListItem + _inventory.length - 1) % _inventory.length;
+                        _selectedListItem = (_selectedListItem + _inventory.length - 1) % _inventory.length;
                     }
                     else if(input.key == SK.u)
                     {
-                        if(_inventory[selectedListItem].usable)
+                        if(_inventory[_selectedListItem].usable)
                         {
-                            _inventory[selectedListItem].use(this);
-                            _inventory = _inventory.remove(selectedListItem);
+                            _inventory[_selectedListItem].use(this);
+                            _inventory = _inventory.remove(_selectedListItem);
                         }
 
                         updateInventory();
                     }
                     else if(input.key == SK.i)
                     {
-                        _inventory[selectedListItem].inspect(this);
+                        _inventory[_selectedListItem].inspect(this);
                     }
                     else if(input.key == SK.q)
                     {
@@ -400,8 +407,8 @@ class EntityPlayer : EntityLiving
                                                 cast(int) _gy +
                                                 (_lookingDirection == Direction.down ? 1 : 0 ) +
                                                 (_lookingDirection == Direction.up  ? -1 : 0 ))
-                                                .putItem(_inventory[selectedListItem]);
-                            _inventory = _inventory.remove(selectedListItem);
+                                                .putItem(_inventory[_selectedListItem]);
+                            _inventory = _inventory.remove(_selectedListItem);
                             updateInventory();
                         }
                     }
@@ -411,17 +418,17 @@ class EntityPlayer : EntityLiving
                 {
                     if(input.key == SK.up)
                     {
-                        selectedCraftItem = (selectedCraftItem + CraftList.length - 1) % CraftList.length;
+                        _selectedCraftItem = (_selectedCraftItem + CraftList.length - 1) % CraftList.length;
                     }
                     else if(input.key == SK.down)
                     {
-                        selectedCraftItem = (selectedCraftItem + 1) % CraftList.length;
+                        _selectedCraftItem = (_selectedCraftItem + 1) % CraftList.length;
                     }
-                    else if(input.key == SK.space)
+                    else if(input.key == SK.enter)
                     {
                         //This entire part is stupid and NOT good.
 
-                        Craft craft = CraftList[selectedCraftItem];
+                        Craft craft = CraftList[_selectedCraftItem];
 
                         int[] itemCount = new int[](craft.parts.length);
 
@@ -596,12 +603,27 @@ class EntityPlayer : EntityLiving
     {
         if(_inventory.length > 0)
         {
-            return typeid(this._inventory[selectedListItem]);
+            return typeid(this._inventory[_selectedListItem]);
         }
         else
         {
             return null;
         }
+    }
+
+    void addMemory(int amount = 1)
+    {
+        _memory += amount;
+    }
+
+    uint selectedListItem() @property const
+    {
+        return _selectedListItem;
+    }
+
+    uint selectedCraftItem() @property const
+    {
+        return _selectedCraftItem;
     }
 
     private float _distanceMoved = 0;
@@ -614,10 +636,9 @@ class EntityPlayer : EntityLiving
     private Event[] _events;
     private bool _running, _firstMove, _crafting;
 
-            uint itemsPicked = 0;
-            uint memory = 0;
-            uint selectedListItem = 0;
-            uint selectedCraftItem = 0;
+    private uint _memory = 0;
+    private uint _selectedListItem = 0;
+    private uint _selectedCraftItem = 0;
 
     immutable int maxItems = 10;
 }
