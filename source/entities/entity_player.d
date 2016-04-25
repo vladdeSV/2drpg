@@ -33,63 +33,63 @@ class EntityPlayer : EntityLiving
 
         remember("wasd");
 
-        //remember("sideui");
-        remember("stuck");
+        remember("sideui");
+        //remember("stuck");
 
         _events =
         [
-            timeEvent(0,
-            {
-                _remembered["stuck"] = true;
-                remember("wasd");
-                _events ~= timeEvent(3,
-                {
-                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-                });
+            //timeEvent(0,
+            //{
+            //    _remembered["stuck"] = true;
+            //    remember("wasd");
+            //    _events ~= timeEvent(3,
+            //    {
+            //        addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+            //    });
 
-                _events ~= timeEvent(14,
-                {
-                    _remembered["wasd"] = false;
-                });
-                _events ~= timeEvent(16,
-                {
-                    _remembered["stuck"] = false;
-                    clearInputs();
-                    remember("sideui");
-                });
+            //    _events ~= timeEvent(14,
+            //    {
+            //        _remembered["wasd"] = false;
+            //    });
+            //    _events ~= timeEvent(16,
+            //    {
+            //        _remembered["stuck"] = false;
+            //        clearInputs();
+            //        remember("sideui");
+            //    });
 
-                _events ~= timeEvent(20,
-                {
-                    remember("wasd");
-                });
-            }),
-            timeEvent(60 * 2,
-            {
-                _remembered["stuck"] = true;
+            //    _events ~= timeEvent(20,
+            //    {
+            //        remember("wasd");
+            //    });
+            //}),
+            //timeEvent(60 * 2,
+            //{
+            //    _remembered["stuck"] = true;
 
-                _events ~= timeEvent(4,
-                {
-                    addThought("You are hiding behind a large tree trunk. You are counting from one to five, slowly, trying to be quiet. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
-                });
+            //    _events ~= timeEvent(4,
+            //    {
+            //        addThought("You are hiding behind a large tree trunk. You are counting from one to five, slowly, trying to be quiet. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
+            //    });
 
-                _events ~= timeEvent(14,
-                {
-                    _remembered["stuck"] = false;
-                });
-            }),
-            timeEvent(60 * 6,
-            {
-                _remembered["stuck"] = true;
-                _events ~= timeEvent(3,
-                {
-                    addThought("The sea stretches out in front of you. The sand beneath your feet is coarse and rough and it is everywhere. You start running around with your large inflatable ball. You kick it as hard as you can and it flies out over the water. You start crying as the ball sinks into the water.");
-                });
+            //    _events ~= timeEvent(14,
+            //    {
+            //        _remembered["stuck"] = false;
+            //    });
+            //}),
+            //timeEvent(60 * 6,
+            //{
+            //    _remembered["stuck"] = true;
+            //    _events ~= timeEvent(3,
+            //    {
+            //        addThought("The sea stretches out in front of you. The sand beneath your feet is coarse and rough and it is everywhere. You start running around with your large inflatable ball. You kick it as hard as you can and it flies out over the water. You start crying as the ball sinks into the water.");
+            //    });
 
-                _events ~= timeEvent(14,
-                {
-                    _remembered["stuck"] = false;
-                });
-            }),
+            //    _events ~= timeEvent(14,
+            //    {
+            //        _remembered["stuck"] = false;
+            //    });
+            //}),
             checkEvent(
             {
                 return warmth < 3;
@@ -186,7 +186,8 @@ class EntityPlayer : EntityLiving
         if
         (
             !(nx < 0 || nx > chunkSize * worldSize) &&
-            !Game.world.getTileAt(cast(int) nx, cast(int) _gy).solid
+            !Game.world.getTileAt(nx, _gy).solid &&
+             (Game.world.getEntityAt(nx, _gy) is null || Game.world.getEntityAt(nx, _gy) is this)
         )
         {
             _distanceMoved += abs(nx - _gx);
@@ -198,7 +199,8 @@ class EntityPlayer : EntityLiving
         if
         (
             !(ny < 0 || ny > chunkSize * worldSize) &&
-            !Game.world.getTileAt(cast(int) _gx, cast(int) ny).solid
+            !Game.world.getTileAt(_gx, ny).solid &&
+             (Game.world.getEntityAt(_gx, ny) is null || Game.world.getEntityAt(_gx, ny) is this)
         )
         {
             _distanceMoved += abs(ny - _gy);
@@ -590,9 +592,16 @@ class EntityPlayer : EntityLiving
         }
     }
 
-    Item equippedItem() @property
+    TypeInfo_Class equipped() @property
     {
-        return _equippedItem;
+        if(_inventory.length > 0)
+        {
+            return typeid(this._inventory[selectedListItem]);
+        }
+        else
+        {
+            return null;
+        }
     }
 
     private float _distanceMoved = 0;
@@ -604,7 +613,6 @@ class EntityPlayer : EntityLiving
     private Item[] _inventory;
     private Event[] _events;
     private bool _running, _firstMove, _crafting;
-    private Item _equippedItem;
 
             uint itemsPicked = 0;
             uint memory = 0;

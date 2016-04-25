@@ -25,22 +25,29 @@ void main()
 {
     sconeInit();
 
+    //>>Frame init
     auto frame = new Frame();
     Game.frame = frame;
-    auto updater = Updater(1000/UPS);
+    //<<
+
+    //UI
     wSidebar = max(30, cast(int)(frame.w / 4));
     wView = frame.w - wSidebar;
     hView = frame.h;
     auto cam = Rect(0, 0,wView, max(24, hView));
+    //<<
 
-    Game.world = new World();
+    auto updater = Updater(1000/UPS);
+
     frame.print();
-    updater.resetUpdates();
-
-    Game.running = true;
+    Game.world = new World();
+    assert(Game.world.getChunkAtLocation(Game.player.globalLocation[0], Game.player.globalLocation[1]).entities.length > 1);
 
     //Force update of player;
     Game.player.update();
+
+    Game.running = true;
+    updater.resetUpdates();
     while(Game.running)
     {
         frame.clear();
@@ -80,6 +87,7 @@ void main()
         }
 
         //TODO: Do some sort of check in each chunk that is visible
+            frame.write(0,0,  Game.world.getChunkAtLocation(px, py).entities.length);
 
         if(Game.player.hasRemembered("stuck"))
         {
@@ -93,6 +101,7 @@ void main()
                 int ex = e.globalLocation[0], ey = e.globalLocation[1];
                 if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
                 {
+
                     Color col = e.color;
                     Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
 

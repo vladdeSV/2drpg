@@ -35,7 +35,7 @@ class TileTree : Tile
             return false;
         }
 
-        if(p.hasItem(typeid(ItemStone)) || p.hasItem(typeid(ItemAxe)) || p.hasItem(typeid(ItemNiceAxe)) || p.hasItem(typeid(ItemMaxe)))
+        if(p.equipped() == (typeid(ItemStone)) || p.equipped() == (typeid(ItemAxe)) || p.equipped() == (typeid(ItemNiceAxe)) || p.equipped() == (typeid(ItemMaxe)))
         {
             p.addThought([
                 "Hit.",

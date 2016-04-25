@@ -8,7 +8,9 @@ import event_distance;
 import event_time;
 
 import entity;
+import entity_living;
 import entity_player;
+import entity_bear;
 
 import tile;
 import tile_berry;
@@ -35,7 +37,6 @@ class World
 
         int px = cast(int)((worldSize * chunkSize / wView) / 2 * wView + Game.frame.w / 2);
         int py = cast(int)((worldSize * chunkSize / hView) / 2 * hView + Game.frame.h / 2);
-        Game.player = new EntityPlayer(px, py);
 
         immutable r = 3;
         foreach(y; py - r .. py + r)
@@ -50,15 +51,14 @@ class World
 
                 if(sqrt(cast(float)(asq + bsq)) <= r)
                 {
-                    getChunkAtLocation(x,y,).setTile(x,y,new TileGrass());
+                    getChunkAtLocation(x,y,).setTile(x, y, new TileGrass());
                 }
-
-            //    import std.stdio;
-            //    assert(!true);
             }
         }
 
-        addEntity(Game.player);
+        auto b = new EntityBear(px, py);
+        addEntity(Game.player = new EntityPlayer(px, py));
+        addEntity(b);
     }
 
     void update()
@@ -81,6 +81,21 @@ class World
         int b = cast(int) ty;
 
         return getChunkAtLocation(a, b).getTile(a % chunkSize, b % chunkSize);
+    }
+
+    auto getEntityAt(float ex, float ey)
+    {
+        int a = cast(int) ex;
+        int b = cast(int) ey;
+
+        foreach(e; getChunkAtLocation(a, b).entities)
+        {
+            if(e.globalLocation == [cast(int) ex, cast(int) ey])
+            {
+                return e;
+            }
+        }
+        return null;
     }
 
     auto getChunk(int cx, int cy)

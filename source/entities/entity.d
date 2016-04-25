@@ -16,12 +16,13 @@ abstract class Entity
         _sprite = sprite;
         _color = color;
 
+        _movingDirection = Direction.none;
         _lookingDirection = cast(Direction)(random(4) + 1);
     }
 
     void move(Direction dir)
     {
-        int ny, nx;
+        float nx = _gx, ny = _gy;
         if(hasFlag(dir, Direction.up))
         {
             ny -= 1;
@@ -37,6 +38,11 @@ abstract class Entity
         if(hasFlag(dir, Direction.right))
         {
             nx += 1;
+        }
+
+        if(dir == Direction.none)
+        {
+            return;
         }
 
         //Check x axis
@@ -127,6 +133,6 @@ abstract class Entity
 
     ///Current chunk location
     private float _moveVelocity;
-    protected Direction _movingDirection;
-    protected Direction _lookingDirection;
+    protected Direction _movingDirection = Direction.none;
+    protected Direction _lookingDirection = Direction.none;
 }
