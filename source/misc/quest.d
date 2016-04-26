@@ -1,15 +1,15 @@
 import slump;
-import entity;
+import entity_living;
 
 class Quest
 {
     this
     (
-        string[] textTalk,
-        string[] textQuest,
-        string[] textQuestCompleted,
+        string/*[]*/ textTalk,
+        string/*[]*/ textQuest,
+        string/*[]*/ textQuestCompleted,
         bool delegate() quest,
-        Entity sender
+        EntityLiving sender
     )
     {
         _textTalk = textTalk;
@@ -21,28 +21,33 @@ class Quest
 
     string talk()
     {
-        return _textTalk[random($)];
+        return _textTalk/*[random($)]*/;
     }
 
     string quest()
     {
-        if(!_completed && quest())
+        if(!_completed && _quest())
         {
             _completed = true;
         }
 
         if(_completed)
         {
-            return _textQuestCompleted[random($)];
+            return _textQuestCompleted/*[random($)]*/;
         }
         else
         {
-            return _textQuest[random($)];
+            return _textQuest/*[random($)]*/;
         }
     }
 
-    /*private*/ bool delegate() _quest;
-    /*private*/ string[] _textTalk, _textQuest, _textQuestCompleted;
-    /*private*/ Entity _sender;
-    /*private*/ bool _completed;
+    EntityLiving sender() @property
+    {
+        return _sender;
+    }
+
+    private bool delegate() _quest;
+    private string/*[]*/ _textTalk, _textQuest, _textQuestCompleted;
+    private EntityLiving _sender;
+    private bool _completed;
 }

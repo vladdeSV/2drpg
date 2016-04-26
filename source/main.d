@@ -227,21 +227,32 @@ void main()
         //{
         //    Game.frame.write((px + 5) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'F', fg(Color.yellow), ']');
         //}
+        immutable sideSpacing = 2;
 
         if(Game.player.questing)
         {
             auto q = Game.player.currentQuest;
-            Game.frame.write(0,0, q._sender.color, q._sender.sprite);
-            Game.frame.write(0,1, q._textTalk);
-            Game.frame.write(0,2, q._textQuest);
-            Game.frame.write(0,3, q._completed);
+            //Game.frame.write(0,0, fg(q.sender.color), q.sender.sprite, fg(Color.white_dark), " ", q.sender.name);
+            //Game.frame.write(0,1, q.talk());
+            //Game.frame.write(0,2, q.quest());
+
+            foreach(y; hView - 8 .. hView - 1)
+            foreach(x; sideSpacing .. wView - sideSpacing)
+            {
+                if(x == sideSpacing || y == hView - 9 || x == wView - sideSpacing - 1 || y == hView - 3)
+                {
+                    frame.write(x,y, bg(Color.black_dark), char(12));
+                }
+                else
+                {
+                    frame.write(x,y, bg(Color.black_dark), ' ');
+                }
+            }
         }
 
         //>>CRAFTING SYSTEM
         else if(Game.player.crafting)
         {
-            immutable sideSpacing = 2;
-
             foreach(y; 0 .. hView - sideSpacing*2)
             {
                 foreach(x; 0 .. 45)

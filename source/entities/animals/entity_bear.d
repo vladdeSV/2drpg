@@ -11,9 +11,9 @@ class EntityBear : EntityAnimal
     {
         super("Baer Grills", x, y, '@', Color.red, new Quest
         (
-            ["Hello", "Swag", "Yo", "Breh"],
-            ["Do this", "slacker"],
-            ["Thank you!", "mmmm", "yess"],
+            "I am un-bear-able",
+            "I'm hungry, give a pal some food?",
+            "Thank you very much! Yum yum.",
             {
                 auto itemType = typeid(ItemGrass);
                 bool completed = Game.player.hasItem(itemType);

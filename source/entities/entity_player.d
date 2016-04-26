@@ -265,6 +265,22 @@ class EntityPlayer : EntityLiving
 
         foreach(input; getInputs())
         {
+            //if(input.pressed)
+            //{
+            //    if(questing)
+            //    {
+
+            //    }
+            //    else if(_crafting)
+            //    {
+
+            //    }
+            //    else
+            //    {
+
+            //    }
+            //}
+
             if(input.key == SK.escape && input.pressed)
             {
                 if(_crafting || questing)
