@@ -267,9 +267,10 @@ class EntityPlayer : EntityLiving
         {
             if(input.key == SK.escape && input.pressed)
             {
-                if(_crafting)
+                if(_crafting || questing)
                 {
                     _crafting = false;
+                    _currentQuest = null;
                 }
                 else
                 {
@@ -286,51 +287,55 @@ class EntityPlayer : EntityLiving
             //Check if player should be running
             _running = input.hasControlKey(SCK.shift);
 
-            if(input.key == SK.w)
+            if(!_crafting && !questing)
             {
-                if(input.pressed)
+                if(input.key == SK.w)
                 {
-                    addFlag(_movingDirection, Direction.up);
+                    if(input.pressed)
+                    {
+                        addFlag(_movingDirection, Direction.up);
+                    }
+                    else
+                    {
+                        removeFlag(_movingDirection, Direction.up);
+                    }
                 }
-                else
+                else if(input.key == SK.s)
                 {
-                    removeFlag(_movingDirection, Direction.up);
+                    if(input.pressed)
+                    {
+                        addFlag(_movingDirection, Direction.down);
+                    }
+                    else
+                    {
+                        removeFlag(_movingDirection, Direction.down);
+                    }
+                }
+                else if(input.key == SK.a)
+                {
+                    if(input.pressed)
+                    {
+                        addFlag(_movingDirection, Direction.left);
+                    }
+                    else
+                    {
+                        removeFlag(_movingDirection, Direction.left);
+                    }
+                }
+                else if(input.key == SK.d)
+                {
+                    if(input.pressed)
+                    {
+                        addFlag(_movingDirection, Direction.right);
+                    }
+                    else
+                    {
+                        removeFlag(_movingDirection, Direction.right);
+                    }
                 }
             }
-            else if(input.key == SK.s)
-            {
-                if(input.pressed)
-                {
-                    addFlag(_movingDirection, Direction.down);
-                }
-                else
-                {
-                    removeFlag(_movingDirection, Direction.down);
-                }
-            }
-            else if(input.key == SK.a)
-            {
-                if(input.pressed)
-                {
-                    addFlag(_movingDirection, Direction.left);
-                }
-                else
-                {
-                    removeFlag(_movingDirection, Direction.left);
-                }
-            }
-            else if(input.key == SK.d)
-            {
-                if(input.pressed)
-                {
-                    addFlag(_movingDirection, Direction.right);
-                }
-                else
-                {
-                    removeFlag(_movingDirection, Direction.right);
-                }
-            }
-            else if(input.pressed)
+
+            if(input.pressed)
             {
                 if(input.key == SK.e)
                 {
@@ -607,6 +612,7 @@ class EntityPlayer : EntityLiving
     {
         if(!questing)
         {
+            _crafting = false;
             _currentQuest = q;
         }
     }

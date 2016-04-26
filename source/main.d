@@ -237,7 +237,7 @@ void main()
             Game.frame.write(0,3, q._completed);
         }
 
-         //>>CRAFTING SYSTEM
+        //>>CRAFTING SYSTEM
         else if(Game.player.crafting)
         {
             immutable sideSpacing = 2;
