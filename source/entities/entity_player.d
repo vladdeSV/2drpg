@@ -5,13 +5,16 @@ import slump;
 import flags;
 import game;
 import craft_part;
+import quest;
 
 import entity_living;
+import entity_animal;
 
 import item;
 import item_stone;
 
 import tile_water;
+import tile_berry;
 
 import event;
 import event_distance;
@@ -28,13 +31,13 @@ class EntityPlayer : EntityLiving
 {
     this(int x, int y)
     {
-        _remembered["pilt"] = false;
-        super(/*ListName[random($)]*/ "Hermando" , x, y, char(1), Color.yellow);
+        super(/*ListName[random($)]*/ "Rosemary" , x, y, char(1), Color.yellow);
 
-        remember("wasd");
+        //_remembered["pilt"] = false;
+        //remember("wasd");
+        //remember("stuck");
 
         remember("sideui");
-        //remember("stuck");
 
         _events =
         [
@@ -329,17 +332,26 @@ class EntityPlayer : EntityLiving
             }
             else if(input.pressed)
             {
-                if(input.key == SK.e && Game.world.getTileAt(cast(int) _gx, cast(int) _gy).items.length)
+                if(input.key == SK.e)
                 {
-                    if(_inventory.length < maxItems)
+                    //>>Special code for berries
+                    if(typeid(Game.world.getTileAt(cast(int) _gx, cast(int) _gy)) == typeid(TileBerry))
                     {
-                        addItem(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).grabItem());
-                        //Game.world.getTileAt(cast(int) _gx, cast(int) _gy).item = null;
-                        updateInventory();
+                        Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this);
                     }
-                    else
+                    //<<
+
+                    if(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).items.length)
                     {
-                        addThought("I can't carry more.");
+                        if(_inventory.length < maxItems)
+                        {
+                            addItem(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).grabItem());
+                            updateInventory();
+                        }
+                        else
+                        {
+                            addThought("I can't carry more.");
+                        }
                     }
                 }
                 else if(input.key == SK.f)
@@ -364,7 +376,16 @@ class EntityPlayer : EntityLiving
                             ++nx;
                         }
 
-                        Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
+                        if(Game.world.getEntityAt(nx, ny) !is null/* && typeid(Game.world.getEntityAt(nx, ny)) == typeid(EntityAnimal)*/)
+                        {
+                            EntityAnimal a = cast(EntityAnimal)(Game.world.getEntityAt(nx, ny));
+
+                            a.interact(this);
+                        }
+                        else
+                        {
+                            Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
+                        }
                     }
                 }
                 else if(input.key == SK.c)
@@ -582,6 +603,24 @@ class EntityPlayer : EntityLiving
         return _warmth;
     }
 
+    void setQuest(Quest q)
+    {
+        if(!questing)
+        {
+            _currentQuest = q;
+        }
+    }
+
+    Quest currentQuest() @property
+    {
+        return _currentQuest;
+    }
+
+    bool questing() const @property
+    {
+        return _currentQuest !is null;
+    }
+
     bool crafting() const @property
     {
         return _crafting;
@@ -635,6 +674,8 @@ class EntityPlayer : EntityLiving
     private Item[] _inventory;
     private Event[] _events;
     private bool _running, _firstMove, _crafting;
+
+    private Quest _currentQuest;
 
     private uint _memory = 0;
     private uint _selectedListItem = 0;

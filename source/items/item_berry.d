@@ -34,28 +34,24 @@ class ItemBerry : Item
             color = Color.blue;
         }
 
-        super(name, sprite, color, "berryInspects!(name).inspects[random($)]", true);
+        super(name, sprite, color, inspects[random($)], true);
     }
 
     override void use(EntityPlayer p)
     {
-        //p.memory += 1;
         p.addThought
         ([
-            (name ~ " are the best."),
+            name ~ " are the best.",
             "Sweeter than the store's.",
-            ("I like " ~ name.toLower() ~ "."),
-            ("Much tastier than bought " ~ name.toLower() ~ "."),
+            "I like " ~ name.toLower() ~ ".",
+            "Much tastier than bought " ~ name.toLower() ~ ".",
         ]);
     }
 }
 
-template berryInspects(string berries)
-{
-    string[] inspect =
-    [
-        berries ~ " are yummy.",
-        "I really like " ~ berries,
-        ":)"
-    ];
-}
+string[] inspects =
+[
+    "Berries are yummy.",
+    "I really like berries.",
+    ":)"
+];

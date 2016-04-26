@@ -1,7 +1,7 @@
-import entity_living;
+import entity_animal;
 import enums;
 
-class EntityRacoon : EntityLiving
+class EntityRacoon : EntityAnimal
 {
     this(int x, int y)
     {

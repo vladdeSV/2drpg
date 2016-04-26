@@ -228,8 +228,17 @@ void main()
         //    Game.frame.write((px + 5) % cam.w, (py + 1) % cam.h, fg(Color.yellow), '[', fg(Color.white), 'F', fg(Color.yellow), ']');
         //}
 
+        if(Game.player.questing)
+        {
+            auto q = Game.player.currentQuest;
+            Game.frame.write(0,0, q._sender.color, q._sender.sprite);
+            Game.frame.write(0,1, q._textTalk);
+            Game.frame.write(0,2, q._textQuest);
+            Game.frame.write(0,3, q._completed);
+        }
+
          //>>CRAFTING SYSTEM
-        if(Game.player.crafting)
+        else if(Game.player.crafting)
         {
             immutable sideSpacing = 2;
 

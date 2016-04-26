@@ -56,9 +56,9 @@ class World
             }
         }
 
-        auto b = new EntityBear(px, py);
         addEntity(Game.player = new EntityPlayer(px, py));
-        addEntity(b);
+
+        addEntity(new EntityBear(px - 5, py - 3));
     }
 
     void update()
