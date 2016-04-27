@@ -5,9 +5,9 @@ class Quest
 {
     this
     (
-        string/*[]*/ textTalk,
-        string/*[]*/ textQuest,
-        string/*[]*/ textQuestCompleted,
+        string[] textTalk,
+        string[] textQuest,
+        string[] textQuestCompleted,
         bool delegate() quest,
         EntityLiving sender
     )
@@ -21,7 +21,7 @@ class Quest
 
     string talk()
     {
-        return _textTalk/*[random($)]*/;
+        return _textTalk[random($)];
     }
 
     string quest()
@@ -33,11 +33,11 @@ class Quest
 
         if(_completed)
         {
-            return _textQuestCompleted/*[random($)]*/;
+            return _textQuestCompleted[random($)];
         }
         else
         {
-            return _textQuest/*[random($)]*/;
+            return _textQuest[random($)];
         }
     }
 
@@ -47,7 +47,7 @@ class Quest
     }
 
     private bool delegate() _quest;
-    private string/*[]*/ _textTalk, _textQuest, _textQuestCompleted;
+    private string[] _textTalk, _textQuest, _textQuestCompleted;
     private EntityLiving _sender;
     private bool _completed;
 }

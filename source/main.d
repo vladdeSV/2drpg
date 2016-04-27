@@ -2,8 +2,6 @@
  * So far, I would like to change:
  * * Chunk's `Entity[] entities` is public, which should be private
  */
-import scone;
-
 import enums;
 import slump;
 import time;
@@ -20,6 +18,8 @@ import item_stone;
 
 import std.algorithm : max, min;
 import std.algorithm.searching : findSplitAfter;
+
+import scone;
 
 void main()
 {
@@ -85,9 +85,6 @@ void main()
             }
         }
 
-        //TODO: Do some sort of check in each chunk that is visible
-            frame.write(0,0,  Game.world.getChunkAtLocation(px, py).entities.length);
-
         if(Game.player.hasRemembered("stuck"))
         {
             auto e = Game.player;
@@ -98,23 +95,24 @@ void main()
             //Could I make this more effective?
 
             foreach(chunks; Game.world._chunks)
-            foreach(chunk; chunks)
             {
-                foreach(e; chunk.entities)
+                foreach(chunk; chunks)
                 {
-                    int ex = e.globalLocation[0], ey = e.globalLocation[1];
-                    if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
+                    foreach(e; chunk.entities)
                     {
-
-                        Color col = e.color;
-                        Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
-
-                        if(e.color == tbg)
+                        int ex = e.globalLocation[0], ey = e.globalLocation[1];
+                        if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
                         {
-                            col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
-                        }
+                            Color col = e.color;
+                            Color tbg = Game.world.getTileAt(ex, ey).backgroundColor;
 
-                        frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
+                            if(e.color == tbg)
+                            {
+                                col = colorIsDark(col) ? lightColorFromColor(col) : darkColorFromColor(col);
+                            }
+
+                            frame.write(ex - cam.x, ey - cam.y, fg(col), bg(tbg), e.sprite);
+                        }
                     }
                 }
             }
@@ -239,15 +237,35 @@ void main()
             foreach(y; hView - 8 .. hView - 1)
             foreach(x; sideSpacing .. wView - sideSpacing)
             {
-                if(x == sideSpacing || y == hView - 9 || x == wView - sideSpacing - 1 || y == hView - 3)
+                if(x == sideSpacing || y == hView - 8 || x == wView - sideSpacing - 1 || y == hView - 2)
                 {
-                    frame.write(x,y, bg(Color.black_dark), char(12));
+                    frame.write(x,y, fg(Color.black), bg(Color.black_dark), '#');
                 }
                 else
                 {
                     frame.write(x,y, bg(Color.black_dark), ' ');
                 }
             }
+
+            frame.write(4, hView - 6, fg(q.sender.color), q.sender.sprite, fg(Color.white_dark), " - ", q.sender.name);
+
+            string[3] texts = ["Talk", "Quest", "Leave"];
+
+            foreach(n, ref t; texts)
+            {
+                if(n == Game.player.selectedQuestMenu)
+                {
+                    texts[n] = "> " ~ texts[n];
+                }
+                else
+                {
+                    texts[n] = "  " ~ texts[n];
+                }
+            }
+
+            frame.write(sideSpacing + 2     , hView - 4, texts[0]);
+            frame.write(sideSpacing + 2 + 10, hView - 4, texts[1]);
+            frame.write(sideSpacing + 2 + 20, hView - 4, texts[2]);
         }
 
         //>>CRAFTING SYSTEM

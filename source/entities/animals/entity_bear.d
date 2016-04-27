@@ -11,22 +11,17 @@ class EntityBear : EntityAnimal
     {
         super("Baer Grills", x, y, '@', Color.red, new Quest
         (
-            "I am un-bear-able",
-            "I'm hungry, give a pal some food?",
-            "Thank you very much! Yum yum.",
+            ["I am un-bear-able", "Talk", "talky"],
+            //["I'm hungry, give a pal some food?", "i have quest", "do this quest"],
+            ["DEBUG: give grass"],
+            ["Thank you very much! Yum yum.", "thinks quest done", "you are finifshed"],
             {
                 auto itemType = typeid(ItemGrass);
                 bool completed = Game.player.hasItem(itemType);
 
                 if(completed)
                 {
-                    foreach(n, item; Game.player.inventory)
-                    {
-                        if(typeid(item) == itemType)
-                        {
-                            Game.player.inventory.remove(n);
-                        }
-                    }
+                    Game.player.removeItem(itemType);
                 }
 
                 return completed;

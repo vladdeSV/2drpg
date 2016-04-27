@@ -265,208 +265,73 @@ class EntityPlayer : EntityLiving
 
         foreach(input; getInputs())
         {
-            //if(input.pressed)
-            //{
-            //    if(questing)
-            //    {
-
-            //    }
-            //    else if(_crafting)
-            //    {
-
-            //    }
-            //    else
-            //    {
-
-            //    }
-            //}
-
-            if(input.key == SK.escape && input.pressed)
+            if(input.pressed)
             {
-                if(_crafting || questing)
-                {
-                    _crafting = false;
-                    _currentQuest = null;
-                }
-                else
+                //>>Special code for exiting
+                if(!_crafting && !questing && input.key == SK.escape)
                 {
                     Game.running = false;
                 }
-                break;
-            }
+                //<<
 
-            if(hasRemembered("stuck"))
-            {
-                return;
-            }
+                if(hasRemembered("stuck"))
+                {
+                    return;
+                }
 
-            //Check if player should be running
-            _running = input.hasControlKey(SCK.shift);
+                if(questing)
+                {
+                    if(input.key == SK.escape)
+                    {
+                        _currentQuest = null;
+                    }
 
-            if(!_crafting && !questing)
-            {
-                if(input.key == SK.w)
-                {
-                    if(input.pressed)
-                    {
-                        addFlag(_movingDirection, Direction.up);
-                    }
-                    else
-                    {
-                        removeFlag(_movingDirection, Direction.up);
-                    }
-                }
-                else if(input.key == SK.s)
-                {
-                    if(input.pressed)
-                    {
-                        addFlag(_movingDirection, Direction.down);
-                    }
-                    else
-                    {
-                        removeFlag(_movingDirection, Direction.down);
-                    }
-                }
-                else if(input.key == SK.a)
-                {
-                    if(input.pressed)
-                    {
-                        addFlag(_movingDirection, Direction.left);
-                    }
-                    else
-                    {
-                        removeFlag(_movingDirection, Direction.left);
-                    }
-                }
-                else if(input.key == SK.d)
-                {
-                    if(input.pressed)
-                    {
-                        addFlag(_movingDirection, Direction.right);
-                    }
-                    else
-                    {
-                        removeFlag(_movingDirection, Direction.right);
-                    }
-                }
-            }
-
-            if(input.pressed)
-            {
-                if(input.key == SK.e)
-                {
-                    //>>Special code for berries
-                    if(typeid(Game.world.getTileAt(cast(int) _gx, cast(int) _gy)) == typeid(TileBerry))
-                    {
-                        Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this);
-                    }
-                    //<<
-
-                    if(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).items.length)
-                    {
-                        if(_inventory.length < maxItems)
-                        {
-                            addItem(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).grabItem());
-                            updateInventory();
-                        }
-                        else
-                        {
-                            addThought("I can't carry more.");
-                        }
-                    }
-                }
-                else if(input.key == SK.f)
-                {
-                    if(!Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this))
-                    {
-                        int nx = cast(int) _gx, ny = cast(int) _gy;
-                        if(_lookingDirection == Direction.up)
-                        {
-                            --ny;
-                        }
-                        else if(_lookingDirection == Direction.down)
-                        {
-                            ++ny;
-                        }
-                        else if(_lookingDirection == Direction.left)
-                        {
-                            --nx;
-                        }
-                        else if(_lookingDirection == Direction.right)
-                        {
-                            ++nx;
-                        }
-
-                        if(Game.world.getEntityAt(nx, ny) !is null/* && typeid(Game.world.getEntityAt(nx, ny)) == typeid(EntityAnimal)*/)
-                        {
-                            EntityAnimal a = cast(EntityAnimal)(Game.world.getEntityAt(nx, ny));
-
-                            a.interact(this);
-                        }
-                        else
-                        {
-                            Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
-                        }
-                    }
-                }
-                else if(input.key == SK.c)
-                {
-                    _crafting = !crafting;
-                }
-                else if(inventory.length)
-                {
                     if(input.key == SK.right)
                     {
-                        _selectedListItem = (_selectedListItem + 1) % _inventory.length;
+                        _selectedQuestMenu = (_selectedQuestMenu + 1) % 3;
                     }
-                    else if(input.key == SK.left)
-                    {
-                        _selectedListItem = (_selectedListItem + _inventory.length - 1) % _inventory.length;
-                    }
-                    else if(input.key == SK.u)
-                    {
-                        if(_inventory[_selectedListItem].usable)
-                        {
-                            _inventory[_selectedListItem].use(this);
-                            _inventory = _inventory.remove(_selectedListItem);
-                        }
 
-                        updateInventory();
-                    }
-                    else if(input.key == SK.i)
+                    if(input.key == SK.left)
                     {
-                        _inventory[_selectedListItem].inspect(this);
+                        _selectedQuestMenu = (_selectedQuestMenu + 3 - 1) % 3;
                     }
-                    else if(input.key == SK.q)
-                    {
 
-                        if(!Game.world.getTileAt(cast(int) _gx + (_lookingDirection == Direction.right ? 1 : 0) + (_lookingDirection == Direction.left ? -1 : 0),
-                                                cast(int) _gy + (_lookingDirection == Direction.down ? 1 : 0 ) + (_lookingDirection == Direction.up  ? -1 : 0 )).solid)
+                    if(input.key == SK.enter)
+                    {
+                        switch(_selectedQuestMenu)
                         {
-                            Game.world.getTileAt(cast(int) _gx +
-                                                (_lookingDirection == Direction.right ? 1 : 0) +
-                                                (_lookingDirection == Direction.left ? -1 : 0),
-                                                cast(int) _gy +
-                                                (_lookingDirection == Direction.down ? 1 : 0 ) +
-                                                (_lookingDirection == Direction.up  ? -1 : 0 ))
-                                                .putItem(_inventory[_selectedListItem]);
-                            _inventory = _inventory.remove(_selectedListItem);
-                            updateInventory();
+                            case 0:
+                            addThought(_currentQuest.talk());
+                            break;
+                            case 1:
+                            addThought(_currentQuest.quest());
+                            break;
+                            case 2:
+                            _currentQuest = null;
+                            break;
+                            default:
+                            break;
                         }
                     }
                 }
-
-                if(crafting && input.pressed)
+                else if(_crafting)
                 {
+                    if(input.key == SK.escape || input.key == SK.c)
+                    {
+                        _crafting = false;
+                    }
+
                     if(input.key == SK.up)
                     {
                         _selectedCraftItem = (_selectedCraftItem + CraftList.length - 1) % CraftList.length;
                     }
-                    else if(input.key == SK.down)
+
+                    if(input.key == SK.down)
                     {
                         _selectedCraftItem = (_selectedCraftItem + 1) % CraftList.length;
                     }
-                    else if(input.key == SK.enter)
+
+                    if(input.key == SK.enter)
                     {
                         //This entire part is stupid and NOT good.
 
@@ -518,6 +383,170 @@ class EntityPlayer : EntityLiving
                         }
 
                         updateInventory();
+                    }
+                }
+                else
+                {
+                    if(input.key == SK.escape)
+                    {
+                        Game.running = false;
+                    }
+
+                    if(input.key == SK.e)
+                    {
+                        //>>Special code for berries
+                        if(typeid(Game.world.getTileAt(cast(int) _gx, cast(int) _gy)) == typeid(TileBerry))
+                        {
+                            Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this);
+                        }
+                        //<<
+
+                        if(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).items.length)
+                        {
+                            if(_inventory.length < maxItems)
+                            {
+                                addItem(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).grabItem());
+                                updateInventory();
+                            }
+                            else
+                            {
+                                addThought("I can't carry more.");
+                            }
+                        }
+                    }
+
+                    if(input.key == SK.f)
+                    {
+                        if(!Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this))
+                        {
+                            int nx = cast(int) _gx, ny = cast(int) _gy;
+                            if(_lookingDirection == Direction.up)
+                            {
+                                --ny;
+                            }
+                            else if(_lookingDirection == Direction.down)
+                            {
+                                ++ny;
+                            }
+                            else if(_lookingDirection == Direction.left)
+                            {
+                                --nx;
+                            }
+                            else if(_lookingDirection == Direction.right)
+                            {
+                                ++nx;
+                            }
+
+                            if(Game.world.getEntityAt(nx, ny) !is null/* && typeid(Game.world.getEntityAt(nx, ny)) == typeid(EntityAnimal)*/)
+                            {
+                                EntityAnimal a = cast(EntityAnimal)(Game.world.getEntityAt(nx, ny));
+
+                                a.interact(this);
+                            }
+                            else
+                            {
+                                Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
+                            }
+                        }
+                    }
+
+                    if(input.key == SK.c)
+                    {
+                        _crafting = !crafting;
+                    }
+
+                    if(inventory.length)
+                    {
+                        if(input.key == SK.right)
+                        {
+                            _selectedListItem = (_selectedListItem + 1) % _inventory.length;
+                        }
+                        else if(input.key == SK.left)
+                        {
+                            _selectedListItem = (_selectedListItem + _inventory.length - 1) % _inventory.length;
+                        }
+                        else if(input.key == SK.u)
+                        {
+                            if(_inventory[_selectedListItem].usable)
+                            {
+                                _inventory[_selectedListItem].use(this);
+                                _inventory = _inventory.remove(_selectedListItem);
+                            }
+
+                            updateInventory();
+                        }
+                        else if(input.key == SK.i)
+                        {
+                            _inventory[_selectedListItem].inspect(this);
+                        }
+                        else if(input.key == SK.q)
+                        {
+
+                            if(!Game.world.getTileAt(cast(int) _gx + (_lookingDirection == Direction.right ? 1 : 0) +(_lookingDirection == Direction.left ? -1 : 0),
+                                                    cast(int) _gy + (_lookingDirection == Direction.down ? 1 : 0 ) + (_lookingDirection == Direction.up  ? -1 : 0 )).solid)
+                            {
+                                Game.world.getTileAt(cast(int) _gx +
+                                                    (_lookingDirection == Direction.right ? 1 : 0) +
+                                                    (_lookingDirection == Direction.left ? -1 : 0),
+                                                    cast(int) _gy +
+                                                    (_lookingDirection == Direction.down ? 1 : 0 ) +
+                                                    (_lookingDirection == Direction.up  ? -1 : 0 ))
+                                                    .putItem(_inventory[_selectedListItem]);
+                                _inventory = _inventory.remove(_selectedListItem);
+                                updateInventory();
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(!_crafting && !questing)
+            {
+                //Check if player should be running
+                _running = input.hasControlKey(SCK.shift);
+
+                if(input.key == SK.w)
+                {
+                    if(input.pressed)
+                    {
+                        addFlag(_movingDirection, Direction.up);
+                    }
+                    else
+                    {
+                        removeFlag(_movingDirection, Direction.up);
+                    }
+                }
+                else if(input.key == SK.s)
+                {
+                    if(input.pressed)
+                    {
+                        addFlag(_movingDirection, Direction.down);
+                    }
+                    else
+                    {
+                        removeFlag(_movingDirection, Direction.down);
+                    }
+                }
+                else if(input.key == SK.a)
+                {
+                    if(input.pressed)
+                    {
+                        addFlag(_movingDirection, Direction.left);
+                    }
+                    else
+                    {
+                        removeFlag(_movingDirection, Direction.left);
+                    }
+                }
+                else if(input.key == SK.d)
+                {
+                    if(input.pressed)
+                    {
+                        addFlag(_movingDirection, Direction.right);
+                    }
+                    else
+                    {
+                        removeFlag(_movingDirection, Direction.right);
                     }
                 }
             }
@@ -609,6 +638,18 @@ class EntityPlayer : EntityLiving
         }
     }
 
+    void removeItem(TypeInfo_Class itemType)
+    {
+        foreach(n, item; _inventory)
+        {
+            if(typeid(item) == itemType)
+            {
+                _inventory = _inventory.remove(n);
+                return;
+            }
+        }
+    }
+
     bool inventoryFull() const @property
     {
         return _inventory.length >= maxItems;
@@ -687,6 +728,11 @@ class EntityPlayer : EntityLiving
         return _selectedCraftItem;
     }
 
+    uint selectedQuestMenu() @property const
+    {
+        return _selectedQuestMenu;
+    }
+
     private float _distanceMoved = 0;
     private float _warmth = 6;
     private string[] _thoughts;
@@ -702,6 +748,7 @@ class EntityPlayer : EntityLiving
     private uint _memory = 0;
     private uint _selectedListItem = 0;
     private uint _selectedCraftItem = 0;
+    private uint _selectedQuestMenu = 0;
 
     immutable int maxItems = 10;
 }
