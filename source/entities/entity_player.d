@@ -283,7 +283,7 @@ class EntityPlayer : EntityLiving
                 {
                     if(input.key == SK.escape)
                     {
-                        _currentQuest = null;
+                        stopQuesting();
                     }
 
                     if(input.key == SK.right)
@@ -307,7 +307,7 @@ class EntityPlayer : EntityLiving
                             addThought(_currentQuest.quest());
                             break;
                             case 2:
-                            _currentQuest = null;
+                            stopQuesting();
                             break;
                             default:
                             break;
@@ -648,6 +648,12 @@ class EntityPlayer : EntityLiving
                 return;
             }
         }
+    }
+
+    void stopQuesting()
+    {
+        _currentQuest = null;
+        _selectedQuestMenu = 0;
     }
 
     bool inventoryFull() const @property
