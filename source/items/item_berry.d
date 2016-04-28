@@ -51,7 +51,14 @@ class ItemBerry : Item
 
 string[] inspects =
 [
-    "Berries are yummy.",
-    "I really like berries.",
-    ":)"
+    "This one's rotten, yuck!",
+    "EEW , Worms!! Ah well, at least there is some more protein in it I guess.",
+    "O lucky me! A bumble berry!",
+    "Raspberries are my favorite!",
+    "Cloudberries; the hidden gold of the swamplands.",
+    "Going to drop some berries are we? Remember kids, drugs are for losers!",
+    "Ooh look a twig and two berries.",
+    "Fondling berries? How dirty of me.",
+    "These berries look good!",
+    "Ooh a pink blueberry.",
 ];
