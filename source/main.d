@@ -87,7 +87,7 @@ void main()
             }
             //Could I make this more effective?
 
-            foreach(chunks; Game.world._chunks)
+            foreach(chunks; Game.world.chunks)
             {
                 foreach(chunk; chunks)
                 {

@@ -111,7 +111,14 @@ class World
         getChunkAtLocation(ex, ey).entities ~= e;
     }
 
-    /*private*/ Chunk[worldSize][worldSize] _chunks;
+    auto chunks() @property
+    {
+        return _chunks;
+    }
+
+    private Chunk[worldSize][worldSize] _chunks;
+
+    //private float[chunkSize * worldSize][chunkSize * worldSize] _heightM
 }
 
 class Chunk

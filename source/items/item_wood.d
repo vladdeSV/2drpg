@@ -8,9 +8,24 @@ class ItemWood : Item
 {
     this()
     {
-        super("Stick", '/', Color.red_dark, readText("source/list/inspect_wood.txt").split('\n')[random($)]);
+        super("Stick", '/', Color.red_dark, inspects[random($)]);
     }
 }
 
-import std.algorithm.mutation : split;
-import std.file : readText;
+string[] inspects =
+[
+    "This thick branch looks useful.",
+    "Hazel, slender and bendable.",
+    "Oak, hard and strong.",
+    "Birch, soft and flexible.",
+    "Ash, I wish there was a Pikachu tree...",
+    "Elm, it has tons of leaves.",
+    "Maple, maybe I'm in Canada?",
+    "Woody, I wonder where Buzz is.",
+    "A branch from an enormous redwood tree.",
+    "A twiggy branch.",
+    "Evergreen, it has tons of little green sharp things on it.",
+    "Hmm, this would make a great fishing rod.",
+    "A strong piece of wood.",
+    "A mighty sword! That is at least what I would pretend it was when I was like, six.",
+];
