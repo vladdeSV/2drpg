@@ -437,15 +437,18 @@ class EntityPlayer : EntityLiving
                                 ++nx;
                             }
 
-                            if(Game.world.getEntityAt(nx, ny) !is null/* && typeid(Game.world.getEntityAt(nx, ny)) == typeid(EntityAnimal)*/)
+                            if(withinWorldBorder(nx, ny))
                             {
-                                EntityAnimal a = cast(EntityAnimal)(Game.world.getEntityAt(nx, ny));
+                                if(Game.world.getEntityAt(nx, ny) !is null)
+                                {
+                                    EntityAnimal a = cast(EntityAnimal)(Game.world.getEntityAt(nx, ny));
 
-                                a.interact(this);
-                            }
-                            else
-                            {
-                                Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
+                                    a.interact(this);
+                                }
+                                else
+                                {
+                                    Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
+                                }
                             }
                         }
                     }

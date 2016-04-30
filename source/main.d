@@ -60,8 +60,11 @@ void main()
         int px = Game.player.globalLocation[0];
         int py = Game.player.globalLocation[1];
 
-        cam.x = cast(int)(px / cam.w) * cam.w/* + cast(int)(((chunkSize * worldSize) % cam.w) / 2)*/;
-        cam.y = cast(int)(py / cam.h) * cam.h/* + cast(int)(((chunkSize * worldSize) % cam.h) / 2)*/;
+        //cam.x = cast(int)(px / cam.w) * cam.w + cast(int)(((chunkSize * worldSize) % cam.w) / 2);
+        //cam.y = cast(int)(py / cam.h) * cam.h + cast(int)(((chunkSize * worldSize) % cam.h) / 2);
+
+        cam.x = cast(int)((px + cast(int)(cam.w / 2)) / cam.w) * cam.w - cast(int)(cam.w / 2);
+        cam.y = cast(int)((py + cast(int)(cam.h / 2)) / cam.h) * cam.h - cast(int)(cam.h / 2);
 
         if(!Game.player.hasRemembered("stuck"))
         {
@@ -70,12 +73,11 @@ void main()
                 foreach(int x; 0 .. cam.w)
                 {
                     Tile tile;
-                    if(cam.x + x >= 0 && cam.x + x < chunkSize * worldSize && cam.y + y >= 0 && cam.y + y < chunkSize * worldSize)
+                    if(withinWorldBorder(cam.x + x, cam.y + y))
                     {
                         tile = Game.world.getTileAt(cam.x + x, cam.y + y);
 
                         frame.write(x,y, fg(!tile.items.length ? tile.color : (tile.items.length > 1 ? Color.red_dark : (tile.items[$-1].color))), bg(tile.backgroundColor), !tile.items.length ? tile.sprite : (tile.items.length > 1 ? char(30) : tile.items[$-1].sprite));
-                        //frame.write(x,y, fg(tile.color), bg(tile.backgroundColor), tile.sprite);
                     }
                     else
                     {
@@ -83,15 +85,6 @@ void main()
                     }
                 }
             }
-        }
-
-        if(Game.player.hasRemembered("stuck"))
-        {
-            auto e = Game.player;
-            frame.write(e.globalLocation[0] - cam.x, e.globalLocation[1] - cam.y, fg(e.color), bg(Color.black_dark), e.sprite);
-        }
-        else
-        {
             //Could I make this more effective?
 
             foreach(chunks; Game.world._chunks)
@@ -117,7 +110,11 @@ void main()
                 }
             }
         }
-
+        else
+        {
+            auto e = Game.player;
+            frame.write(e.globalLocation[0] - cam.x, e.globalLocation[1] - cam.y, fg(e.color), bg(Color.black_dark), e.sprite);
+        }
         immutable sidebarStart = wView + 2;
 
         if(Game.player.hasRemembered("sideui"))
@@ -159,16 +156,14 @@ void main()
                     frame.write(frame.w - 4, frame.h - 3, fg(Color.yellow), '[', fg(Color.white), 'U', fg(Color.yellow), ']');
                 }
 
-                //frame.write(sidebarStart + Game.player.selectedListItem * 2 - 1, frame.h - 3, '[');
-                //frame.write(sidebarStart + Game.player.selectedListItem * 2 + 1, frame.h - 3, ']');
                 frame.write(sidebarStart + Game.player.selectedListItem * 2, frame.h - 2, /*fg(Color.yellow),*/ char(24));
             }
         }
 
-        int eventsStart = 2;
+        int thoughtsStartPosition = 2;
         foreach(n, s; Game.player.thoughts)
         {
-            int position = eventsStart + n;
+            int position = thoughtsStartPosition + n;
             if(position < cam.h - 8)
             {
                 frame.write(sidebarStart, position, s);
@@ -230,9 +225,6 @@ void main()
         if(Game.player.questing)
         {
             auto q = Game.player.currentQuest;
-            //Game.frame.write(0,0, fg(q.sender.color), q.sender.sprite, fg(Color.white_dark), " ", q.sender.name);
-            //Game.frame.write(0,1, q.talk());
-            //Game.frame.write(0,2, q.quest());
 
             foreach(y; hView - 8 .. hView - 1)
             foreach(x; sideSpacing .. wView - sideSpacing)
@@ -275,7 +267,7 @@ void main()
             {
                 foreach(x; 0 .. 45)
                 {
-                    if(!x || !y || x == 44 || y == hView - sideSpacing*2-1)
+                    if(!x || !y || x == 44 || y == hView - sideSpacing * 2 - 1)
                     {
                         Game.frame.write(sideSpacing + x, sideSpacing + y, fg(Color.white_dark), bg(Color.black_dark), char(4));
                     }

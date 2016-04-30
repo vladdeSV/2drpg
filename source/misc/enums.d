@@ -5,6 +5,11 @@ enum UPS = 60;
 enum worldSize = 4;
 enum chunkSize = 100;
 
+bool withinWorldBorder(float x, float y)
+{
+    return (x >= 0 && x < chunkSize * worldSize && y >= 0 && y < chunkSize * worldSize);
+}
+
 int wView;
 int hView;
 int wSidebar;
