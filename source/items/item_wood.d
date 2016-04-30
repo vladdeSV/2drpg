@@ -27,5 +27,5 @@ string[] inspects =
     "Evergreen, it has tons of little green sharp things on it.",
     "Hmm, this would make a great fishing rod.",
     "A strong piece of wood.",
-    "A mighty sword! That is at least what I would pretend it was when I was like, six.",
+    "A mighty sword! That is at least what pretended it was when I was, like, six.",
 ];

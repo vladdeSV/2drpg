@@ -263,55 +263,44 @@ void main()
         //>>CRAFTING SYSTEM
         else if(Game.player.crafting)
         {
-            foreach(y; 0 .. hView - sideSpacing*2)
-            {
-                foreach(x; 0 .. 45)
-                {
-                    if(!x || !y || x == 44 || y == hView - sideSpacing * 2 - 1)
-                    {
-                        Game.frame.write(sideSpacing + x, sideSpacing + y, fg(Color.white_dark), bg(Color.black_dark), char(4));
-                    }
-                    else
-                    {
-                        Game.frame.write(sideSpacing + x, sideSpacing + y, bg(Color.black_dark), ' ');
-                    }
-                }
-            }
+            Slot main = Slot(' ', fg(Color.white_dark), bg(Color.black_dark));
+            Slot border = Slot(char(4), fg(Color.white_dark), bg(Color.black_dark));
+            drawRect(sideSpacing, sideSpacing, cam.w - 2*sideSpacing, cam.h - 2*sideSpacing, main, border);
 
-            int yaxis;
-            import std.traits;
-            foreach(craftNumber, craft; CraftList)
-            {
-                int[] itemCount = new int[](craft.parts.length);
+            //int yaxis;
+            //import std.traits;
+            //foreach(craftNumber, craft; CraftList)
+            //{
+            //    int[] itemCount = new int[](craft.parts.length);
 
-                foreach(item; Game.player.inventory)
-                {
-                    foreach(m, part; craft.parts)
-                    {
-                        if(typeid(item) == part[0])
-                        {
-                            itemCount[m] += 1;
-                        }
-                    }
-                }
+            //    foreach(item; Game.player.inventory)
+            //    {
+            //        foreach(m, part; craft.parts)
+            //        {
+            //            if(typeid(item) == part[0])
+            //            {
+            //                itemCount[m] += 1;
+            //            }
+            //        }
+            //    }
 
-                string craftName = ' ' ~ craft.desc;
-                if(craftNumber == Game.player.selectedCraftItem)
-                {
-                    craftName = text(char(16), craftName);
-                }
+            //    string craftName = ' ' ~ craft.desc;
+            //    if(craftNumber == Game.player.selectedCraftItem)
+            //    {
+            //        craftName = text(char(16), craftName);
+            //    }
 
-                frame.write(sideSpacing + 1, sideSpacing + 2 + yaxis, ' ', craftName);
+            //    frame.write(sideSpacing + 1, sideSpacing + 2 + yaxis, ' ', craftName);
 
-                foreach(aaa, part; craft.parts)
-                {
-                    bool enoughItems = itemCount[aaa] >= part[1];
-                    int req = text(findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", itemCount[aaa], '/', part[1], "] ").length;
-                    frame.write(sideSpacing + 45 - req - 1, sideSpacing + 2 + yaxis, findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", fg((enoughItems) ? Color.green : Color.red), itemCount[aaa], fg(Color.white_dark), '/', part[1], "] ");
-                    ++yaxis;
-                }
-                ++yaxis;
-            }
+            //    foreach(aaa, part; craft.parts)
+            //    {
+            //        bool enoughItems = itemCount[aaa] >= part[1];
+            //        int req = text(findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", itemCount[aaa], '/', part[1], "] ").length;
+            //        frame.write(sideSpacing + 45 - req - 1, sideSpacing + 2 + yaxis, findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", fg((enoughItems) ? Color.green : Color.red), itemCount[aaa], fg(Color.white_dark), '/', part[1], "] ");
+            //        ++yaxis;
+            //    }
+            //    ++yaxis;
+            //}
         }
 
         frame.print();
@@ -324,3 +313,22 @@ struct Rect
 {
     int x, y, w, h;
 }
+
+void drawRect(int x, int y, int w, int h, Slot main, Slot border)
+{
+    foreach(row; 0 .. h)
+    {
+        foreach(col; 0 .. w)
+        {
+            if(!col || !row || col == w - 1 || row == h - 1)
+            {
+                Game.frame.write(x + col, y + row, border);
+            }
+            else
+            {
+                Game.frame.write(x + col, y + row, main);
+            }
+        }
+    }
+}
+
