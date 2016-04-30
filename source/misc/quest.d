@@ -19,12 +19,12 @@ class Quest
         _sender = sender;
     }
 
-    string talk()
+    string[] talk()
     {
-        return _textTalk[random($)];
+        return _textTalk[];
     }
 
-    string quest()
+    string[] quest()
     {
         if(!_completed && _quest())
         {
@@ -33,11 +33,11 @@ class Quest
 
         if(_completed)
         {
-            return _textQuestCompleted[random($)];
+            return _textQuestCompleted[];
         }
         else
         {
-            return _textQuest[random($)];
+            return _textQuest[];
         }
     }
 

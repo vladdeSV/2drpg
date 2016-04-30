@@ -617,6 +617,8 @@ class EntityPlayer : EntityLiving
     {
         if(!inventoryFull)
         {
+            item.inspect(this);
+
             if((typeid(item) in _counter) is null)
             {
                 _counter[typeid(item)] = 1;
@@ -627,7 +629,6 @@ class EntityPlayer : EntityLiving
             }
 
             _inventory ~= item;
-            //++itemsPicked;
         }
         else
         {
