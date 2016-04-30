@@ -27,19 +27,12 @@ class TileBerry : Tile
             {
                 p.remember("berries");
                 p.addThought("These looks like edible berries.");
+                p.addItem(new ItemBerry(), false);
             }
             else
             {
-                p.addThought
-                ([
-                    "Look, more berries.",
-                    "Oh, berries.",
-                    "I like berries.",
-                    "Berries are yummy.",
-                ]);
+                p.addItem(new ItemBerry());
             }
-
-            p.addItem(new ItemBerry());
 
             _used = true;
             _sprite = '1';

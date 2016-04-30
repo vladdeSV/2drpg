@@ -26,19 +26,26 @@ class World
 {
     this()
     {
-        //Init all chunks
-        foreach(int cx, ref row; _chunks)
+        foreach(ty; 0 .. chunkSize * worldSize)
         {
-            foreach(int cy, ref chunk; row)
+            foreach(tx; 0 .. chunkSize * worldSize)
             {
-                chunk = new Chunk(cx, cy);
+                mainVal[ty][tx] = scaled_octave_noise_2d(2, 1, 0.02, 0,10, tx, ty, Game.seed);
+                treeVal[ty][tx] = scaled_octave_noise_2d(1, 1, 0.05, 0,10, tx, ty, Game.seed);
+                sandVal[ty][tx] = scaled_octave_noise_2d(1, 1, 0.01, 0,10, tx, ty, Game.seed);
             }
         }
 
-        int px = cast(int)((worldSize * chunkSize / wView) / 2 * wView + Game.frame.w / 2);
-        int py = cast(int)((worldSize * chunkSize / hView) / 2 * hView + Game.frame.h / 2);
+        int xoff = cast(int)((wView - ((chunkSize * worldSize) % wView)) / 2);
+        int yoff = cast(int)((hView - ((chunkSize * worldSize) % hView)) / 2);
 
-        immutable r = 3;
+        int px = cast(int)((chunkSize * worldSize / 2 + xoff) / wView) * wView - xoff + cast(int)((wView + wSidebar) / 2);
+        int py = cast(int)((chunkSize * worldSize / 2 + yoff) / hView) * hView - yoff + cast(int)(hView / 2);
+
+        //int px = cast(int)((worldSize * chunkSize / wView) / 2 * wView /*+ Game.frame.w / 2*/);
+        //int py = cast(int)((worldSize * chunkSize / hView) / 2 * hView /*+ Game.frame.h / 2*/);
+
+        immutable r = 10;
         foreach(y; py - r .. py + r)
         {
             foreach(x; px - r .. px + r)
@@ -49,10 +56,23 @@ class World
                 int asq = pow(a, 2);
                 int bsq = pow(b, 2);
 
-                if(sqrt(cast(float)(asq + bsq)) <= r)
+                float c = sqrt(cast(float)(asq + bsq));
+
+                if(c <= r)
                 {
-                    getChunkAtLocation(x,y,).setTile(x, y, new TileGrass());
+
+                    mainVal[y][x] = (mainVal[y][x] - 5) * c / r + 5;
+                    treeVal[y][x] = treeVal[y][x] - (r - c);
                 }
+            }
+        }
+
+        //Init all chunks
+        foreach(int cx, ref row; _chunks)
+        {
+            foreach(int cy, ref chunk; row)
+            {
+                chunk = new Chunk(cx, cy);
             }
         }
 
@@ -118,8 +138,9 @@ class World
 
     private Chunk[worldSize][worldSize] _chunks;
 
-    //private float[chunkSize * worldSize][chunkSize * worldSize] _heightM
 }
+
+private float[chunkSize * worldSize][chunkSize * worldSize] mainVal, treeVal, sandVal;
 
 class Chunk
 {
@@ -135,21 +156,21 @@ class Chunk
         {
             foreach(int tx, ref t; row)
             {
-                float val =     scaled_octave_noise_2d(2, 1, 0.02, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
-                float treeVal = scaled_octave_noise_2d(1, 1, 0.05, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
-                float sandVal = scaled_octave_noise_2d(1, 1, 0.01, 0,10, (chunkSize*cx) + tx, (chunkSize*cy) + ty, Game.seed);
+                float val  = mainVal[cy * chunkSize + ty][cx * chunkSize + tx];
+                float sand = sandVal[cy * chunkSize + ty][cx * chunkSize + tx];
+                float tree = treeVal[cy * chunkSize + ty][cx * chunkSize + tx];
 
                 if(val < 2.5)
                 {
                     t = new TileWater(val);
                 }
-                else if(val < 3 || val < 7 && sandVal > 8)
+                else if(val < 3 || val < 7 && sand > 8)
                 {
                     t = new TileSand();
                 }
                 else if(val < 8)
                 {
-                    if(val > 4 && treeVal > 5 && sandVal < 7.5 && chance(2))
+                    if(val > 4 && tree > 5 && sand < 7.5 && chance(2))
                     {
                         t = new TileTree(val);
                     }
@@ -190,5 +211,3 @@ class Chunk
     private int _cx, _cy;
     private Tile[chunkSize][chunkSize] _tiles, _tilesPlaced;
 }
-
-

@@ -613,11 +613,14 @@ class EntityPlayer : EntityLiving
         return _inventory;
     }
 
-    void addItem(Item item)
+    void addItem(Item item, bool insp = true)
     {
         if(!inventoryFull)
         {
-            item.inspect(this);
+            if(insp)
+            {
+                item.inspect(this);
+            }
 
             if((typeid(item) in _counter) is null)
             {

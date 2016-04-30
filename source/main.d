@@ -1,7 +1,3 @@
-/**
- * So far, I would like to change:
- * * Chunk's `Entity[] entities` is public, which should be private
- */
 import enums;
 import slump;
 import time;
@@ -18,6 +14,7 @@ import item_stone;
 
 import std.algorithm : max, min;
 import std.algorithm.searching : findSplitAfter;
+import std.conv;
 
 import scone;
 
@@ -145,7 +142,7 @@ void main()
                     frame.write(sidebarStart + n * 2, frame.h - 3, fg(item.color), item.sprite, ' ');
                 }
 
-                if(Game.player.inventory.length > 1)
+                if(!Game.player.crafting && Game.player.inventory.length > 1)
                 {
                     frame.write(sidebarStart - 1 + Game.player.selectedListItem * 2, frame.h - 3, fg(Color.yellow), char(27));
                     frame.write(sidebarStart + 1 + Game.player.selectedListItem * 2, frame.h - 3, fg(Color.yellow), char(26));
@@ -263,12 +260,60 @@ void main()
         //>>CRAFTING SYSTEM
         else if(Game.player.crafting)
         {
-            Slot main = Slot(' ', fg(Color.white_dark), bg(Color.black_dark));
             Slot border = Slot(char(4), fg(Color.white_dark), bg(Color.black_dark));
-            drawRect(sideSpacing, sideSpacing, cam.w - 2*sideSpacing, cam.h - 2*sideSpacing, main, border);
+            Slot main = Slot(' ', fg(Color.white_dark), bg(Color.black_dark));
+
+            int wCraft = cam.w - 2*sideSpacing, hCraft = cam.h - 2*sideSpacing;
+            bool canBeCrafted = true;
+
+            drawRect(sideSpacing, sideSpacing, wCraft, hCraft, main, border);
+
+            auto craft = CraftList[Game.player.selectedCraftItem];
+
+            int[] itemCount = new int[](craft.parts.length);
+            foreach(item; Game.player.inventory)
+            {
+                foreach(m, part; craft.parts)
+                {
+                    if(typeid(item) == part[0])
+                    {
+                        itemCount[m] += 1;
+                    }
+                }
+            }
+            foreach(n, part; craft.parts)
+            {
+                bool enoughItems = itemCount[n] >= part[1];
+                canBeCrafted &= enoughItems;
+
+                int req = text
+                (
+                    findSplitAfter(std.conv.to!string(part[0]), "Item")[1],
+                    " [",
+                    itemCount[n],
+                    '/',
+                    part[1],
+                    "] "
+                ).length;
+
+                frame.write(sideSpacing + 45 - req - 1, sideSpacing + 2 + n, findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", fg((enoughItems) ? Color.green : Color.red), itemCount[n], fg(Color.white_dark), '/', part[1], "] ");
+            }
+
+            //string[] craftNames = new string[](CraftList.length);
+            foreach(n, c; CraftList)
+            {
+                if(n == Game.player.selectedCraftItem)
+                {
+                    frame.write(sideSpacing + 2, sideSpacing + 2 + n, text(char(16), ' ', c.desc));
+                }
+                else
+                {
+                    frame.write(sideSpacing + 2, sideSpacing + 2 + n, "  " ~ c.desc);
+                }
+
+            }
 
             //int yaxis;
-            //import std.traits;
             //foreach(craftNumber, craft; CraftList)
             //{
             //    int[] itemCount = new int[](craft.parts.length);
