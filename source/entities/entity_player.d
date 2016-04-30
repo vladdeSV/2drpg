@@ -31,7 +31,7 @@ class EntityPlayer : EntityLiving
 {
     this(int x, int y)
     {
-        super(/*ListName[random($)]*/ "Rosemary" , x, y, char(1), Color.yellow);
+        super("Rosemary" , x, y, char(1), Color.yellow);
 
         //_remembered["pilt"] = false;
         //remember("wasd");
@@ -394,13 +394,6 @@ class EntityPlayer : EntityLiving
 
                     if(input.key == SK.e)
                     {
-                        //>>Special code for berries
-                        if(typeid(Game.world.getTileAt(cast(int) _gx, cast(int) _gy)) == typeid(TileBerry))
-                        {
-                            Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this);
-                        }
-                        //<<
-
                         if(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).items.length)
                         {
                             if(_inventory.length < maxItems)
@@ -413,6 +406,13 @@ class EntityPlayer : EntityLiving
                                 addThought("I can't carry more.");
                             }
                         }
+
+                        //>>Special code for berries
+                        else if(typeid(Game.world.getTileAt(cast(int) _gx, cast(int) _gy)) == typeid(TileBerry))
+                        {
+                            Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this);
+                        }
+                        //<<
                     }
 
                     if(input.key == SK.f)

@@ -60,11 +60,11 @@ void main()
         int px = Game.player.globalLocation[0];
         int py = Game.player.globalLocation[1];
 
-        //cam.x = cast(int)(px / cam.w) * cam.w + cast(int)(((chunkSize * worldSize) % cam.w) / 2);
-        //cam.y = cast(int)(py / cam.h) * cam.h + cast(int)(((chunkSize * worldSize) % cam.h) / 2);
+        int xoff = cast(int)((cam.w - ((chunkSize * worldSize) % cam.w)) / 2);
+        int yoff = cast(int)((cam.h - ((chunkSize * worldSize) % cam.h)) / 2);
 
-        cam.x = cast(int)((px + cast(int)(cam.w / 2)) / cam.w) * cam.w - cast(int)(cam.w / 2);
-        cam.y = cast(int)((py + cast(int)(cam.h / 2)) / cam.h) * cam.h - cast(int)(cam.h / 2);
+        cam.x = cast(int)((px + xoff) / cam.w) * cam.w - xoff;
+        cam.y = cast(int)((py + yoff) / cam.h) * cam.h - yoff;
 
         if(!Game.player.hasRemembered("stuck"))
         {
