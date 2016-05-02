@@ -135,8 +135,7 @@ void main()
 
             if(Game.player.inventory.length)
             {
-                frame.write(sidebarStart, frame.h - 4, Game.player.inventory[Game.player.selectedListItem].name);
-
+                frame.write(sidebarStart, frame.h - 4, "Selected item: ", fg(Game.player.inventory[Game.player.selectedListItem].color), Game.player.inventory[Game.player.selectedListItem].name);
                 foreach(n, ref item; Game.player.inventory)
                 {
                     frame.write(sidebarStart + n * 2, frame.h - 3, fg(item.color), item.sprite, ' ');
