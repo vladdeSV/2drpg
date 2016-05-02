@@ -308,7 +308,7 @@ void main()
                 }
                 else
                 {
-                    frame.write(sideSpacing + 2, sideSpacing + 2 + n, "  " ~ c.desc);
+                    frame.write(sideSpacing + 2, sideSpacing + 2 + n, fg(Color.black), "  " ~ c.desc);
                 }
 
             }
