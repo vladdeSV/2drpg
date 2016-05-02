@@ -30,7 +30,7 @@ class TileWater : Tile
 
         if(p.equipped == (typeid(ItemFishingPole)))
         {
-            if(chance(5))
+            if(probabilityOf(5))
             {
                 p.addThought([
                     "Lucky!",

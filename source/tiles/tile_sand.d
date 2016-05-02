@@ -12,9 +12,9 @@ class TileSand : Tile
 {
     this()
     {
-        if(chance(5))
+        if(probabilityOf(5))
         {
-            if(chance(69 /*HAHAHAHAHA I AM 12*/))
+            if(probabilityOf(69 /*HAHAHAHAHA I AM 12*/))
             {
                 _items ~= new ItemIron();
             }

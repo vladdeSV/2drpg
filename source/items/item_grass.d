@@ -6,6 +6,6 @@ class ItemGrass : Item
 {
     this(char sprite)
     {
-        super(/*ItemType.grass, */"Grass", sprite, Color.green);
+        super("Grass", sprite, Color.green);
     }
 }

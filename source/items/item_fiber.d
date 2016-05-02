@@ -5,6 +5,6 @@ class ItemFiber : Item
 {
     this()
     {
-        super(/*ItemType.fiber, */"Fiber", char(22), Color.green_dark);
+        super("Fiber", char(22), Color.green_dark);
     }
 }

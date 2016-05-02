@@ -565,7 +565,10 @@ class EntityPlayer : EntityLiving
 
     void addThought(string s)
     {
-        addThought([s]);
+        if(s !is null)
+        {
+            addThought([s]);
+        }
     }
 
     private int lastThoughtN = 0;

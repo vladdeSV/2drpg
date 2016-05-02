@@ -171,13 +171,13 @@ class Chunk
                 }
                 else if(val < 8)
                 {
-                    if(val > 4 && tree > 5 && sand < 7.5 && chance(2))
+                    if(val > 4 && tree > 5 && sand < 7.5 && probabilityOf(2))
                     {
                         t = new TileTree(val);
                     }
                     else
                     {
-                        if(chance(300))
+                        if(probabilityOf(300))
                         {
                             t = new TileBerry();
                         }

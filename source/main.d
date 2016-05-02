@@ -78,7 +78,7 @@ void main()
                     }
                     else
                     {
-                        frame.write(x,y, fg(Color.magenta_dark), bg(Color.black_dark), chance(2000) ? (coin() ? ',' : '.') : ' ');
+                        frame.write(x,y, fg(Color.magenta_dark), bg(Color.black_dark), probabilityOf(2000) ? (coin() ? ',' : '.') : ' ');
                     }
                 }
             }

@@ -8,10 +8,10 @@ class TileGrass : Tile
 {
     this()
     {
-        bool chanceGrass = chance(4);
+        bool probabilityOfGrass = probabilityOf(4);
         char s = ' ';
 
-        if(chanceGrass)
+        if(probabilityOfGrass)
         {
             _items ~= new ItemGrass(coin() ? '.' : ',');
         }

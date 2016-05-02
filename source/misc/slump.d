@@ -1,7 +1,7 @@
 import std.random : uniform;
 import game;
-///One out of `oneOutOf´ chance of returning true
-bool chance(int oneOutOf)
+///One out of `oneOutOf´ probabilityOf of returning true
+bool probabilityOf(int oneOutOf)
 {
     return uniform(0, oneOutOf, Game.gen) == 0;
 }
