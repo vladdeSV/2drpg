@@ -11,6 +11,16 @@ import entity;
 import entity_living;
 import entity_player;
 import entity_bear;
+import entity_bison;
+import entity_boar;
+import entity_moose;
+import entity_otter;
+import entity_pig;
+import entity_racoon;
+import entity_sparrow;
+import entity_swan;
+import entity_turtle;
+import entity_wolf;
 
 import tile;
 import tile_berry;
@@ -45,26 +55,26 @@ class World
         //int px = cast(int)((worldSize * chunkSize / wView) / 2 * wView /*+ Game.frame.w / 2*/);
         //int py = cast(int)((worldSize * chunkSize / hView) / 2 * hView /*+ Game.frame.h / 2*/);
 
-        immutable r = 10;
-        foreach(y; py - r .. py + r)
+        Entity[] animals =
+        [
+            new EntityBear(px - 5, py - 3),
+            new EntityBison(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntityBoar(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntityMoose(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntityOtter(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntityPig(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntityRacoon(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntitySparrow(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntitySwag(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntityTurtle(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntityWolf(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+        ];
+
+        softenPoint(px, py, 10);
+
+        foreach(e; animals)
         {
-            foreach(x; px - r .. px + r)
-            {
-                int a = px - x;
-                int b = py - y;
-
-                int asq = pow(a, 2);
-                int bsq = pow(b, 2);
-
-                float c = sqrt(cast(float)(asq + bsq));
-
-                if(c <= r)
-                {
-
-                    mainVal[y][x] = (mainVal[y][x] - 5) * c / r + 5;
-                    treeVal[y][x] = treeVal[y][x] - (r - c);
-                }
-            }
+            softenPoint(e.globalLocation[0], e.globalLocation[1], 10);
         }
 
         //Init all chunks
@@ -78,7 +88,10 @@ class World
 
         addEntity(Game.player = new EntityPlayer(px, py));
 
-        addEntity(new EntityBear(px - 5, py - 3));
+        foreach(e; animals)
+        {
+            addEntity(e);
+        }
     }
 
     void update()
@@ -141,6 +154,32 @@ class World
 }
 
 private float[chunkSize * worldSize][chunkSize * worldSize] mainVal, treeVal, sandVal;
+
+private void softenPoint(int tx, int ty, int r)
+{
+    foreach(y; ty - r .. ty + r)
+    {
+        foreach(x; tx - r .. tx + r)
+        {
+            int a = tx - x;
+            int b = ty - y;
+
+            int asq = pow(a, 2);
+            int bsq = pow(b, 2);
+
+            float c = sqrt(cast(float)(asq + bsq));
+
+            if(c <= r)
+            {
+                if(x >= 0 && y >= 0 && x < chunkSize*worldSize && y < chunkSize*worldSize)
+                {
+                    mainVal[y][x] = (mainVal[y][x] - 5) * c / r + 5;
+                    treeVal[y][x] = treeVal[y][x] - (r - c);
+                }
+            }
+        }
+    }
+}
 
 class Chunk
 {
