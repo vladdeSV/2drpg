@@ -35,7 +35,26 @@ class TileTree : Tile
             return false;
         }
 
-        if(p.equipped() == (typeid(ItemStone)) || p.equipped() == (typeid(ItemAxe)) || p.equipped() == (typeid(ItemNiceAxe)) || p.equipped() == (typeid(ItemMaxe)))
+        ubyte damage = 0;
+
+        if(p.equipped() == typeid(ItemStone))
+        {
+            damage = 1;
+        }
+        else if(p.equipped() == typeid(ItemAxe))
+        {
+            damage = 2;
+        }
+        else if(p.equipped() == typeid(ItemNiceAxe))
+        {
+            damage = 3;
+        }
+        else if(p.equipped() == typeid(ItemMaxe))
+        {
+            damage = 5;
+        }
+
+        if(damage)
         {
             p.addThought([
                 "Hit.",
@@ -47,7 +66,7 @@ class TileTree : Tile
                 "Boff.",
             ]);
 
-            _health -= 1;
+            _health -= damage;
         }
         else
         {

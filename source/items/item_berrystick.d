@@ -1,7 +1,7 @@
 import item;
 import enums;
 
-class ItemBerrystick : Item
+class ItemBerryStick : Item
 {
     this()
     {

@@ -39,6 +39,9 @@ class EntityPlayer : EntityLiving
 
         remember("sideui");
 
+        import item_maxe;
+        _inventory ~= new ItemMaxe;
+
         _events =
         [
             //timeEvent(0,
@@ -296,7 +299,7 @@ class EntityPlayer : EntityLiving
                         _selectedQuestMenu = (_selectedQuestMenu + 3 - 1) % 3;
                     }
 
-                    if(input.key == SK.enter)
+                    if(input.key == SK.enter || input.key == SK.space)
                     {
                         switch(_selectedQuestMenu)
                         {
@@ -331,7 +334,7 @@ class EntityPlayer : EntityLiving
                         _selectedCraftItem = (_selectedCraftItem + 1) % CraftList.length;
                     }
 
-                    if(input.key == SK.enter)
+                    if(input.key == SK.enter || input.key == SK.space)
                     {
                         //This entire part is stupid and NOT good.
 
@@ -424,30 +427,28 @@ class EntityPlayer : EntityLiving
                             {
                                 --ny;
                             }
-                            else if(_lookingDirection == Direction.down)
+                            if(_lookingDirection == Direction.down)
                             {
                                 ++ny;
                             }
-                            else if(_lookingDirection == Direction.left)
+                            if(_lookingDirection == Direction.left)
                             {
                                 --nx;
                             }
-                            else if(_lookingDirection == Direction.right)
+                            if(_lookingDirection == Direction.right)
                             {
                                 ++nx;
                             }
 
                             if(withinWorldBorder(nx, ny))
                             {
-                                if(Game.world.getEntityAt(nx, ny) !is null)
+                                if(Game.world.getEntityAt(nx, ny) !is null && typeid(Game.world.getEntityAt(nx, ny)).base == typeid(EntityAnimal))
                                 {
-                                    EntityAnimal a = cast(EntityAnimal)(Game.world.getEntityAt(nx, ny));
-
-                                    a.interact(this);
+                                    (cast(EntityAnimal)Game.world.getEntityAt(nx, ny)).interact(this);
                                 }
                                 else
                                 {
-                                    Game.world.getTileAt(cast(int) nx, cast(int) ny).interact(this);
+                                    Game.world.getTileAt(nx, ny).interact(this);
                                 }
                             }
                         }
@@ -663,6 +664,7 @@ class EntityPlayer : EntityLiving
     void stopQuesting()
     {
         _currentQuest = null;
+        _movingDirection = Direction.none;
         _selectedQuestMenu = 0;
     }
 

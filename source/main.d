@@ -296,7 +296,7 @@ void main()
                     "] "
                 ).length;
 
-                frame.write(sideSpacing + 45 - req - 1, sideSpacing + 2 + n, findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", fg((enoughItems) ? Color.green : Color.red), itemCount[n], fg(Color.white_dark), '/', part[1], "] ");
+                frame.write(cam.w - 2 * sideSpacing - (req - 1), sideSpacing + 2 + n, findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", fg((enoughItems) ? Color.green : Color.red), itemCount[n], fg(Color.white_dark), '/', part[1], "] ");
             }
 
             //string[] craftNames = new string[](CraftList.length);

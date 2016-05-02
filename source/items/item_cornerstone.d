@@ -1,7 +1,7 @@
 import item;
 import enums;
 
-class ItemCornerStone : Item
+class ItemCornerstone : Item
 {
     this()
     {
