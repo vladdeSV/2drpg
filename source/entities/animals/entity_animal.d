@@ -23,10 +23,5 @@ class EntityAnimal : EntityLiving
         p.setQuest(null); //FIXME: BAD CODE
     }
 
-    //Quest quest() @property
-    //{
-    //    return _quest;
-    //}
-
     private Quest _quest;
 }

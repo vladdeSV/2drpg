@@ -5,6 +5,6 @@ class ItemSweetSalad : Item
 {
     this()
     {
-        super("Sweet salad", '*', Color.magenta);
+        super("Berry salad", '*', Color.magenta);
     }
 }

@@ -8,16 +8,7 @@ class ItemStone : Item
 {
     this()
     {
-        string name = "Stone";
-        Color color = Color.black;
-
-        if(chance(5))
-        {
-            name = "Brown Stone";
-            color = Color.yellow_dark;
-        }
-
-        super(name, ',', color, inspects[random($)]);
+        super("Stone", ',', Color.black, inspects[random($)]);
     }
 }
 

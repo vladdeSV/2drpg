@@ -166,6 +166,7 @@ class Chunk
                 }
                 else if(val < 3 || val < 7 && sand > 8)
                 {
+
                     t = new TileSand();
                 }
                 else if(val < 8)
