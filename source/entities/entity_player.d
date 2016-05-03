@@ -34,68 +34,73 @@ class EntityPlayer : EntityLiving
         super("Rosemary" , x, y, char(1), Color.yellow);
 
         //_remembered["pilt"] = false;
-        //remember("wasd");
+        remember("wasd");
         //remember("stuck");
 
-        remember("sideui");
+        //remember("sideui");
 
-        import item_maxe;
-        _inventory ~= new ItemMaxe;
+        //import item_maxe;
+        //_inventory ~= new ItemMaxe;
 
         _events =
         [
-            //timeEvent(0,
-            //{
-            //    _remembered["stuck"] = true;
-            //    remember("wasd");
-            //    _events ~= timeEvent(3,
-            //    {
-            //        addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-            //    });
+            timeEvent(0,
+            {
+                _remembered["blank"] = true;
+                _remembered["stuck"] = true;
+                //remember("wasd");
+                _events ~= timeEvent(4, {
+                    _remembered["blank"] = false;
+                });
+                _events ~= timeEvent(3 + 5,
+                {
+                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
+                });
 
-            //    _events ~= timeEvent(14,
-            //    {
-            //        _remembered["wasd"] = false;
-            //    });
-            //    _events ~= timeEvent(16,
-            //    {
-            //        _remembered["stuck"] = false;
-            //        clearInputs();
-            //        remember("sideui");
-            //    });
+                _events ~= timeEvent(14 + 5,
+                {
+                    _remembered["wasd"] = false;
+                });
+                _events ~= timeEvent(16 + 5,
+                {
+                    _remembered["stuck"] = false;
+                    clearInputs();
+                    remember("sideui");
+                });
 
-            //    _events ~= timeEvent(20,
-            //    {
-            //        remember("wasd");
-            //    });
-            //}),
-            //timeEvent(60 * 2,
-            //{
-            //    _remembered["stuck"] = true;
+                _events ~= timeEvent(20 + 5,
+                {
+                    remember("wasd");
+                });
+            }),
 
-            //    _events ~= timeEvent(4,
-            //    {
-            //        addThought("You are hiding behind a large tree trunk. You are counting from one to five, slowly, trying to be quiet. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
-            //    });
+            timeEvent(60 * 2,
+            {
+                _remembered["stuck"] = true;
 
-            //    _events ~= timeEvent(14,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
-            //timeEvent(60 * 6,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _events ~= timeEvent(3,
-            //    {
-            //        addThought("The sea stretches out in front of you. The sand beneath your feet is coarse and rough and it is everywhere. You start running around with your large inflatable ball. You kick it as hard as you can and it flies out over the water. You start crying as the ball sinks into the water.");
-            //    });
+                _events ~= timeEvent(4,
+                {
+                    addThought("You are hiding behind a large tree trunk. You are counting from one to five, slowly, trying to be quiet. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
+                });
 
-            //    _events ~= timeEvent(14,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+                _events ~= timeEvent(14,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
+            timeEvent(60 * 6,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(3,
+                {
+                    addThought("The sea stretches out in front of you. The sand beneath your feet is coarse and rough and it is everywhere. You start running around with your large inflatable ball. You kick it as hard as you can and it flies out over the water. You start crying as the ball sinks into the water.");
+                });
+
+                _events ~= timeEvent(14,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
             checkEvent(
             {
                 return warmth < 3;
@@ -503,6 +508,12 @@ class EntityPlayer : EntityLiving
                     }
                 }
             }
+
+            if(hasRemembered("stuck"))
+            {
+                return;
+            }
+
 
             if(!_crafting && !questing)
             {

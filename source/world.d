@@ -46,11 +46,8 @@ class World
             }
         }
 
-        int xoff = cast(int)((wView - ((chunkSize * worldSize) % wView)) / 2);
-        int yoff = cast(int)((hView - ((chunkSize * worldSize) % hView)) / 2);
-
-        int px = cast(int)((chunkSize * worldSize / 2 + xoff) / wView) * wView - xoff + cast(int)((wView + wSidebar) / 2);
-        int py = cast(int)((chunkSize * worldSize / 2 + yoff) / hView) * hView - yoff + cast(int)(hView / 2);
+        int px = cast(int)((chunkSize * worldSize / 2 + xoffset) / wView) * wView - xoffset + cast(int)((wView + wSidebar) / 2);
+        int py = cast(int)((chunkSize * worldSize / 2 + yoffset) / hView) * hView - yoffset + cast(int)(hView / 2);
 
         //int px = cast(int)((worldSize * chunkSize / wView) / 2 * wView /*+ Game.frame.w / 2*/);
         //int py = cast(int)((worldSize * chunkSize / hView) / 2 * hView /*+ Game.frame.h / 2*/);

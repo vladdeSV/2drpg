@@ -13,6 +13,8 @@ bool withinWorldBorder(float x, float y)
 int wView;
 int hView;
 int wSidebar;
+int xoffset;
+int yoffset;
 
 enum Direction
 {
