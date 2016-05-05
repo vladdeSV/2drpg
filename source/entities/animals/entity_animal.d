@@ -13,8 +13,6 @@ class EntityAnimal : EntityLiving
 
     void interact(EntityPlayer p)
     {
-        p.addThought(name);
-
         p.setQuest(_quest);
     }
 

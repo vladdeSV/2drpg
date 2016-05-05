@@ -1,10 +1,19 @@
 import item;
 import enums;
+import slump;
 
 class ItemAxe : Item
 {
     this()
     {
-        super("Axe", char(24), Color.cyan_dark);
+        string[] i =
+        [
+            "A primitive axe.",
+            "Useful for chopping down trees and massacring zombies.",
+            "The weapon of choice for a viking.",
+            "Heavy and sharp.",
+        ];
+
+        super("Small Axe", char(24), Color.cyan_dark, random(i));
     }
 }

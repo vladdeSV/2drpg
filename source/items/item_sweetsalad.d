@@ -1,10 +1,17 @@
 import item;
 import enums;
+import slump;
 
 class ItemSweetSalad : Item
 {
     this()
     {
-        super("Berry salad", '*', Color.magenta);
+        auto i =
+        [
+            "Looks disgusting.",
+            "Why did I even make this?",
+            "It's not sweet.",
+        ];
+        super("Berry salad", '*', Color.magenta, random(i));
     }
 }

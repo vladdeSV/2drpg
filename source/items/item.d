@@ -3,7 +3,7 @@ import entity_player;
 
 abstract class Item
 {
-    this(string name, char sprite, Color color, string inspect = null, bool usable = false)
+    this(string name, char sprite, Color color, string inspect, bool usable = false)
     {
         _name = name;
         _sprite = sprite;
@@ -37,14 +37,28 @@ abstract class Item
         return _usable;
     }
 
-    void inspect(EntityPlayer p)
+    bool picked() const @property
     {
-        p.addThought(_inspectString);
+        return _picked;
+    }
+
+    bool picked(bool p) @property
+    {
+        return _picked = p;
+    }
+
+    void inspect(EntityPlayer p, bool force = false)
+    {
+        if(!_picked || force)
+        {
+            p.addThought(_inspectString);
+        }
     }
 
     private string _name;
     private char _sprite;
     private Color _color;
     private bool _usable;
+    private bool _picked;
     private string _inspectString;
 }

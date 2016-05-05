@@ -27,6 +27,9 @@ import std.algorithm.mutation : remove;
 import std.math : abs;
 import std.traits : EnumMembers;
 
+private enum eventStartTime = 3;
+private enum minute = 60;
+
 class EntityPlayer : EntityLiving
 {
     this(int x, int y)
@@ -44,89 +47,170 @@ class EntityPlayer : EntityLiving
 
         _events =
         [
-            timeEvent(0,
-            {
-                _remembered["blank"] = true;
-                _remembered["stuck"] = true;
-                //remember("wasd");
-                _events ~= timeEvent(4, {
-                    _remembered["blank"] = false;
-                });
-                _events ~= timeEvent(3 + 5,
-                {
-                    addThought("A white smile fills you with happiness. You sit in a field that stretches infinitely out filled with yellow flowers. As you pick one of the flowers the petals blow away in the wind and you can hear your mother laughing.");
-                });
+            //timeEvent(0,
+            //{
+            //    _remembered["blank"] = true;
+            //    _remembered["stuck"] = true;
+            //    //remember("wasd");
+            //    _events ~= timeEvent(4, {
+            //        _remembered["blank"] = false;
+            //    });
+            //    _events ~= timeEvent(8,
+            //    {
+            //        addThought("You sit in a field that stretches infinitely, filled with yellow flowers. As you pick a flower the petals blow up in the wind, you hear your mother laughing.");
+            //    });
 
-                _events ~= timeEvent(14 + 5,
-                {
-                    _remembered["wasd"] = false;
-                });
-                _events ~= timeEvent(16 + 5,
-                {
-                    _remembered["stuck"] = false;
-                    clearInputs();
-                    remember("sideui");
-                });
+            //    _events ~= timeEvent(16,
+            //    {
+            //        _remembered["wasd"] = false;
+            //    });
+            //    _events ~= timeEvent(18,
+            //    {
+            //        _remembered["stuck"] = false;
+            //        clearInputs();
+            //        remember("sideui");
+            //    });
 
-                _events ~= timeEvent(20 + 5,
-                {
-                    remember("wasd");
-                });
-            }),
+            //    _events ~= timeEvent(22,
+            //    {
+            //        remember("wasd");
+            //    });
+            //}),
 
-            timeEvent(60 * 2,
-            {
-                _remembered["stuck"] = true;
-
-                _events ~= timeEvent(4,
-                {
-                    addThought("You are hiding behind a large tree trunk. You are counting from one to five, slowly, trying to be quiet. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
-                });
-
-                _events ~= timeEvent(14,
-                {
-                    _remembered["stuck"] = false;
-                });
-            }),
-            timeEvent(60 * 6,
+            timeEvent(minute,
             {
                 _remembered["stuck"] = true;
-                _events ~= timeEvent(3,
+
+                _events ~= timeEvent(eventStartTime + 1,
                 {
-                    addThought("The sea stretches out in front of you. The sand beneath your feet is coarse and rough and it is everywhere. You start running around with your large inflatable ball. You kick it as hard as you can and it flies out over the water. You start crying as the ball sinks into the water.");
+                    addThought("You are hiding behind a large tree trunk. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
                 });
 
-                _events ~= timeEvent(14,
+                _events ~= timeEvent(eventStartTime + 9,
                 {
                     _remembered["stuck"] = false;
                 });
             }),
-            checkEvent(
+
+            timeEvent(minute * 2,
             {
-                return warmth < 3;
-            },
-            {
-                if(warmth < 1)
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
                 {
-                    addThought("I'm freezing...");
-                }
-                else
+                    addThought("The sand beneath your feet is coarse and rough and it is everywhere. You start playing with your ball. You kick it and you cry as the ball sinks into the water.");
+                });
+
+                _events ~= timeEvent(eventStartTime + 11,
                 {
-                    addThought("It's very cold...");
-                }
-            }, 20),
-            checkEvent(
+                    _remembered["stuck"] = false;
+                });
+            }),
+
+            timeEvent(minute * 5,
             {
-                return _warmth > 9;
-            },
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("Riding on your father’s shoulders you can see all over the creek, you feel the wind blowing against your face, running through the field. You jump and you can hear your father jumping after you");
+                });
+
+                _events ~= timeEvent(eventStartTime + 8,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
+
+            timeEvent(minute * 9,
             {
-               addThought
-               ([
-                    "It's hot!",
-                    "It's burning hot!",
-                    "I should cool down",
-                ]);
-            }, 20),
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("You hide under your blanket tears running down your cheeks. Screams from downstairs, everywhere, have gone on forever. There is always more, you are terrified.");
+                });
+
+                _events ~= timeEvent(eventStartTime + 6,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
+
+
+            timeEvent(minute * 15,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("Summer tunes. Dancing under a starry night. You are being carried by your father, as you look up sleepily you can see him smiling back.");
+                });
+
+                _events ~= timeEvent(eventStartTime + 6,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
+
+            timeEvent(minute * 18,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("The smoke fills the air, everywhere around you is fire. The world is burning and you can only stand still and watch. You lean over one of the flames and warm your hands.");
+                });
+
+                _events ~= timeEvent(eventStartTime + 9,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
+
+            timeEvent(minute * 20,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("You are lying down in a hidden world. Staring up into the clear sky you feel at peace, they can't get to you here. You are safe behind a wall of thorns.");
+                });
+
+                _events ~= timeEvent(eventStartTime + 7,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
+
+            timeEvent(minute * 23,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("You are taking big strides forwards trying to reach the top as fast as possible, you fall. You can hear a voice behind you, ‘slow down, baby steps climb the mountain’");
+                });
+
+                _events ~= timeEvent(eventStartTime + 7,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
+
+            timeEvent(minute * 25,
+            {
+                _remembered["stuck"] = true;
+                _thoughts = null;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("The screams are everywhere, you start running. You decide to flee as far away as you can, never looking back. No matter for how long you are gone, you are never going back.");
+                });
+
+                _events ~= timeEvent(eventStartTime + 12,
+                {
+                    _remembered["blank"] = true;
+                });
+                _events ~= timeEvent(eventStartTime + 16,
+                {
+                    Game.running = false;
+                });
+            }),
+
+
             distanceEvent(this, 1_000,
             {
                addThought("I've walked quite far.");
@@ -249,6 +333,7 @@ class EntityPlayer : EntityLiving
         {
             _movingDirection = Direction.none;
             _crafting = false;
+            stopQuesting();
         }
         else if(_movingDirection == 0)
         {
@@ -309,10 +394,10 @@ class EntityPlayer : EntityLiving
                         switch(_selectedQuestMenu)
                         {
                             case 0:
-                            addThought(_currentQuest.talk());
+                            addThought(_currentQuest.talk(), '"');
                             break;
                             case 1:
-                            addThought(_currentQuest.quest());
+                            addThought("\"" ~ _currentQuest.quest() ~ "\"");
                             break;
                             case 2:
                             stopQuesting();
@@ -461,6 +546,7 @@ class EntityPlayer : EntityLiving
 
                     if(input.key == SK.c)
                     {
+                        remember("crafting");
                         _crafting = !crafting;
                     }
 
@@ -486,7 +572,7 @@ class EntityPlayer : EntityLiving
                         }
                         else if(input.key == SK.i)
                         {
-                            _inventory[_selectedListItem].inspect(this);
+                            _inventory[_selectedListItem].inspect(this, true);
                         }
                         else if(input.key == SK.q)
                         {
@@ -513,7 +599,6 @@ class EntityPlayer : EntityLiving
             {
                 return;
             }
-
 
             if(!_crafting && !questing)
             {
@@ -572,19 +657,28 @@ class EntityPlayer : EntityLiving
             e.check();
         }
 
+        for(int i = 0; i < _events.length; ++i)
+        {
+            if(_events.length && _events[i].completed)
+            {
+                _events = _events.remove(i);
+                i -= 1;
+            }
+        }
+
         super.update();
     }
 
     void addThought(string s)
     {
-        if(s !is null)
+        if(s != "")
         {
             addThought([s]);
         }
     }
 
     private int lastThoughtN = 0;
-    void addThought(string[] thoughts)
+    void addThought(string[] thoughts, char surround = 0)
     {
         int n = min(random(thoughts.length), random(thoughts.length));
 
@@ -593,9 +687,19 @@ class EntityPlayer : EntityLiving
             n = (n + 1) % thoughts.length;
         }
 
-        lastThoughtN = n;
+        if(thoughts[n] != "")
+        {
+            lastThoughtN = n;
 
-        _thoughts = split(thoughts[n].wrap(wSidebar - 4), '\n') ~ _thoughts;
+            if(surround != 0)
+            {
+                _thoughts = split((surround ~ thoughts[n] ~ surround).wrap(wSidebar - 4), '\n') ~ _thoughts;
+            }
+            else
+            {
+                _thoughts = split(thoughts[n].wrap(wSidebar - 4), '\n') ~ _thoughts;
+            }
+        }
     }
 
     void remember(string s)
@@ -635,6 +739,7 @@ class EntityPlayer : EntityLiving
             if(insp)
             {
                 item.inspect(this);
+                item.picked = true;
             }
 
             if((typeid(item) in _counter) is null)
@@ -667,6 +772,7 @@ class EntityPlayer : EntityLiving
             if(typeid(item) == itemType)
             {
                 _inventory = _inventory.remove(n);
+                updateInventory();
                 return;
             }
         }
@@ -769,7 +875,7 @@ class EntityPlayer : EntityLiving
     private int[TypeInfo_Class] _counter;
     private Personality _personality;
     private Item[] _inventory;
-    private Event[] _events;
+    /*private*/ Event[] _events;
     private bool _running, _firstMove, _crafting;
 
     private Quest _currentQuest;
@@ -779,5 +885,5 @@ class EntityPlayer : EntityLiving
     private uint _selectedCraftItem = 0;
     private uint _selectedQuestMenu = 0;
 
-    immutable int maxItems = 10;
+    immutable int maxItems = 14;
 }

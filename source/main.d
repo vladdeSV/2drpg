@@ -46,6 +46,8 @@ void main()
     bool superBreak = false;
     while(inStartMenu)
     {
+        frame.clear();
+
         foreach(input; getInputs())
         {
             if(input.pressed)
@@ -69,7 +71,6 @@ void main()
                     {
                         inStartMenu = false;
                         frame.clear();
-                        frame.print();
                     }
                     if(selectedMenuItem == 2)
                     {
@@ -79,8 +80,6 @@ void main()
                 }
             }
         }
-
-        frame.clear();
 
         foreach(n, row; gamename)
         {
@@ -107,7 +106,7 @@ void main()
     //<<
 
     //UI
-    wSidebar = max(30, cast(int)(frame.w / 4));
+    wSidebar = max(cast(int)(80/2.5), cast(int)(frame.w / 2.5));
     wView = frame.w - wSidebar;
     hView = frame.h;
     xoffset = cast(int)((wView - ((chunkSize * worldSize) % wView)) / 2);
@@ -219,11 +218,11 @@ void main()
                     }
                 }
 
-                frame.write(sidebarStart + Game.player.maxItems * 2, frame.h - 3, '|');
+                frame.write(sidebarStart + Game.player.maxItems * 2, frame.h - 3, fg(Color.black), '|');
 
                 if(Game.player.inventory.length)
                 {
-                    frame.write(sidebarStart, frame.h - 4, "Selected item: ", fg(Game.player.inventory[Game.player.selectedListItem].color), Game.player.inventory[Game.player.selectedListItem].name);
+                    frame.write(sidebarStart, frame.h - 4, "Equipped: ", fg(Game.player.inventory[Game.player.selectedListItem].color), Game.player.inventory[Game.player.selectedListItem].name);
                     foreach(n, ref item; Game.player.inventory)
                     {
                         frame.write(sidebarStart + n * 2, frame.h - 3, fg(item.color), item.sprite, ' ');
@@ -311,9 +310,9 @@ void main()
                 auto q = Game.player.currentQuest;
 
                 foreach(y; hView - 8 .. hView - 1)
-                foreach(x; sideSpacing .. wView - sideSpacing)
+                foreach(x; sideSpacing .. 35)
                 {
-                    if(x == sideSpacing || y == hView - 8 || x == wView - sideSpacing - 1 || y == hView - 2)
+                    if(x == sideSpacing || y == hView - 8 || x == 34 || y == hView - 2)
                     {
                         frame.write(x,y, fg(Color.black), bg(Color.black_dark), '#');
                     }
@@ -339,8 +338,22 @@ void main()
                     }
                 }
 
+                Color qcol;
+                if(Game.player.currentQuest.active && Game.player.currentQuest.quests.length && Game.player.currentQuest.quests[0].check())
+                {
+                    qcol = Color.green;
+                }
+                else if(Game.player.currentQuest.quests.length)
+                {
+                    qcol = Color.yellow;
+                }
+                else
+                {
+                    qcol = Color.black;
+                }
+
                 frame.write(sideSpacing + 2     , hView - 4, texts[0]);
-                frame.write(sideSpacing + 2 + 10, hView - 4, texts[1]);
+                frame.write(sideSpacing + 2 + 10, hView - 4, fg(qcol), texts[1]);
                 frame.write(sideSpacing + 2 + 20, hView - 4, texts[2]);
             }
 
@@ -434,10 +447,31 @@ void main()
                 //    ++yaxis;
                 //}
             }
-
             frame.print();
         }
     }
+
+    //if(!superBreak)
+    //{
+    //    int endticks = 60*13;
+    //    auto updater = Updater(1000/UPS);
+    //    updater.resetUpdates();
+    //    while(secondsFromTicks(endticks) < 23)
+    //    {
+    //        foreach(i; 0 .. updater.getUpdates())
+    //        {
+    //            int sec = secondsFromTicks(endticks) % 60;
+    //            frame.clear();
+    //            frame.write(2,2, text("07:", sec));
+    //            if(sec >= 19)
+    //            {
+    //                frame.write(2,4, "The end.");
+    //            }
+    //            frame.print();
+    //            endticks += 1;
+    //        }
+    //    }
+    //}
 
     sconeClose();
 }

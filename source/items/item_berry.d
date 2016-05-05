@@ -34,6 +34,17 @@ class ItemBerry : Item
             color = Color.blue;
         }
 
+        string[] inspects =
+        [
+            "This one's rotten, yuck!",
+            "Eew, worms! Ah well, at least there is protein in it.",
+            "A bumble berry! Oh wait it's just some " ~ name.toLower() ~ ".",
+            "Going to drop some berries are we? Remember kids, drugs are for losers!",
+            "Fondling berries? How dirty of me.",
+            "These berries look good!",
+            "What!? These ", name.toLower(), " aren't pink.",
+        ];
+
         super(name, sprite, color, inspects[random($)], true);
     }
 
@@ -48,15 +59,3 @@ class ItemBerry : Item
         ]);
     }
 }
-
-string[] inspects =
-[
-    "This one's rotten, yuck!",
-    "Eew, worms! Ah well, at least there is protein in it.",
-    "A bumble berry! Oh wait it's not.",
-    "Going to drop some berries are we? Remember kids, drugs are for losers!",
-    "A twig and two berries.",
-    "Fondling berries? How dirty of me.",
-    "These berries look good!",
-    "Ooh, not-pink berries.",
-];
