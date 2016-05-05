@@ -397,7 +397,10 @@ class EntityPlayer : EntityLiving
                             addThought(_currentQuest.talk(), '"');
                             break;
                             case 1:
-                            addThought("\"" ~ _currentQuest.quest() ~ "\"");
+                            if(_currentQuest.quests.length)
+                            {
+                                addThought('"' ~ _currentQuest.quest() ~ '"');
+                            }
                             break;
                             case 2:
                             stopQuesting();

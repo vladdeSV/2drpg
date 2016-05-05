@@ -17,8 +17,12 @@ class EntityBear : EntityAnimal
     {
         super("Baer Grills", x, y, '@', Color.red, new Quest
         (
-            ["I am un-bear-able", "Talk", "talky"],
-            "Thank you, now we've both helped each other.",
+            [
+                "Most people tell me I'm nice, but I am actually un-bear-able.",
+                "There are many others out around here. Tell them hello from me!",
+                "I've heard that there is a limit, and after comes the void.",
+                "Talking is nice, don't you think?",
+            ],
             this,
             [
                 QuestPart

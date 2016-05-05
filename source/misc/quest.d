@@ -3,10 +3,9 @@ import entity_living;
 
 class Quest
 {
-    this(string[] textTalk, string textFinished, EntityLiving sender, QuestPart[] quests)
+    this(string[] textTalk, EntityLiving sender, QuestPart[] quests)
     {
         _talks = textTalk;
-        _finishedTalk = textFinished;
         _sender = sender;
         _quests = quests;
     }
@@ -20,7 +19,7 @@ class Quest
     {
         if(!_quests.length)
         {
-            return _finishedTalk;
+            return null;
         }
 
         if(!_quests[0].started)
@@ -61,7 +60,6 @@ class Quest
     }
 
     private string[] _talks;
-    private string _finishedTalk;
     private EntityLiving _sender;
     private QuestPart[] _quests;
 
