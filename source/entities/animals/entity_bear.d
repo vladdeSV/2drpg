@@ -42,7 +42,7 @@ class EntityBear : EntityAnimal
                 QuestPart
                 (
                     [
-                        "Could you give me a rock from the desert?",
+                        "Could you give me a rock from the sand?",
                         "Pick one the same way you did with the berries, press [E].",
                         "Hmm... Keep the rock, I know something else you can do."
                     ],

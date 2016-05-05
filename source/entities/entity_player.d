@@ -363,7 +363,9 @@ class EntityPlayer : EntityLiving
                 //>>Special code for exiting
                 if(!_crafting && !questing && input.key == SK.escape)
                 {
-                    Game.running = false;
+                    _menu = !menu;
+                    _selectedMenuMenu = 0;
+                    continue;
                 }
                 //<<
 
@@ -372,7 +374,28 @@ class EntityPlayer : EntityLiving
                     return;
                 }
 
-                if(questing)
+                if(_menu)
+                {
+                    if(input.key == SK.up || input.key == SK.down)
+                    {
+                        _selectedMenuMenu = !_selectedMenuMenu;
+                    }
+
+                    if(input.key == SK.enter || input.key == SK.space)
+                    {
+                        if(!_selectedMenuMenu)
+                        {
+                            _menu = false;
+                            _selectedMenuMenu = false;
+                        }
+                        else
+                        {
+                            Game.running = false;
+                        }
+                    }
+
+                }
+                else if(questing)
                 {
                     if(input.key == SK.escape)
                     {
@@ -603,7 +626,7 @@ class EntityPlayer : EntityLiving
                 return;
             }
 
-            if(!_crafting && !questing)
+            if(!_crafting && !questing && !_menu)
             {
                 //Check if player should be running
                 _running = input.hasControlKey(SCK.shift);
@@ -871,6 +894,16 @@ class EntityPlayer : EntityLiving
         return _selectedQuestMenu;
     }
 
+    bool selectedMenuMenu() const @property
+    {
+        return _selectedMenuMenu;
+    }
+
+    bool menu() const @property
+    {
+        return _menu;
+    }
+
     private float _distanceMoved = 0;
     private float _warmth = 6;
     private string[] _thoughts;
@@ -879,7 +912,7 @@ class EntityPlayer : EntityLiving
     private Personality _personality;
     private Item[] _inventory;
     /*private*/ Event[] _events;
-    private bool _running, _firstMove, _crafting;
+    private bool _running, _firstMove, _crafting, _menu;
 
     private Quest _currentQuest;
 
@@ -887,6 +920,7 @@ class EntityPlayer : EntityLiving
     private uint _selectedListItem = 0;
     private uint _selectedCraftItem = 0;
     private uint _selectedQuestMenu = 0;
+    private bool _selectedMenuMenu = false;
 
     immutable int maxItems = 14;
 }
