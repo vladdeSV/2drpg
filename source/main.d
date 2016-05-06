@@ -120,9 +120,10 @@ void main()
 
         if(inOptionMenu)
         {
-            frame.write(13, 3, char(24));
-            frame.write(2,4, "Game seed: ", Game.seed);
-            frame.write(13, 5, char(25));
+            frame.write(13, 3, fg(Color.yellow), char(24));
+            frame.write(2,4, "Game seed: ", fg(Color.cyan), Game.seed);
+            frame.write(13, 5, fg(Color.yellow), char(25));
+            frame.write(2,8, "Go back ", fg(Color.yellow), "[", fg(Color.white), "ESC", fg(Color.yellow), "]");
         }
         else
         {

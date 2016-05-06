@@ -42,7 +42,7 @@ class EntityBear : EntityAnimal
                 QuestPart
                 (
                     [
-                        "Could you give me a rock from the sand?",
+                        "Could you pick a rock for me from the sand?",
                         "Pick one the same way you did with the berries, press [E].",
                         "Hmm... Keep the rock, I know something else you can do."
                     ],
@@ -80,14 +80,16 @@ class EntityBear : EntityAnimal
                 QuestPart
                 (
                     [
-                        "One last thing, craft me an axe. Make sure you have enough materials, then press [ENTER] in the crafting menu.",
+                        "One last thing, craft me an bear treat. Make sure you have enough materials, then press [ENTER] in the crafting menu.",
                         "Press [C], then [ENTER] when you have the appropriate materials.",
-                        "Aw well, keep the axe too. I don't really mind."
+                        "Thanks bud'."
                     ],
                     {
-                        return Game.player.hasItem(typeid(ItemAxe));
+                        return Game.player.hasItem(typeid(ItemBerry));
                     },
-                    {}
+                    {
+                        Game.player.removeItem(typeid(ItemBerry));
+                    }
                 ),
 
             ]
