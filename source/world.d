@@ -54,17 +54,17 @@ class World
 
         Entity[] animals =
         [
-            new EntityBear(px - 5, py - 3),
+            new EntityWolf(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityBison(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityBoar(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityMoose(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityOtter(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            new EntityBear(px - 5, py - 3),
             new EntityPig(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityRacoon(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntitySparrow(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntitySwag(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityTurtle(random(chunkSize*worldSize), random(chunkSize*worldSize)),
-            new EntityWolf(random(chunkSize*worldSize), random(chunkSize*worldSize)),
         ];
 
         softenPoint(px, py, 10);

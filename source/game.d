@@ -8,6 +8,7 @@ struct Game
 {
     static real ticks = 0;
     static bool running;
+    static bool forceQuit;
 
     static World world;
     static EntityPlayer player;

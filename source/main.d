@@ -43,7 +43,6 @@ void main()
     ];
     string[3] menu = ["Start Game", "Options", "Exit"];
     int selectedMenuItem = 0;
-    bool superBreak = false;
     while(inStartMenu)
     {
         frame.clear();
@@ -55,7 +54,7 @@ void main()
                 if(input.key == SK.escape)
                 {
                     inStartMenu = false;
-                    superBreak = true;
+                    Game.forceQuit = true;
                 }
                 if(input.key == SK.up)
                 {
@@ -75,7 +74,7 @@ void main()
                     if(selectedMenuItem == 2)
                     {
                         inStartMenu = false;
-                        superBreak = true;
+                        Game.forceQuit = true;
                     }
                 }
             }
@@ -114,7 +113,7 @@ void main()
     auto cam = Rect(0, 0, wView, max(24, hView));
     //<<
 
-    if(!superBreak)
+    if(!Game.forceQuit)
     {
         auto updater = Updater(1000/UPS);
         Game.world = new World();
@@ -362,13 +361,16 @@ void main()
                 }
 
                 Color qcol;
-                if(Game.player.currentQuest.active && Game.player.currentQuest.quests.length && Game.player.currentQuest.quests[0].check())
+                if(Game.player.currentQuest.quests.length)
                 {
-                    qcol = Color.green;
-                }
-                else if(Game.player.currentQuest.quests.length)
-                {
-                    qcol = Color.yellow;
+                    if(Game.player.currentQuest.quests[0].check())
+                    {
+                        qcol = Color.green;
+                    }
+                    else
+                    {
+                        qcol = Color.yellow;
+                    }
                 }
                 else
                 {
@@ -440,27 +442,27 @@ void main()
         }
     }
 
-    //if(!superBreak)
-    //{
-    //    int endticks = 60*13;
-    //    auto updater = Updater(1000/UPS);
-    //    updater.resetUpdates();
-    //    while(secondsFromTicks(endticks) < 23)
-    //    {
-    //        foreach(i; 0 .. updater.getUpdates())
-    //        {
-    //            int sec = secondsFromTicks(endticks) % 60;
-    //            frame.clear();
-    //            frame.write(2,2, text("07:", sec));
-    //            if(sec >= 19)
-    //            {
-    //                frame.write(2,4, "The end.");
-    //            }
-    //            frame.print();
-    //            endticks += 1;
-    //        }
-    //    }
-    //}
+    if(!Game.forceQuit)
+    {
+        int endticks = 60*13;
+        auto updater = Updater(1000/UPS);
+        updater.resetUpdates();
+        while(secondsFromTicks(endticks) < 23)
+        {
+            foreach(i; 0 .. updater.getUpdates())
+            {
+                int sec = secondsFromTicks(endticks) % 60;
+                frame.clear();
+                frame.write(2,2, text("07:", sec));
+                if(sec >= 19)
+                {
+                    frame.write(2,4, "The end.");
+                }
+                frame.print();
+                endticks += 1;
+            }
+        }
+    }
 
     sconeClose();
 }

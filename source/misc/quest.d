@@ -44,11 +44,6 @@ class Quest
         }
     }
 
-    bool active() const @property
-    {
-        return _quests.length && _quests[0].started;
-    }
-
     EntityLiving sender() @property
     {
         return _sender;
@@ -62,8 +57,6 @@ class Quest
     private string[] _talks;
     private EntityLiving _sender;
     private QuestPart[] _quests;
-
-    private bool _completed;
 }
 
 struct QuestPart
