@@ -28,8 +28,10 @@ void main()
     frame.print();
     //<<
 
+    auto updater = Updater(1000/UPS);
+
+
     //>>Start menu
-    bool inStartMenu = true;
     string[] gamename =
     [
         " .d8888b. 8888888b. 8888888b. 8888888b.  .d8888b. ",
@@ -43,61 +45,106 @@ void main()
     ];
     string[3] menu = ["Start Game", "Options", "Exit"];
     int selectedMenuItem = 0;
+    bool inOptionMenu;
+    bool inStartMenu = true;
+
     while(inStartMenu)
     {
+        //foreach(i; 0 .. updater.getUpdates())
+        //{
         frame.clear();
 
         foreach(input; getInputs())
         {
             if(input.pressed)
             {
-                if(input.key == SK.escape)
+                if(inOptionMenu)
                 {
-                    inStartMenu = false;
-                    Game.forceQuit = true;
-                }
-                if(input.key == SK.up)
-                {
-                    selectedMenuItem = (selectedMenuItem + menu.length - 1) % menu.length;
-                }
-                if(input.key == SK.down)
-                {
-                    selectedMenuItem = (selectedMenuItem + 1) % menu.length;
-                }
-                if(input.key == SK.enter || input.key == SK.space)
-                {
-                    if(selectedMenuItem == 0)
+                    if(input.key == SK.escape)
                     {
-                        inStartMenu = false;
-                        frame.clear();
+                        inOptionMenu = false;
                     }
-                    if(selectedMenuItem == 2)
+
+                    if(input.key == SK.up)
+                    {
+                        Game.seed += 1;
+                    }
+
+                    if(input.key == SK.down)
+                    {
+                        Game.seed -= 1;
+                    }
+                }
+                else
+                {
+                    if(input.key == SK.escape)
                     {
                         inStartMenu = false;
                         Game.forceQuit = true;
                     }
+
+                    if(input.key == SK.up)
+                    {
+                        selectedMenuItem = (selectedMenuItem + menu.length - 1) % menu.length;
+                    }
+
+                    if(input.key == SK.down)
+                    {
+                        selectedMenuItem = (selectedMenuItem + 1) % menu.length;
+                    }
+
+                    if(input.key == SK.enter || input.key == SK.space)
+                    {
+                        if(selectedMenuItem == 0)
+                        {
+                            inStartMenu = false;
+                            //frame.clear();
+                        }
+
+                        if(selectedMenuItem == 1)
+                        {
+                            inOptionMenu = true;
+                            //
+                        }
+
+                        if(selectedMenuItem == 2)
+                        {
+                            inStartMenu = false;
+                            Game.running = false;
+                            Game.forceQuit = true;
+                        }
+                    }
                 }
             }
         }
 
-        foreach(n, row; gamename)
+        if(inOptionMenu)
         {
-            frame.write(cast(int)(frame.w / 2 - gamename[0].length/2), 4 + n, row);
+            frame.write(13, 3, char(24));
+            frame.write(2,4, "Game seed: ", Game.seed);
+            frame.write(13, 5, char(25));
         }
-
-        foreach(n, m; menu)
+        else
         {
-            string s;
-            if(selectedMenuItem == n)
+            foreach(n, row; gamename)
             {
-                s = "> " ~ m;
-            }
-            else
-            {
-                s = "  " ~ m;
+                frame.write(cast(int)(frame.w / 2 - gamename[0].length/2), 4 + n, row);
             }
 
-            frame.write(2, frame.h - 7 + 2*n, s);
+            foreach(n, m; menu)
+            {
+                string s;
+                if(selectedMenuItem == n)
+                {
+                    s = "> " ~ m;
+                }
+                else
+                {
+                    s = "  " ~ m;
+                }
+
+                frame.write(2, frame.h - 7 + 2*n, s);
+            }
         }
 
         frame.print();
@@ -115,7 +162,6 @@ void main()
 
     if(!Game.forceQuit)
     {
-        auto updater = Updater(1000/UPS);
         Game.world = new World();
 
         //Force update of player;
@@ -445,7 +491,6 @@ void main()
     if(!Game.forceQuit)
     {
         int endticks = 60*13;
-        auto updater = Updater(1000/UPS);
         updater.resetUpdates();
         while(secondsFromTicks(endticks) < 23)
         {
@@ -463,6 +508,8 @@ void main()
             }
         }
     }
+
+    frame.clear();
 
     sconeClose();
 }
