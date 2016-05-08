@@ -91,25 +91,79 @@ class EntityBear : EntityAnimal
                         Game.player.removeItem(typeid(ItemBerry));
                     }
                 ),
-
-            ]
+            ],
+            "Thanks for the help, bud'!"
         ));
     }
 }
 
 /+ Quest skeleton
-QuestPart
-(
-    [
-        "",
-        "",
-        ""
-    ],
-    {
-        return
-    },
-    {
-
-    }
-),
+, new Quest
+        (
+            [
+                //Talk messages
+                "",
+            ],
+            this,
+            [
+                QuestPart
+                (
+                    [
+                        //Initial phrase
+                        "",
+                        //Repeated, more descriptive phrase
+                        "",
+                        //Finished phrase
+                        "",
+                    ],
+                    {
+                        //Check
+                        return Game.player.hasItem(typeid());
+                    },
+                    {
+                        //Action
+                        Game.player.removeItem(typeid());
+                    }
+                ),
+                QuestPart
+                (
+                    [
+                        //Initial phrase
+                        "",
+                        //Repeated, more descriptive phrase
+                        "",
+                        //Finished phrase
+                        "",
+                    ],
+                    {
+                        //Check
+                        return Game.player.hasItem(typeid());
+                    },
+                    {
+                        //Action
+                        Game.player.removeItem(typeid());
+                    }
+                ),
+                QuestPart
+                (
+                    [
+                        //Initial phrase
+                        "",
+                        //Repeated, more descriptive phrase
+                        "",
+                        //Finished phrase
+                        "",
+                    ],
+                    {
+                        //Check
+                        return Game.player.hasItem(typeid());
+                    },
+                    {
+                        //Action
+                        Game.player.removeItem(typeid());
+                    }
+                ),
+            ],
+            ""
+        )
 +/

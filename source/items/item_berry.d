@@ -42,7 +42,7 @@ class ItemBerry : Item
             "Going to drop some berries are we? Remember kids, drugs are for losers!",
             "Fondling berries? How dirty of me.",
             "These berries look good!",
-            "What!? These ", name.toLower(), " aren't pink.",
+            "What!? These " ~ name.toLower() ~ " aren't pink.",
         ];
 
         super(name, sprite, color, inspects[random($)], true);

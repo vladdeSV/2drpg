@@ -312,13 +312,20 @@ class EntityPlayer : EntityLiving
         }
     }
 
-    bool hasItem(TypeInfo_Class item)
+    bool hasItem(TypeInfo_Class item, in int count = 1)
     {
+        int counted;
+
         foreach(i; _inventory)
         {
             if(item == typeid(i))
             {
-                return true;
+                ++counted;
+
+                if(counted >= count)
+                {
+                    return true;
+                }
             }
         }
 
@@ -421,10 +428,7 @@ class EntityPlayer : EntityLiving
                             addThought(_currentQuest.talk(), '"');
                             break;
                             case 1:
-                            if(_currentQuest.quests.length)
-                            {
-                                addThought('"' ~ _currentQuest.quest() ~ '"');
-                            }
+                            addThought('"' ~ _currentQuest.quest() ~ '"');
                             break;
                             case 2:
                             stopQuesting();
@@ -787,17 +791,27 @@ class EntityPlayer : EntityLiving
         }
     }
 
-    void removeItem(TypeInfo_Class itemType)
+    void removeItem(TypeInfo_Class itemType, in int amount = 1)
     {
-        foreach(n, item; _inventory)
+        int removed;
+
+        for(int n = 0; n < _inventory.length; ++n)
         {
-            if(typeid(item) == itemType)
+            if(typeid(_inventory[n]) == itemType)
             {
                 _inventory = _inventory.remove(n);
-                updateInventory();
-                return;
+                ++removed;
+                --n;
+
+                if(removed >= amount)
+                {
+                    break;
+                }
             }
         }
+
+        updateInventory();
+
     }
 
     void stopQuesting()

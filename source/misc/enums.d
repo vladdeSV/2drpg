@@ -2,7 +2,7 @@ public import scone.color;
 
 enum UPS = 60;
 
-enum worldSize = 3;
+enum worldSize = 2;
 enum chunkSize = 100;
 
 bool withinWorldBorder(float x, float y)
@@ -54,7 +54,7 @@ import item_supremeblock;
 
 Craft[] CraftList =
 [
-    Craft("Axe",              typeid(ItemAxe),         [CraftPart(typeid(ItemGreatWood),   2),
+    Craft("Axe",              typeid(ItemAxe),         [CraftPart(typeid(ItemWood),   2),
                                                         CraftPart(typeid(ItemStone),       3)]),
 
     Craft("Bear Treat",       typeid(ItemBearTreat),   [CraftPart(typeid(ItemBerry),       8)]),

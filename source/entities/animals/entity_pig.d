@@ -1,10 +1,82 @@
 import entity_animal;
 import enums;
+import quest;
+import game;
+
+import item_berry;
+import item_sweetsalad;
 
 class EntityPig : EntityAnimal
 {
     this(int x, int y)
     {
-        super("Willis Brukton", x, y, '@', Color.magenta);
+        super("Willis Brukton", x, y, '@', Color.magenta, new Quest
+        (
+            [
+                //Talk messages
+                "",
+            ],
+            this,
+            [
+                QuestPart
+                (
+                    [
+                        //Initial phrase
+                        "There is only thing that is better than berries, mud. However you can't collect mud so bring me some berries instead.",
+                        //Repeated, more descriptive phrase
+                        "",
+                        //Finished phrase
+                        "",
+                    ],
+                    {
+                        //Check
+                        return Game.player.hasItem(typeid(ItemBerry));
+                    },
+                    {
+                        //Action
+                        Game.player.removeItem(typeid(ItemBerry));
+                    }
+                ),
+                QuestPart
+                (
+                    [
+                        //Initial phrase
+                        "Hey you, yeah you. You just lost the game, The Game. Right bring me a Berry Salad I am hungry.",
+                        //Repeated, more descriptive phrase
+                        "",
+                        //Finished phrase
+                        "",
+                    ],
+                    {
+                        //Check
+                        return Game.player.hasItem(typeid(ItemSweetSalad));
+                    },
+                    {
+                        //Action
+                        Game.player.removeItem(typeid(ItemSweetSalad));
+                    }
+                ),
+                //QuestPart
+                //(
+                //    [
+                //        //Initial phrase
+                //        "Our house, in the middle of our street. Except I don't own a house, get me one.",
+                //        //Repeated, more descriptive phrase
+                //        "",
+                //        //Finished phrase
+                //        "",
+                //    ],
+                //    {
+                //        //Check
+                //        return Game.player.hasItem(typeid());
+                //    },
+                //    {
+                //        //Action
+                //        Game.player.removeItem(typeid());
+                //    }
+                //),
+            ],
+            "Thanks, I guess."
+        ));
     }
 }

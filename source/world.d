@@ -46,7 +46,7 @@ class World
             }
         }
 
-        int px = cast(int)((chunkSize * worldSize / 2 + xoffset) / wView) * wView - xoffset + cast(int)((wView + wSidebar) / 2);
+        int px = cast(int)((chunkSize * worldSize / 2 + xoffset) / wView) * wView - xoffset + cast(int)((wView) / 2);
         int py = cast(int)((chunkSize * worldSize / 2 + yoffset) / hView) * hView - yoffset + cast(int)(hView / 2);
 
         //int px = cast(int)((worldSize * chunkSize / wView) / 2 * wView /*+ Game.frame.w / 2*/);

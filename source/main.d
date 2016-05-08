@@ -153,7 +153,7 @@ void main()
     //<<
 
     //UI
-    wSidebar = max(cast(int)(80/2.5), cast(int)(frame.w / 2.5));
+    wSidebar = cast(int)(max(80, frame.w) / 2);
     wView = frame.w - wSidebar;
     hView = frame.h;
     xoffset = cast(int)((wView - ((chunkSize * worldSize) % wView)) / 2);
