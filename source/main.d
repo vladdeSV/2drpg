@@ -29,7 +29,7 @@ void main()
     //<<
 
     auto updater = Updater(1000/UPS);
-
+    updater.resetUpdates();
 
     //>>Start menu
     string[] gamename =
@@ -42,8 +42,11 @@ void main()
         "d88P'     888    888888 T88b  888       888    888",
         "888'      888  .d88P888  T88b 888       Y88b  d88P",
         "888888888 8888888P' 888   T88b888        'Y8888P88",
+        "",
+        "LBS Game Awards 2016",
     ];
     string[3] menu = ["Start Game", "Options", "Exit"];
+
     int selectedMenuItem = 0;
     bool inOptionMenu;
     bool inStartMenu = true;
@@ -120,10 +123,10 @@ void main()
 
         if(inOptionMenu)
         {
-            frame.write(13, 3, fg(Color.yellow), char(24));
-            frame.write(2,4, "Game seed: ", fg(Color.cyan), Game.seed);
-            frame.write(13, 5, fg(Color.yellow), char(25));
-            frame.write(2,8, "Go back ", fg(Color.yellow), "[", fg(Color.white), "ESC", fg(Color.yellow), "]");
+            frame.write(13, 2, fg(Color.yellow), char(24));
+            frame.write(2,3, "Game seed: ", fg(Color.cyan), Game.seed);
+            frame.write(13, 4, fg(Color.yellow), char(25));
+            frame.write(2,frame.h - 2, "Go back ", fg(Color.yellow), "[", fg(Color.white), "ESC", fg(Color.yellow), "]");
         }
         else
         {
@@ -146,6 +149,13 @@ void main()
 
                 frame.write(2, frame.h - 7 + 2*n, s);
             }
+
+            frame.write(frame.w - 22, frame.h - 8, /*fg(Color.white),*/ " Gjort av: ");
+            frame.write(frame.w - 23, frame.h - 4, /*fg(Color.white),*/ " Extra tack: ");
+            frame.write(frame.w - 30, frame.h - 7, fg(Color.white), "Vladimirs '", fg(Color.yellow), "vladde",     fg(Color.white), "' Nordholm");
+            frame.write(frame.w - 29, frame.h - 6, fg(Color.white), "Fredrik '",   fg(Color.yellow), "freddan",    fg(Color.white), "' Fernlund");
+            frame.write(frame.w - 29, frame.h - 3, fg(Color.white), "Oskar '",     fg(Color.yellow), "afromannen", fg(Color.white), "' Malmrot");
+            frame.write(frame.w - 31, frame.h - 2, fg(Color.white), "Beatrice '",  fg(Color.yellow), "vladdes gf", fg(Color.white), "' Svensson");
         }
 
         frame.print();
