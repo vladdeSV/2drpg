@@ -181,8 +181,8 @@ void main()
         Game.running = true;
         updater.resetUpdates();
 
-        float lentghToNearestEntityFromPlayer = 0;
-        Entity entityNearestPlayer;
+        //float lentghToNearestEntityFromPlayer = 0;
+        //Entity entityNearestPlayer;
 
         while(Game.running)
         {
@@ -230,7 +230,7 @@ void main()
                 }
                 //Could I make this more effective?
 
-                lentghToNearestEntityFromPlayer = float.max;
+                //lentghToNearestEntityFromPlayer = float.max;
                 foreach(chunks; Game.world.chunks)
                 {
                     foreach(chunk; chunks)
@@ -507,13 +507,13 @@ void main()
 
                 }
             }
-            else
-            {
-                if(Game.player.hasRemembered("helpline"))
-                {
-                    foreach(ref e)
-                }
-            }
+            //else
+            //{
+            //    if(Game.player.hasRemembered("helpline"))
+            //    {
+            //        foreach(ref e)
+            //    }
+            //}
 
             frame.print();
         }

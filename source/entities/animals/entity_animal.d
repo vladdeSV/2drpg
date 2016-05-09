@@ -26,7 +26,7 @@ class EntityAnimal : EntityLiving
 
     bool houseNear()
     {
-        return Game.world.itemNear(cast(int) _gx, cast(int) _gy, typeid(ItemHouse), 10);
+        return Game.world.itemNear(cast(int) _gx, cast(int) _gy, typeid(ItemHouse), 5);
     }
 
     private Quest _quest;

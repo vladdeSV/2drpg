@@ -68,11 +68,10 @@ class EntityPig : EntityAnimal
                     ],
                     {
                         //Check
-                        return Game.player.hasItem(typeid());
+                        return houseNear();
                     },
                     {
                         //Action
-                        Game.player.removeItem(typeid());
                     }
                 ),
             ],

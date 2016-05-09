@@ -15,7 +15,7 @@ class EntityOtter : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "I am utterly terrific.",
             ],
             this,
             [
@@ -88,11 +88,10 @@ class EntityOtter : EntityAnimal
                     ],
                     {
                         //Check
-                        return Game.player.hasItem(typeid());
+                        return houseNear();
                     },
                     {
                         //Action
-                        Game.player.removeItem(typeid());
                     }
                 ),
             ],

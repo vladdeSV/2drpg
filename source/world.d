@@ -266,14 +266,14 @@ class Chunk
 
     auto getTile(int tx, int ty)
     {
-        if(_tilesPlaced[ty][tx] !is null)
-        {
-            return _tilesPlaced[ty][tx];
-        }
-        else
-        {
+        //if(_tilesPlaced[ty][tx] !is null)
+        //{
+        //    return _tilesPlaced[ty][tx];
+        //}
+        //else
+        //{
             return _tiles[ty][tx];
-        }
+        //}
     }
 
     Entity[] entities;

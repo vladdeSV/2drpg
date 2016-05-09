@@ -42,7 +42,7 @@ class EntitySwag : EntityAnimal
                     ],
                     {
                         //Check
-                        return nearHome();
+                        return houseNear();
                     },
                     {
                         //Action

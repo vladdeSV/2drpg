@@ -90,7 +90,7 @@ Craft[] CraftList =
 
     Craft("MAXe",             typeid(ItemMaxe),        [CraftPart(typeid(ItemNiceAxe),     1),
                                                         CraftPart(typeid(ItemIron),        3),
-                                                        CraftPart(typeid(ItemCornerstone), 7)]),
+                                                        CraftPart(typeid(ItemCornerstone), 2)]),
 
     Craft("House",            typeid(ItemHouse),       [CraftPart(typeid(ItemGreatWood),   3),
                                                         CraftPart(typeid(ItemCornerstone), 2),
