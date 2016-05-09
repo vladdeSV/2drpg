@@ -501,13 +501,13 @@ void main()
 
     if(!Game.forceQuit)
     {
-        int endticks = 60*13;
+        int endticks = 13*UPS;
         updater.resetUpdates();
-        while(secondsFromTicks(endticks) < 23)
+        while(secondsFromTicks(endticks) <= 63)
         {
             foreach(i; 0 .. updater.getUpdates())
             {
-                int sec = secondsFromTicks(endticks) % 60;
+                int sec = secondsFromTicks(endticks);
                 frame.clear();
                 frame.write(2,2, text("07:", sec));
                 if(sec >= 19)
