@@ -132,7 +132,7 @@ void main()
         {
             foreach(n, row; gamename)
             {
-                frame.write(cast(int)(frame.w / 2 - gamename[0].length/2), 4 + n, row);
+                frame.write(cast(int)(frame.w / 2 - gamename[0].length/2), 4 + n, fg(Color.white), row);
             }
 
             foreach(n, m; menu)
@@ -140,14 +140,13 @@ void main()
                 string s;
                 if(selectedMenuItem == n)
                 {
-                    s = "> " ~ m;
+                    frame.write(2, frame.h - 7 + 2*n, "> ", fg(Color.white), m);
                 }
                 else
                 {
-                    s = "  " ~ m;
+                    frame.write(2, frame.h - 7 + 2*n, "  ", m);
                 }
 
-                frame.write(2, frame.h - 7 + 2*n, s);
             }
 
             frame.write(frame.w - 22, frame.h - 8, /*fg(Color.white),*/ " Gjort av: ");
