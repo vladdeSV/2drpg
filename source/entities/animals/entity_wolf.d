@@ -15,7 +15,9 @@ class EntityWolf : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "Young one, what do you wish to speak of?",
+                "Silence is patience.",
+                "Travel safe, young one.",
             ],
             this,
             [

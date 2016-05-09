@@ -15,7 +15,9 @@ class EntityMoose : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "KNEEL! For it is I, the king.",
+                "There is no one more mighty than I.",
+                "I, me, mine, not-yours.",
             ],
             this,
             [

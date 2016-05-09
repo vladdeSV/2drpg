@@ -14,7 +14,10 @@ class EntityPig : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "Mud or berries, that is the question.",
+                "What happens if you combine salad and mud. Or berries?",
+                "I like berries, specifically the pink ones.",
+                "Red and blue berries are not as tasty as the pink one.",
             ],
             this,
             [

@@ -14,7 +14,9 @@ class EntityBison : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "Small one, for what purpose do you wish to speak of me?",
+                "Excuse me, I am in the middle of eating.",
+                "Hello.",
             ],
             this,
             [

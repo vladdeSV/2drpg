@@ -16,7 +16,10 @@ class EntityTurtle : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "Back in my days, we did have not internet. But I will never forget the moonlight shining on my head.",
+                "They call me old fashioned, but I simply do what I do best.",
+                "Why run when you can walk?",
+                "Slow is not necessarily bad.",
             ],
             this,
             [

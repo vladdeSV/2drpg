@@ -14,7 +14,11 @@ class EntityRacoon : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "To berry or to not berry.",
+                "Much fall down to the ones like me.",
+                "Big berries traverse the universe.",
+                "In the night, you can see a red berry in the sky.",
+                "During the day you can see the big white berry.",
             ],
             this,
             [

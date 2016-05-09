@@ -16,6 +16,9 @@ class EntityOtter : EntityAnimal
             [
                 //Talk messages
                 "I am utterly terrific.",
+                "The world is big, and we are small.",
+                "Life is quite lonesome.",
+                "Why do we keep on going?",
             ],
             this,
             [

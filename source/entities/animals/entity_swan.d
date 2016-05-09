@@ -13,7 +13,10 @@ class EntitySwag : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "sup?",
+                "freak show.",
+                "sweet stbkts",
+                "where my hoodie at?",
             ],
             this,
             [

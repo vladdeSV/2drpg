@@ -14,7 +14,9 @@ class EntityBoar : EntityAnimal
         (
             [
                 //Talk messages
-                "",
+                "Greetings mademoiselle. How can I be of service?",
+                "Sailing does not make you sick. Seasickness does.",
+                "I used to have the biggest rod.",
             ],
             this,
             [
