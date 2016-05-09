@@ -64,6 +64,19 @@ abstract class Tile
         return a;
     }
 
+    bool hasItem(TypeInfo_Class type)
+    {
+        foreach(ref item; _items)
+        {
+            if(typeid(item) == type)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 protected:
     Item[] _items;
     char _sprite;

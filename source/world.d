@@ -49,17 +49,14 @@ class World
         int px = cast(int)((chunkSize * worldSize / 2 + xoffset) / wView) * wView - xoffset + cast(int)((wView) / 2);
         int py = cast(int)((chunkSize * worldSize / 2 + yoffset) / hView) * hView - yoffset + cast(int)(hView / 2);
 
-        //int px = cast(int)((worldSize * chunkSize / wView) / 2 * wView /*+ Game.frame.w / 2*/);
-        //int py = cast(int)((worldSize * chunkSize / hView) / 2 * hView /*+ Game.frame.h / 2*/);
-
         Entity[] animals =
         [
+            new EntityBear(px - 5, py - 3),
             new EntityWolf(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityBison(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityBoar(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityMoose(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityOtter(random(chunkSize*worldSize), random(chunkSize*worldSize)),
-            new EntityBear(px - 5, py - 3),
             new EntityPig(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityRacoon(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntitySparrow(random(chunkSize*worldSize), random(chunkSize*worldSize)),
@@ -146,6 +143,34 @@ class World
         return _chunks;
     }
 
+    bool itemNear(int tx, int ty, TypeInfo_Class item, int r = 10)
+    {
+
+        foreach(y; ty - r .. ty + r)
+        {
+            foreach(x; tx - r .. tx + r)
+            {
+                int a = tx - x;
+                int b = ty - y;
+
+                int asq = pow(a, 2);
+                int bsq = pow(b, 2);
+
+                float c = sqrt(cast(float)(asq + bsq));
+
+                if(c <= r)
+                {
+                    if(x >= 0 && y >= 0 && x < chunkSize*worldSize && y < chunkSize*worldSize && getTileAt(x,y).hasItem(item))
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     private Chunk[worldSize][worldSize] _chunks;
 
 }
@@ -158,13 +183,7 @@ private void softenPoint(int tx, int ty, int r)
     {
         foreach(x; tx - r .. tx + r)
         {
-            int a = tx - x;
-            int b = ty - y;
-
-            int asq = pow(a, 2);
-            int bsq = pow(b, 2);
-
-            float c = sqrt(cast(float)(asq + bsq));
+            float c = sqrt(cast(float)(pow(tx - x, 2) + pow(ty - y, 2)));
 
             if(c <= r)
             {
@@ -176,6 +195,20 @@ private void softenPoint(int tx, int ty, int r)
             }
         }
     }
+}
+
+import std.math : atan, PI;
+float angleBetweenEntities(Entity e1, Entity e2)
+{
+    int x1 = cast(int) e1.globalLocation[0];
+    int y1 = cast(int) e1.globalLocation[1];
+    int x2 = cast(int) e2.globalLocation[0];
+    int y2 = cast(int) e2.globalLocation[1];
+
+    int a = x2 - x1;
+    int b = y2 - y1;
+
+    return atan(cast(float)(a / b)) * 180 / PI;
 }
 
 class Chunk
@@ -246,5 +279,5 @@ class Chunk
     Entity[] entities;
 
     private int _cx, _cy;
-    private Tile[chunkSize][chunkSize] _tiles, _tilesPlaced;
+    private Tile[chunkSize][chunkSize] _tiles;
 }

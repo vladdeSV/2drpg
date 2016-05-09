@@ -24,9 +24,9 @@ class EntityBison : EntityAnimal
                         //Initial phrase
                         "Small one, I have need of your help in gathering some food for me, please bring me some grass to eat.",
                         //Repeated, more descriptive phrase
-                        "",
+                        "Have you come to give me the five grass I asked for?",
                         //Finished phrase
-                        "",
+                        "Thank you this will taste gooooood!",
                     ],
                     {
                         //Check
@@ -43,9 +43,9 @@ class EntityBison : EntityAnimal
                         //Initial phrase
                         "Small one, sadly my food supplies are once again running low, I have heard about this different sort of food called fiber, could you get me some?",
                         //Repeated, more descriptive phrase
-                        "",
+                        "Have you found the fiber I asked for?",
                         //Finished phrase
-                        "",
+                        "Thanks, this was surprisingly good.",
                     ],
                     {
                         //Check
@@ -62,9 +62,9 @@ class EntityBison : EntityAnimal
                         //Initial phrase
                         "Small one, I have changed my diet to the FiBR now, therefore I need more of it. I would be very happy if you could get me some.",
                         //Repeated, more descriptive phrase
-                        "",
+                        "I need more fiber in my storage, please bring me the five Fiber you promised.",
                         //Finished phrase
-                        "",
+                        "Thank you, this will last for long!",
                     ],
                     {
                         //Check

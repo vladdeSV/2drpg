@@ -36,14 +36,8 @@ class EntityPlayer : EntityLiving
     {
         super("Rosemary" , x, y, char(1), Color.yellow);
 
-        //_remembered["pilt"] = false;
         remember("wasd");
         //remember("stuck");
-
-        //remember("sideui");
-
-        //import item_maxe;
-        //_inventory ~= new ItemMaxe;
 
         _events =
         [

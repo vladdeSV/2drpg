@@ -63,7 +63,7 @@ void main()
             {
                 if(inOptionMenu)
                 {
-                    if(input.key == SK.escape)
+                    if(input.key == SK.escape || input.key == SK.enter)
                     {
                         inOptionMenu = false;
                     }
@@ -124,9 +124,9 @@ void main()
         if(inOptionMenu)
         {
             frame.write(13, 2, fg(Color.yellow), char(24));
-            frame.write(2,3, "Game seed: ", fg(Color.cyan), Game.seed);
+            frame.write(2,  3, "Game seed: ", fg(Color.cyan), Game.seed);
             frame.write(13, 4, fg(Color.yellow), char(25));
-            frame.write(2,frame.h - 2, "Go back ", fg(Color.yellow), "[", fg(Color.white), "ESC", fg(Color.yellow), "]");
+            frame.write(2,  frame.h - 2, "Go back ", fg(Color.yellow), "[", fg(Color.white), "ESC", fg(Color.yellow), "]", fg(Color.white_dark), " or ", fg(Color.yellow), "[", fg(Color.white), "ENTER", fg(Color.white), fg(Color.yellow),"]");
         }
         else
         {
@@ -181,6 +181,9 @@ void main()
         Game.running = true;
         updater.resetUpdates();
 
+        float lentghToNearestEntityFromPlayer = 0;
+        Entity entityNearestPlayer;
+
         while(Game.running)
         {
             frame.clear();
@@ -227,6 +230,7 @@ void main()
                 }
                 //Could I make this more effective?
 
+                lentghToNearestEntityFromPlayer = float.max;
                 foreach(chunks; Game.world.chunks)
                 {
                     foreach(chunk; chunks)
@@ -234,6 +238,12 @@ void main()
                         foreach(e; chunk.entities)
                         {
                             int ex = e.globalLocation[0], ey = e.globalLocation[1];
+
+                            //if(lentghToNearestEntityFromPlayer > sqrt(cast(float)(pow(ex - px, 2) + pow(ey - py, 2))))
+                            //{
+                            //    entityNearestPlayer = e;
+                            //}
+
                             if(ex >= cam.x && ex < cam.x + cam.w && ey >= cam.y && ey < cam.y + cam.h)
                             {
                                 Color col = e.color;
@@ -255,6 +265,7 @@ void main()
                 auto e = Game.player;
                 frame.write(e.globalLocation[0] - cam.x, e.globalLocation[1] - cam.y, fg(e.color), bg(Color.black_dark), e.sprite);
             }
+
             immutable sidebarStart = wView + 2;
 
             if(Game.player.hasRemembered("sideui"))
@@ -299,7 +310,7 @@ void main()
                 }
             }
 
-            int thoughtsStartPosition = 2;
+            byte thoughtsStartPosition = 2;
             foreach(n, s; Game.player.thoughts)
             {
                 int position = thoughtsStartPosition + n;
@@ -381,7 +392,6 @@ void main()
 
                 frame.write(sideSpacing + 2, sideSpacing + 2, menuitems[0]);
                 frame.write(sideSpacing + 2, sideSpacing + 4, fg(Color.red), menuitems[1]);
-
             }
 
             else if(Game.player.questing)
@@ -437,6 +447,8 @@ void main()
                 frame.write(sideSpacing + 2     , hView - 4, texts[0]);
                 frame.write(sideSpacing + 2 + 10, hView - 4, fg(qcol), texts[1]);
                 frame.write(sideSpacing + 2 + 20, hView - 4, texts[2]);
+
+                q = null;
             }
 
             //>>CRAFTING SYSTEM
@@ -495,6 +507,14 @@ void main()
 
                 }
             }
+            else
+            {
+                if(Game.player.hasRemembered("helpline"))
+                {
+                    foreach(ref e)
+                }
+            }
+
             frame.print();
         }
     }
@@ -503,11 +523,23 @@ void main()
     {
         int endticks = 13*UPS;
         updater.resetUpdates();
+
+        endloop:
         while(secondsFromTicks(endticks) <= 63)
         {
+
             foreach(i; 0 .. updater.getUpdates())
             {
                 int sec = secondsFromTicks(endticks);
+
+                foreach(input; getInputs())
+                {
+                    if(sec >= 20 && input.pressed && input.key == SK.escape)
+                    {
+                        break endloop;
+                    }
+                }
+
                 frame.clear();
                 frame.write(2,2, text("07:", sec));
                 if(sec >= 19)
@@ -521,6 +553,7 @@ void main()
     }
 
     frame.clear();
+    frame.print();
 
     sconeClose();
 }

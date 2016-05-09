@@ -24,9 +24,9 @@ class EntityPig : EntityAnimal
                         //Initial phrase
                         "There is only thing that is better than berries, mud. However you can't collect mud so bring me some berries instead.",
                         //Repeated, more descriptive phrase
-                        "",
+                        "Hey do you have the Berry?",
                         //Finished phrase
-                        "",
+                        "Thanks.",
                     ],
                     {
                         //Check
@@ -41,11 +41,11 @@ class EntityPig : EntityAnimal
                 (
                     [
                         //Initial phrase
-                        "Hey you, yeah you. You just lost the game, The Game. Right bring me a Berry Salad I am hungry.",
+                        "Hey you, yeah you. You just lost the game, The Game. Right bring me a Sweet Salad I am hungry.",
                         //Repeated, more descriptive phrase
-                        "",
+                        "Do you have the Sweet Salad or are you still mad about losing the game?",
                         //Finished phrase
-                        "",
+                        "Thanks again.",
                     ],
                     {
                         //Check
@@ -56,25 +56,25 @@ class EntityPig : EntityAnimal
                         Game.player.removeItem(typeid(ItemSweetSalad));
                     }
                 ),
-                //QuestPart
-                //(
-                //    [
-                //        //Initial phrase
-                //        "Our house, in the middle of our street. Except I don't own a house, get me one.",
-                //        //Repeated, more descriptive phrase
-                //        "",
-                //        //Finished phrase
-                //        "",
-                //    ],
-                //    {
-                //        //Check
-                //        return Game.player.hasItem(typeid());
-                //    },
-                //    {
-                //        //Action
-                //        Game.player.removeItem(typeid());
-                //    }
-                //),
+                QuestPart
+                (
+                    [
+                        //Initial phrase
+                        "Our house, in the middle of our street. Except I don't own a house, get me one.",
+                        //Repeated, more descriptive phrase
+                        "House, house, house, place a house.",
+                        //Finished phrase
+                        "Oh, thanks!",
+                    ],
+                    {
+                        //Check
+                        return Game.player.hasItem(typeid());
+                    },
+                    {
+                        //Action
+                        Game.player.removeItem(typeid());
+                    }
+                ),
             ],
             "Thanks, I guess."
         ));

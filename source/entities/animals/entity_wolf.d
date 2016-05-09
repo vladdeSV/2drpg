@@ -23,11 +23,11 @@ class EntityWolf : EntityAnimal
                 (
                     [
                         //Initial phrase
-                        "Hello child, I have need of your assistance. I am currently in search of an axe. I would be most grateful if you could bring me one.",
+                        "Hello child, I have need of your assistance. I am currently in search of an Axe. I would be most grateful if you could bring me one.",
                         //Repeated, more descriptive phrase
-                        "",
+                        "Have you brought me the Axe, young one?",
                         //Finished phrase
-                        "",
+                        "Pleased.",
                     ],
                     {
                         //Check
@@ -44,9 +44,9 @@ class EntityWolf : EntityAnimal
                         //Initial phrase
                         "Hello once again young one, I find that I could use an upgrade of my old axe, could you make me a better one?",
                         //Repeated, more descriptive phrase
-                        "",
+                        "Young one, please bring me the Nice axe.",
                         //Finished phrase
-                        "",
+                        "So nice of you.",
                     ],
                     {
                         //Check
@@ -63,9 +63,9 @@ class EntityWolf : EntityAnimal
                         //Initial phrase
                         "Young one I have need for your services! On my last hunt for trees I found my axe broken down so I concluded that I need the best of axes, bring me this mythical axe!",
                         //Repeated, more descriptive phrase
-                        "",
+                        "I still have need of the Maxe, young one.",
                         //Finished phrase
-                        "",
+                        "All's well.",
                     ],
                     {
                         //Check

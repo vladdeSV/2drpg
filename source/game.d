@@ -15,5 +15,5 @@ struct Game
     static Frame frame;
 
     static Random gen;
-    static uint seed = 19;
+    static uint seed = 5;
 }
