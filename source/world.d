@@ -59,7 +59,7 @@ class World
             new EntityOtter(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityPig(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityRacoon(random(chunkSize*worldSize), random(chunkSize*worldSize)),
-            new EntitySparrow(random(chunkSize*worldSize), random(chunkSize*worldSize)),
+            //new EntitySparrow(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntitySwag(random(chunkSize*worldSize), random(chunkSize*worldSize)),
             new EntityTurtle(random(chunkSize*worldSize), random(chunkSize*worldSize)),
         ];
