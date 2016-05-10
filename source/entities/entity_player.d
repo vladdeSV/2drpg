@@ -72,7 +72,7 @@ class EntityPlayer : EntityLiving
 
                 _events ~= timeEvent(25,
                 {
-                    addThought("(Press [F] while looking at the bear to the north-west of you.)");
+                    addThought("(Press [F] while looking at the red bear to the north-west of you.)");
                 });
             }),
 
