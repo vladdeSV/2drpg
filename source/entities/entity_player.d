@@ -41,35 +41,40 @@ class EntityPlayer : EntityLiving
 
         _events =
         [
-            //timeEvent(0,
-            //{
-            //    _remembered["blank"] = true;
-            //    _remembered["stuck"] = true;
-            //    //remember("wasd");
-            //    _events ~= timeEvent(4, {
-            //        _remembered["blank"] = false;
-            //    });
-            //    _events ~= timeEvent(8,
-            //    {
-            //        addThought("You sit in a field that stretches infinitely, filled with yellow flowers. As you pick a flower the petals blow up in the wind, you hear your mother laughing.");
-            //    });
+            timeEvent(0,
+            {
+                _remembered["blank"] = true;
+                _remembered["stuck"] = true;
+                //remember("wasd");
+                _events ~= timeEvent(4, {
+                    _remembered["blank"] = false;
+                });
+                _events ~= timeEvent(8,
+                {
+                    addThought("You sit in a field that stretches infinitely, filled with yellow flowers. As you pick a flower the petals blow up in the wind, you hear your mother laughing.");
+                });
 
-            //    _events ~= timeEvent(16,
-            //    {
-            //        _remembered["wasd"] = false;
-            //    });
-            //    _events ~= timeEvent(18,
-            //    {
-            //        _remembered["stuck"] = false;
-            //        clearInputs();
-            //        remember("sideui");
-            //    });
+                _events ~= timeEvent(16,
+                {
+                    _remembered["wasd"] = false;
+                });
+                _events ~= timeEvent(18,
+                {
+                    _remembered["stuck"] = false;
+                    clearInputs();
+                    remember("sideui");
+                });
 
-            //    _events ~= timeEvent(22,
-            //    {
-            //        remember("wasd");
-            //    });
-            //}),
+                _events ~= timeEvent(22,
+                {
+                    remember("wasd");
+                });
+
+                _events ~= timeEvent(25,
+                {
+                    addThought("(Press [F] while looking at the bear to the north-west of you.)");
+                });
+            }),
 
             timeEvent(minute * 5,
             {
@@ -100,7 +105,7 @@ class EntityPlayer : EntityLiving
                 });
             }),
 
-            timeEvent(minute * 10,
+            timeEvent(minute * 11,
             {
                 _remembered["stuck"] = true;
                 _events ~= timeEvent(eventStartTime,
@@ -114,7 +119,7 @@ class EntityPlayer : EntityLiving
                 });
             }),
 
-            timeEvent(minute * 13,
+            timeEvent(minute * 14,
             {
                 _remembered["stuck"] = true;
                 _events ~= timeEvent(eventStartTime,
@@ -128,21 +133,7 @@ class EntityPlayer : EntityLiving
                 });
             }),
 
-            timeEvent(minute * 15,
-            {
-                _remembered["stuck"] = true;
-                _events ~= timeEvent(eventStartTime,
-                {
-                    addThought("Summer tunes. Dancing under a starry night. You are being carried by your father, as you look up sleepily you can see him smiling back.");
-                });
-
-                _events ~= timeEvent(eventStartTime + 6,
-                {
-                    _remembered["stuck"] = false;
-                });
-            }),
-
-            timeEvent(minute * 18,
+            timeEvent(minute * 17,
             {
                 _remembered["stuck"] = true;
                 _events ~= timeEvent(eventStartTime,
