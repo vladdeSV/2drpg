@@ -59,11 +59,11 @@ Craft[] CraftList =
     Craft("Axe",              typeid(ItemAxe),         [CraftPart(typeid(ItemWood),        2),
                                                         CraftPart(typeid(ItemStone),       3)]),
 
-    Craft("Bear Treat",       typeid(ItemBearTreat),   [CraftPart(typeid(ItemBerry),       8)]),
+    Craft("Bear Treat",       typeid(ItemBearTreat),   [CraftPart(typeid(ItemBerry),       3)]),
 
-    Craft("Great wood",       typeid(ItemGreatWood),   [CraftPart(typeid(ItemWood),        8)]),
+    Craft("Great wood",       typeid(ItemGreatWood),   [CraftPart(typeid(ItemWood),        4)]),
 
-    Craft("Corner stone",     typeid(ItemCornerstone), [CraftPart(typeid(ItemStone),       8)]),
+    Craft("Cornerstone",      typeid(ItemCornerstone), [CraftPart(typeid(ItemStone),       3)]),
 
     Craft("Fiber",            typeid(ItemFiber),       [CraftPart(typeid(ItemGrass),       4)]),
 

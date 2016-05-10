@@ -429,13 +429,20 @@ void main()
                 Color qcol;
                 if(Game.player.currentQuest.quests.length)
                 {
-                    if(Game.player.currentQuest.quests[0].check())
+                    if(Game.player.currentQuest.active())
                     {
-                        qcol = Color.green;
+                        if(Game.player.currentQuest.quests[0].check())
+                        {
+                            qcol = Color.green;
+                        }
+                        else
+                        {
+                            qcol = Color.yellow;
+                        }
                     }
                     else
                     {
-                        qcol = Color.yellow;
+                        qcol = Color.cyan;
                     }
                 }
                 else

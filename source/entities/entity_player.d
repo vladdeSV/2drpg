@@ -41,168 +41,167 @@ class EntityPlayer : EntityLiving
 
         _events =
         [
-            //timeEvent(0,
-            //{
-            //    _remembered["blank"] = true;
-            //    _remembered["stuck"] = true;
-            //    //remember("wasd");
-            //    _events ~= timeEvent(4, {
-            //        _remembered["blank"] = false;
-            //    });
-            //    _events ~= timeEvent(8,
-            //    {
-            //        addThought("You sit in a field that stretches infinitely, filled with yellow flowers. As you pick a flower the petals blow up in the wind, you hear your mother laughing.");
-            //    });
+            timeEvent(0,
+            {
+                _remembered["blank"] = true;
+                _remembered["stuck"] = true;
+                //remember("wasd");
+                _events ~= timeEvent(4, {
+                    _remembered["blank"] = false;
+                });
+                _events ~= timeEvent(8,
+                {
+                    addThought("You sit in a field that stretches infinitely, filled with yellow flowers. As you pick a flower the petals blow up in the wind, you hear your mother laughing.");
+                });
 
-            //    _events ~= timeEvent(16,
-            //    {
-            //        _remembered["wasd"] = false;
-            //    });
-            //    _events ~= timeEvent(18,
-            //    {
-            //        _remembered["stuck"] = false;
-            //        clearInputs();
-            //        remember("sideui");
-            //    });
+                _events ~= timeEvent(16,
+                {
+                    _remembered["wasd"] = false;
+                });
+                _events ~= timeEvent(18,
+                {
+                    _remembered["stuck"] = false;
+                    clearInputs();
+                    remember("sideui");
+                });
 
-            //    _events ~= timeEvent(22,
-            //    {
-            //        remember("wasd");
-            //    });
-            //}),
+                _events ~= timeEvent(22,
+                {
+                    remember("wasd");
+                });
+            }),
 
-            //timeEvent(minute,
-            //{
-            //    _remembered["stuck"] = true;
+            timeEvent(minute * 5,
+            {
+                _remembered["stuck"] = true;
 
-            //    _events ~= timeEvent(eventStartTime + 1,
-            //    {
-            //        addThought("You are hiding behind a large tree trunk. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
-            //    });
+                _events ~= timeEvent(eventStartTime + 1,
+                {
+                    addThought("You are hiding behind a large tree trunk. You don't want to be found. As that thought crosses your mind you can hear your fathers voice. You were found.");
+                });
 
-            //    _events ~= timeEvent(eventStartTime + 9,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+                _events ~= timeEvent(eventStartTime + 9,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
 
-            //timeEvent(minute * 2,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _events ~= timeEvent(eventStartTime,
-            //    {
-            //        addThought("The sand beneath your feet is coarse and rough and it is everywhere. You start playing with your ball. You kick it and you cry as the ball sinks into the water.");
-            //    });
+            timeEvent(minute *  8,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("The sand beneath your feet is coarse and rough and it is everywhere. You start playing with your ball. You kick it and you cry as the ball sinks into the water.");
+                });
 
-            //    _events ~= timeEvent(eventStartTime + 11,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+                _events ~= timeEvent(eventStartTime + 11,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
 
-            //timeEvent(minute * 5,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _events ~= timeEvent(eventStartTime,
-            //    {
-            //        addThought("Riding on your father’s shoulders you can see all over the creek, you feel the wind blowing against your face, running through the field. You jump and you can hear your father jumping after you");
-            //    });
+            timeEvent(minute * 10,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("Riding on your father's shoulders you can see all over the creek, you feel the wind blowing against your face, running through the field. You jump and you can hear your father jumping after you");
+                });
 
-            //    _events ~= timeEvent(eventStartTime + 8,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+                _events ~= timeEvent(eventStartTime + 8,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
 
-            //timeEvent(minute * 9,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _events ~= timeEvent(eventStartTime,
-            //    {
-            //        addThought("You hide under your blanket tears running down your cheeks. Screams from downstairs, everywhere, have gone on forever. There is always more, you are terrified.");
-            //    });
+            timeEvent(minute * 13,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("You hide under your blanket tears running down your cheeks. Screams from downstairs, everywhere, have gone on forever. There is always more, you are terrified.");
+                });
 
-            //    _events ~= timeEvent(eventStartTime + 6,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+                _events ~= timeEvent(eventStartTime + 6,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
 
+            timeEvent(minute * 15,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("Summer tunes. Dancing under a starry night. You are being carried by your father, as you look up sleepily you can see him smiling back.");
+                });
 
-            //timeEvent(minute * 15,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _events ~= timeEvent(eventStartTime,
-            //    {
-            //        addThought("Summer tunes. Dancing under a starry night. You are being carried by your father, as you look up sleepily you can see him smiling back.");
-            //    });
+                _events ~= timeEvent(eventStartTime + 6,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
 
-            //    _events ~= timeEvent(eventStartTime + 6,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+            timeEvent(minute * 18,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("The smoke fills the air, everywhere around you is fire. The world is burning and you can only stand still and watch. You lean over one of the flames and warm your hands.");
+                });
 
-            //timeEvent(minute * 18,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _events ~= timeEvent(eventStartTime,
-            //    {
-            //        addThought("The smoke fills the air, everywhere around you is fire. The world is burning and you can only stand still and watch. You lean over one of the flames and warm your hands.");
-            //    });
+                _events ~= timeEvent(eventStartTime + 9,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
 
-            //    _events ~= timeEvent(eventStartTime + 9,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+            timeEvent(minute * 20,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("You are lying down in a hidden world. Staring up into the clear sky you feel at peace, they can't get to you here. You are safe behind a wall of thorns.");
+                });
 
-            //timeEvent(minute * 20,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _events ~= timeEvent(eventStartTime,
-            //    {
-            //        addThought("You are lying down in a hidden world. Staring up into the clear sky you feel at peace, they can't get to you here. You are safe behind a wall of thorns.");
-            //    });
+                _events ~= timeEvent(eventStartTime + 7,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
 
-            //    _events ~= timeEvent(eventStartTime + 7,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+            timeEvent(minute * 23,
+            {
+                _remembered["stuck"] = true;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("You are taking big strides forwards trying to reach the top as fast as possible, you fall. You can hear a voice behind you, 'slow down, baby steps climb the mountain'");
+                });
 
-            //timeEvent(minute * 23,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _events ~= timeEvent(eventStartTime,
-            //    {
-            //        addThought("You are taking big strides forwards trying to reach the top as fast as possible, you fall. You can hear a voice behind you, ‘slow down, baby steps climb the mountain’");
-            //    });
+                _events ~= timeEvent(eventStartTime + 7,
+                {
+                    _remembered["stuck"] = false;
+                });
+            }),
 
-            //    _events ~= timeEvent(eventStartTime + 7,
-            //    {
-            //        _remembered["stuck"] = false;
-            //    });
-            //}),
+            timeEvent(minute * 25,
+            {
+                _remembered["stuck"] = true;
+                _thoughts = null;
+                _events ~= timeEvent(eventStartTime,
+                {
+                    addThought("The screams are everywhere, you start running. You decide to flee as far away as you can, never looking back. No matter for how long you are gone, you are never going back.");
+                });
 
-            //timeEvent(minute * 25,
-            //{
-            //    _remembered["stuck"] = true;
-            //    _thoughts = null;
-            //    _events ~= timeEvent(eventStartTime,
-            //    {
-            //        addThought("The screams are everywhere, you start running. You decide to flee as far away as you can, never looking back. No matter for how long you are gone, you are never going back.");
-            //    });
-
-            //    _events ~= timeEvent(eventStartTime + 12,
-            //    {
-            //        _remembered["blank"] = true;
-            //    });
-            //    _events ~= timeEvent(eventStartTime + 16,
-            //    {
-            //        Game.running = false;
-            //    });
-            //}),
+                _events ~= timeEvent(eventStartTime + 12,
+                {
+                    _remembered["blank"] = true;
+                });
+                _events ~= timeEvent(eventStartTime + 16,
+                {
+                    Game.running = false;
+                });
+            }),
 
 
             distanceEvent(this, 1_000,
@@ -430,6 +429,12 @@ class EntityPlayer : EntityLiving
                             default:
                             break;
                         }
+                    }
+
+                    if(input.key == SK.c)
+                    {
+                        stopQuesting();
+                        _crafting = true;
                     }
                 }
                 else if(_crafting)

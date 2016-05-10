@@ -8,6 +8,7 @@ import item_wood;
 import item_berry;
 import item_stone;
 import item_axe;
+import item_beartreat;
 
 import std.algorithm.mutation : remove;
 
@@ -21,7 +22,9 @@ class EntityBear : EntityAnimal
                 "Most people tell me I'm nice, but I am actually un-bear-able.",
                 "There are many others out around here. Tell them hello from me!",
                 "I've heard that there is a limit, and after comes the void.",
-                "Talking is nice, don't you think?",
+                "Did you know you can drop items with [Q].",
+                "Interact with [F].",
+                "Pick up items with [E].",
             ],
             this,
             [
@@ -54,7 +57,7 @@ class EntityBear : EntityAnimal
                 QuestPart
                 (
                     [
-                        "Could you help me to cut down a tree? Look at the tree and press [F] with the rock equipped.",
+                        "Could you help me to cut down a tree? Look at the tree and press [F] a couple of times with the rock equipped.",
                         "Make sure you are holding the stone, and press [F].",
                         "Wohoo! You sure are nice pal."
                     ],
@@ -85,10 +88,10 @@ class EntityBear : EntityAnimal
                         "Thanks bud'."
                     ],
                     {
-                        return Game.player.hasItem(typeid(ItemBerry));
+                        return Game.player.hasItem(typeid(ItemBearTreat));
                     },
                     {
-                        Game.player.removeItem(typeid(ItemBerry));
+                        Game.player.removeItem(typeid(ItemBearTreat));
                     }
                 ),
             ],

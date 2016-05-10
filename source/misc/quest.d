@@ -50,6 +50,11 @@ class Quest
         return _sender;
     }
 
+    bool active() const @property
+    {
+        return _quests.length && _quests[0].started;
+    }
+
     QuestPart[] quests() @property
     {
         return _quests;
