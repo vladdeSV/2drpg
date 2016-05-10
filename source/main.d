@@ -269,20 +269,9 @@ void main()
 
             if(Game.player.hasRemembered("sideui"))
             {
-                foreach(int y; 0 .. hView)
-                {
-                    foreach(int x; wView .. wView + wSidebar)
-                    {
-                        if(!y || y == cam.h - 1 || y == cam.h - 7 || x == cam.w)
-                        {
-                            frame.write(x, y, fg(Color.black), bg(Color.black_dark), '#');
-                        }
-                        else
-                        {
-                            frame.write(x, y, bg(Color.black_dark));
-                        }
-                    }
-                }
+
+                drawRect(wView, 0, wSidebar, hView-5, Slot(' '), Slot('#', fg(Color.black), bg(Color.black_dark)));
+                drawRect(wView, hView-6, wSidebar, 6, Slot(' '), Slot('#', fg(Color.black), bg(Color.black_dark)));
 
                 frame.write(sidebarStart + Game.player.maxItems * 2, frame.h - 3, fg(Color.black), '|');
 
@@ -305,7 +294,7 @@ void main()
                         frame.write(frame.w - 4, frame.h - 3, fg(Color.yellow), '[', fg(Color.white), 'U', fg(Color.yellow), ']');
                     }
 
-                    frame.write(sidebarStart + Game.player.selectedListItem * 2, frame.h - 2, /*fg(Color.yellow),*/ char(24));
+                    frame.write(sidebarStart + Game.player.selectedListItem * 2, frame.h - 2, char(24));
                 }
             }
 
@@ -397,18 +386,7 @@ void main()
             {
                 auto q = Game.player.currentQuest;
 
-                foreach(y; hView - 8 .. hView - 1)
-                foreach(x; sideSpacing .. 35)
-                {
-                    if(x == sideSpacing || y == hView - 8 || x == 34 || y == hView - 2)
-                    {
-                        frame.write(x,y, fg(Color.black), bg(Color.black_dark), '#');
-                    }
-                    else
-                    {
-                        frame.write(x,y, bg(Color.black_dark), ' ');
-                    }
-                }
+                drawRect(sideSpacing, hView - 8, sideSpacing + 35, 7, Slot(' '), Slot('#', fg(Color.black), bg(Color.black_dark)));
 
                 frame.write(4, hView - 6, fg(q.sender.color), q.sender.sprite, fg(Color.white_dark), " - ", q.sender.name);
 
@@ -453,8 +431,6 @@ void main()
                 frame.write(sideSpacing + 2     , hView - 4, texts[0]);
                 frame.write(sideSpacing + 2 + 10, hView - 4, fg(qcol), texts[1]);
                 frame.write(sideSpacing + 2 + 20, hView - 4, texts[2]);
-
-                q = null;
             }
 
             //>>CRAFTING SYSTEM
