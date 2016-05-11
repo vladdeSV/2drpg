@@ -41,35 +41,35 @@ class EntityPlayer : EntityLiving
 
         _events =
         [
-            //timeEvent(0,
-            //{
-            //    _remembered["blank"] = true;
-            //    _remembered["stuck"] = true;
-            //    //remember("wasd");
-            //    _events ~= timeEvent(4, {
-            //        _remembered["blank"] = false;
-            //    });
-            //    _events ~= timeEvent(8,
-            //    {
-            //        addThought("You sit in a field that stretches infinitely, filled with yellow flowers. As you pick a flower the petals blow up in the wind, you hear your mother laughing.");
-            //    });
+            timeEvent(0,
+            {
+                _remembered["blank"] = true;
+                _remembered["stuck"] = true;
+                //remember("wasd");
+                _events ~= timeEvent(4, {
+                    _remembered["blank"] = false;
+                });
+                _events ~= timeEvent(8,
+                {
+                    addThought("You sit in a field that stretches infinitely, filled with yellow flowers. As you pick a flower the petals blow up in the wind, you hear your mother laughing.");
+                });
 
-            //    _events ~= timeEvent(16,
-            //    {
-            //        _remembered["wasd"] = false;
-            //    });
-            //    _events ~= timeEvent(18,
-            //    {
-            //        _remembered["stuck"] = false;
-            //        clearInputs();
-            //        remember("sideui");
-            //    });
+                _events ~= timeEvent(16,
+                {
+                    _remembered["wasd"] = false;
+                });
+                _events ~= timeEvent(18,
+                {
+                    _remembered["stuck"] = false;
+                    clearInputs();
+                    remember("sideui");
+                });
 
-            //    _events ~= timeEvent(22,
-            //    {
-            //        remember("wasd");
-            //    });
-            //}),
+                _events ~= timeEvent(22,
+                {
+                    remember("wasd");
+                });
+            }),
 
             timeEvent(minute * 5,
             {
@@ -358,8 +358,10 @@ class EntityPlayer : EntityLiving
 
         foreach(input; getInputs())
         {
-            if(input.pressed)
+            if(input.pressed && !_remembered["keypressed"])
             {
+                _remembered["keypressed"] = true;
+
                 //>>Special code for exiting
                 if(!_crafting && !questing && input.key == SK.escape)
                 {
@@ -618,6 +620,11 @@ class EntityPlayer : EntityLiving
                         }
                     }
                 }
+            }
+
+            if(!input.pressed)
+            {
+                _remembered["keypressed"] = false;
             }
 
             if(hasRemembered("stuck"))
