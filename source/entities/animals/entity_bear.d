@@ -84,7 +84,7 @@ class EntityBear : EntityAnimal
                 (
                     [
                         "One last thing, craft me an bear treat. Make sure you have enough materials, then press [ENTER] in the crafting menu.",
-                        "Press [C], then [ENTER] when you have the appropriate materials.",
+                        "Press [C], then [ENTER] when you have the appropriate materials for a bear treat.",
                         "Thanks bud'."
                     ],
                     {

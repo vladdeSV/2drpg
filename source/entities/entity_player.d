@@ -69,6 +69,11 @@ class EntityPlayer : EntityLiving
                 {
                     remember("wasd");
                 });
+
+                _events ~= timeEvent(25,
+                {
+                    addThought("(Press [F] while looking at the red bear to the north-west of you.)");
+                });
             }),
 
             timeEvent(minute * 5,
@@ -100,7 +105,7 @@ class EntityPlayer : EntityLiving
                 });
             }),
 
-            timeEvent(minute * 10,
+            timeEvent(minute * 11,
             {
                 _remembered["stuck"] = true;
                 _events ~= timeEvent(eventStartTime,
@@ -114,7 +119,7 @@ class EntityPlayer : EntityLiving
                 });
             }),
 
-            timeEvent(minute * 13,
+            timeEvent(minute * 14,
             {
                 _remembered["stuck"] = true;
                 _events ~= timeEvent(eventStartTime,
@@ -128,21 +133,7 @@ class EntityPlayer : EntityLiving
                 });
             }),
 
-            timeEvent(minute * 15,
-            {
-                _remembered["stuck"] = true;
-                _events ~= timeEvent(eventStartTime,
-                {
-                    addThought("Summer tunes. Dancing under a starry night. You are being carried by your father, as you look up sleepily you can see him smiling back.");
-                });
-
-                _events ~= timeEvent(eventStartTime + 6,
-                {
-                    _remembered["stuck"] = false;
-                });
-            }),
-
-            timeEvent(minute * 18,
+            timeEvent(minute * 17,
             {
                 _remembered["stuck"] = true;
                 _events ~= timeEvent(eventStartTime,

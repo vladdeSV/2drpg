@@ -1,7 +1,9 @@
 # 2DRPG
-Tile-based RPG, in console/terminal
+Tile-based exploration game, in which you take place as someone. Craft items to help your way, or complete quests to satisfy the inhabitatns of this world.
 
 ![gif](/2drpg.gif?raw=true "2DRPG")
+
+**Manual**: Read it [here](/2drpg_manual.pdf).
 
 ### Introduction
 2DRPG differs much from it's preprocessor [DRPG](https://github.com/vladdeSV/drpg). Much of the aesthetics is differing from the first game, and also a great part of game mechanics have been replaced.
