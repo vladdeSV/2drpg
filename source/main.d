@@ -11,6 +11,7 @@ import tile;
 import tile_sand;
 import tile_berry;
 import item_stone;
+import entity_animal;
 
 import std.algorithm : max, min;
 import std.algorithm.searching : findSplitAfter;
@@ -170,6 +171,8 @@ void main()
     auto cam = Rect(0, 0, wView, max(24, hView));
     //<<
 
+    bool gameComplete;
+
     if(!Game.forceQuit)
     {
         Game.world = new World();
@@ -179,9 +182,6 @@ void main()
 
         Game.running = true;
         updater.resetUpdates();
-
-        //float lentghToNearestEntityFromPlayer = 0;
-        //Entity entityNearestPlayer;
 
         while(Game.running)
         {
@@ -229,12 +229,11 @@ void main()
                 }
                 //Could I make this more effective?
 
-                //lentghToNearestEntityFromPlayer = float.max;
-                foreach(chunks; Game.world.chunks)
+                foreach(ref chunks; Game.world.chunks)
                 {
-                    foreach(chunk; chunks)
+                    foreach(ref chunk; chunks)
                     {
-                        foreach(e; chunk.entities)
+                        foreach(ref e; chunk.entities)
                         {
                             int ex = e.globalLocation[0], ey = e.globalLocation[1];
 
@@ -257,6 +256,27 @@ void main()
                             }
                         }
                     }
+                }
+
+                bool complete = true;
+                foreach(ref chunks; Game.world.chunks)
+                {
+                    foreach(ref chunk; chunks)
+                    {
+                        foreach(ref e; chunk.entities)
+                        {
+                            if(typeid(e).base == typeid(EntityAnimal))
+                            {
+                                auto animal = cast(EntityAnimal) e;
+                                complete &= animal.quest.quests.length == 0;
+                            }
+                        }
+                    }
+                }
+                if(complete)
+                {
+                    Game.running = false;
+                    gameComplete = true;
                 }
             }
             else
@@ -509,7 +529,6 @@ void main()
         endloop:
         while(secondsFromTicks(endticks) <= 63)
         {
-
             foreach(i; 0 .. updater.getUpdates())
             {
                 int sec = secondsFromTicks(endticks);
@@ -523,11 +542,28 @@ void main()
                 }
 
                 frame.clear();
-                frame.write(2,2, text("07:", sec));
-                if(sec >= 19)
+                if(gameComplete)
                 {
-                    frame.write(2,4, "The end.");
+                    if(sec >= 17)
+                    {
+                        frame.write(2,2, "Isn't is nice to be nice?");
+                    }
+
+                    if(sec >= 21)
+                    {
+                        break endloop;
+                    }
                 }
+                else
+                {
+                    frame.write(2,2, text("07:53:", sec));
+
+                    if(sec >= 19)
+                    {
+                        frame.write(2,4, "The end.");
+                    }
+                }
+
                 frame.print();
                 endticks += 1;
             }

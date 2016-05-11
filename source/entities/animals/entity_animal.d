@@ -24,6 +24,11 @@ class EntityAnimal : EntityLiving
         p.setQuest(null); //FIXME: BAD CODE
     }
 
+    Quest quest() @property
+    {
+        return _quest;
+    }
+
     bool houseNear()
     {
         return Game.world.itemNear(cast(int) _gx, cast(int) _gy, typeid(ItemHouse), 5);
