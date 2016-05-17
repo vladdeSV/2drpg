@@ -70,7 +70,7 @@ class EntityPlayer : EntityLiving
                     remember("wasd");
                 });
 
-                _events ~= timeEvent(25,
+                _events ~= timeEvent(20,
                 {
                     addThought("(Press [F] while looking at the red bear to the north-west of you.)");
                 });
@@ -427,6 +427,7 @@ class EntityPlayer : EntityLiving
                     if(input.key == SK.c)
                     {
                         stopQuesting();
+                        remember("crafting");
                         _crafting = true;
                     }
                 }

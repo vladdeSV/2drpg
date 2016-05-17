@@ -2,6 +2,10 @@ import item;
 import enums;
 import slump;
 
+import item_wood;
+
+import entity_player;
+
 class ItemBerryStick : Item
 {
     this()
@@ -13,6 +17,17 @@ class ItemBerryStick : Item
             "Ooh look a twig and two berries.",
         ];
 
-        super("Berry stick", 'k', Color.magenta, random(i));
+        super("Berry stick", 'k', Color.magenta, random(i), true);
+    }
+
+    override void use(EntityPlayer p)
+    {
+        p.addThought
+        ([
+            "Now a stick.",
+            "CAUTION: Do not eat stick.",
+            "The berries are gone.",
+        ]);
+        p.addItem(new ItemWood, false);
     }
 }
