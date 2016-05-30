@@ -6,7 +6,7 @@ class ItemSweetSalad : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "Looks disgusting.",
             "Why did I even make this?",

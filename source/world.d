@@ -2,6 +2,7 @@ import enums;
 import perlin;
 import game;
 import slump;
+import variables;
 
 import event;
 import event_distance;

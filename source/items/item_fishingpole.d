@@ -6,7 +6,7 @@ class ItemFishingPole : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "A hook on a string on a pole, used for fishing.",
             "It's technically a rod, but oh well.",

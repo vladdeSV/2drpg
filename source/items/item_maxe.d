@@ -6,7 +6,7 @@ class ItemMaxe : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "The best axe, the MAXe! Get it? Oh I'm so terrifically funny.",
             "The. Ultimate. Axe.",

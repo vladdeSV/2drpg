@@ -5,17 +5,6 @@ enum UPS = 60;
 enum worldSize = 2;
 enum chunkSize = 100;
 
-bool withinWorldBorder(float x, float y)
-{
-    return (x >= 0 && x < chunkSize * worldSize && y >= 0 && y < chunkSize * worldSize);
-}
-
-int wView;
-int hView;
-int wSidebar;
-int xoffset;
-int yoffset;
-
 enum Direction
 {
     none  = 0,
@@ -32,68 +21,28 @@ enum Personality
     neutral,
 }
 
-import craft_part;
-import item_grass;
-import item_berry;
-import item_fiber;
-import item_stone;
-import item_wood;
-import item_greatwood;
-import item_fishingpole;
-import item_seasalad;
-import item_seaweed;
-import item_sweetsalad;
-import item_beartreat;
-import item_cornerstone;
-import item_axe;
-import item_niceaxe;
-import item_maxe;
-import item_iron;
-import item_berrystick;
-import item_supremeblock;
-import item_house;
-import item_fireplace;
+bool withinWorldBorder(float x, float y)
+{
+    return (x >= 0 && x < chunkSize * worldSize && y >= 0 && y < chunkSize * worldSize);
+}
 
-Craft[] CraftList =
-[
-    Craft("Axe",              typeid(ItemAxe),         [CraftPart(typeid(ItemWood),        2),
-                                                        CraftPart(typeid(ItemStone),       3)]),
+import std.ascii : isUpper;
+import std.algorithm.searching : findSplitAfter;
+import std.conv;
+string nameFromTypeid(TypeInfo_Class c)
+{
+    string a = findSplitAfter(std.conv.to!string(c), "Item")[1];
 
-    Craft("Bear Treat",       typeid(ItemBearTreat),   [CraftPart(typeid(ItemBerry),       3)]),
+    for(size_t i = 1; i < a.length; ++i)
+    {
+        if(isUpper(a[i]))
+        {
+            a = a[0 .. i] ~ ' ' ~ a[i .. $];
 
-    Craft("Great wood",       typeid(ItemGreatWood),   [CraftPart(typeid(ItemWood),        4)]),
+            ++i;
+        }
+    }
 
-    Craft("Cornerstone",      typeid(ItemCornerstone), [CraftPart(typeid(ItemStone),       3)]),
+    return a;
+}
 
-    Craft("Fiber",            typeid(ItemFiber),       [CraftPart(typeid(ItemGrass),       4)]),
-
-    Craft("Fishing Pole",     typeid(ItemFishingPole), [CraftPart(typeid(ItemWood),        2),
-                                                        CraftPart(typeid(ItemStone),       1),
-                                                        CraftPart(typeid(ItemFiber),       2)]),
-
-    Craft("Sea Salad",        typeid(ItemSeaSalad),    [CraftPart(typeid(ItemSeaWeed),     3)]),
-
-    Craft("Berry Salad",      typeid(ItemSweetSalad),  [CraftPart(typeid(ItemSeaWeed),     3),
-                                                        CraftPart(typeid(ItemBerry),       3)]),
-
-    Craft("Berry Stick",      typeid(ItemBerryStick),  [CraftPart(typeid(ItemBerry),       1),
-                                                        CraftPart(typeid(ItemWood),        1)]),
-
-    Craft("Fireplace",        typeid(ItemFireplace),   [CraftPart(typeid(ItemStone),       5),
-                                                        CraftPart(typeid(ItemGrass),       2),
-                                                        CraftPart(typeid(ItemWood),        1),
-                                                        CraftPart(typeid(ItemIron),        1)]),
-
-    Craft("Nice Axe",         typeid(ItemNiceAxe),     [CraftPart(typeid(ItemAxe),         1),
-                                                        CraftPart(typeid(ItemGreatWood),   2),
-                                                        CraftPart(typeid(ItemCornerstone), 3)]),
-
-    Craft("MAXe",             typeid(ItemMaxe),        [CraftPart(typeid(ItemNiceAxe),     1),
-                                                        CraftPart(typeid(ItemIron),        3),
-                                                        CraftPart(typeid(ItemCornerstone), 2)]),
-
-    Craft("House",            typeid(ItemHouse),       [CraftPart(typeid(ItemGreatWood),   3),
-                                                        CraftPart(typeid(ItemCornerstone), 2),
-                                                        CraftPart(typeid(ItemFireplace),   1),
-                                                        CraftPart(typeid(ItemFiber),       1)]),
-];

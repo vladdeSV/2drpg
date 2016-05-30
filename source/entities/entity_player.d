@@ -6,6 +6,7 @@ import flags;
 import game;
 import craft_part;
 import quest;
+import variables;
 
 import entity_living;
 import entity_animal;
@@ -37,7 +38,6 @@ class EntityPlayer : EntityLiving
         super("Rosemary" , x, y, char(1), Color.yellow);
 
         remember("wasd");
-        //remember("stuck");
 
         _events =
         [
@@ -45,7 +45,6 @@ class EntityPlayer : EntityLiving
             {
                 _remembered["blank"] = true;
                 _remembered["stuck"] = true;
-                //remember("wasd");
                 _events ~= timeEvent(4, {
                     _remembered["blank"] = false;
                 });
@@ -225,10 +224,10 @@ class EntityPlayer : EntityLiving
 
     override void move(Direction dir)
     {
-        float nx = _gx, ny = _gy;
+        float nx = _wx, ny = _wy;
         float vel = 0.1;
 
-        if(typeid(Game.world.getTileAt(cast(int) _gx, cast(int) _gy)) == typeid(TileWater))
+        if(typeid(Game.world.getTileAt(cast(int) _wx, cast(int) _wy)) == typeid(TileWater))
         {
             vel -= 0.05;
         }
@@ -265,12 +264,12 @@ class EntityPlayer : EntityLiving
         if
         (
             !(nx < 0 || nx > chunkSize * worldSize) &&
-            !Game.world.getTileAt(nx, _gy).solid &&
-             (Game.world.getEntityAt(nx, _gy) is null || Game.world.getEntityAt(nx, _gy) is this)
+            !Game.world.getTileAt(nx, _wy).solid &&
+             (Game.world.getEntityAt(nx, _wy) is null || Game.world.getEntityAt(nx, _wy) is this)
         )
         {
-            _distanceMoved += abs(nx - _gx);
-            _gx = nx;
+            _distanceMoved += abs(nx - _wx);
+            _wx = nx;
         }
         //<<
 
@@ -278,12 +277,12 @@ class EntityPlayer : EntityLiving
         if
         (
             !(ny < 0 || ny > chunkSize * worldSize) &&
-            !Game.world.getTileAt(_gx, ny).solid &&
-             (Game.world.getEntityAt(_gx, ny) is null || Game.world.getEntityAt(_gx, ny) is this)
+            !Game.world.getTileAt(_wx, ny).solid &&
+             (Game.world.getEntityAt(_wx, ny) is null || Game.world.getEntityAt(_wx, ny) is this)
         )
         {
-            _distanceMoved += abs(ny - _gy);
-            _gy = ny;
+            _distanceMoved += abs(ny - _wy);
+            _wy = ny;
         }
         //<<
     }
@@ -328,8 +327,8 @@ class EntityPlayer : EntityLiving
         }
         else if(_movingDirection == 0)
         {
-            _gx = cast(int) _gx + 0.5;
-            _gy = cast(int) _gy + 0.5;
+            _wx = cast(int) _wx + 0.5;
+            _wy = cast(int) _wy + 0.5;
 
             _firstMove = true;
         }
@@ -506,11 +505,11 @@ class EntityPlayer : EntityLiving
                 {
                     if(input.key == SK.e)
                     {
-                        if(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).items.length)
+                        if(Game.world.getTileAt(cast(int) _wx, cast(int) _wy).items.length)
                         {
                             if(_inventory.length < maxItems)
                             {
-                                addItem(Game.world.getTileAt(cast(int) _gx, cast(int) _gy).grabItem());
+                                addItem(Game.world.getTileAt(cast(int) _wx, cast(int) _wy).grabItem());
                                 updateInventory();
                             }
                             else
@@ -520,18 +519,18 @@ class EntityPlayer : EntityLiving
                         }
 
                         //>>Special code for berries
-                        else if(typeid(Game.world.getTileAt(cast(int) _gx, cast(int) _gy)) == typeid(TileBerry))
+                        else if(typeid(Game.world.getTileAt(cast(int) _wx, cast(int) _wy)) == typeid(TileBerry))
                         {
-                            Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this);
+                            Game.world.getTileAt(cast(int) _wx, cast(int) _wy).interact(this);
                         }
                         //<<
                     }
 
                     if(input.key == SK.f)
                     {
-                        if(!Game.world.getTileAt(cast(int) _gx, cast(int) _gy).interact(this))
+                        if(!Game.world.getTileAt(cast(int) _wx, cast(int) _wy).interact(this))
                         {
-                            int nx = cast(int) _gx, ny = cast(int) _gy;
+                            int nx = cast(int) _wx, ny = cast(int) _wy;
                             if(_lookingDirection == Direction.up)
                             {
                                 --ny;
@@ -596,13 +595,13 @@ class EntityPlayer : EntityLiving
                         else if(input.key == SK.q)
                         {
 
-                            if(!Game.world.getTileAt(cast(int) _gx + (_lookingDirection == Direction.right ? 1 : 0) +(_lookingDirection == Direction.left ? -1 : 0),
-                                                    cast(int) _gy + (_lookingDirection == Direction.down ? 1 : 0 ) + (_lookingDirection == Direction.up  ? -1 : 0 )).solid)
+                            if(!Game.world.getTileAt(cast(int) _wx + (_lookingDirection == Direction.right ? 1 : 0) +(_lookingDirection == Direction.left ? -1 : 0),
+                                                    cast(int) _wy + (_lookingDirection == Direction.down ? 1 : 0 ) + (_lookingDirection == Direction.up  ? -1 : 0 )).solid)
                             {
-                                Game.world.getTileAt(cast(int) _gx +
+                                Game.world.getTileAt(cast(int) _wx +
                                                     (_lookingDirection == Direction.right ? 1 : 0) +
                                                     (_lookingDirection == Direction.left ? -1 : 0),
-                                                    cast(int) _gy +
+                                                    cast(int) _wy +
                                                     (_lookingDirection == Direction.down ? 1 : 0 ) +
                                                     (_lookingDirection == Direction.up  ? -1 : 0 ))
                                                     .putItem(_inventory[_selectedListItem]);
@@ -785,7 +784,7 @@ class EntityPlayer : EntityLiving
                 "Aww, I can't carry more.",
                 "Things shouldn't lay on the ground."
             ]);
-            Game.world.getTileAt(_gx, _gy).putItem(item);
+            Game.world.getTileAt(_wx, _wy).putItem(item);
         }
     }
 

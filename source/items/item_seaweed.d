@@ -6,7 +6,7 @@ class ItemSeaWeed : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "Weed for fishes.",
             "I Japan they eat this stuff, maybe I should try?",

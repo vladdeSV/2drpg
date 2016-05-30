@@ -6,7 +6,7 @@ class ItemFiber : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "Fibers, very useful for... something.",
             "You probably can bind stuff together with it.",

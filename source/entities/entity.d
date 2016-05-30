@@ -9,10 +9,10 @@ abstract class Entity
 {
     this(int x, int y, char sprite, Color color)
     {
-        _gx = x;
-        _gy = y;
-        _ccx = chunkLocation[0];
-        _ccy = chunkLocation[1];
+        _wx = x;
+        _wy = y;
+        _tempCurrentChunk[0] = chunkLocation[0];
+        _tempCurrentChunk[1] = chunkLocation[1];
         _sprite = sprite;
         _color = color;
 
@@ -20,49 +20,50 @@ abstract class Entity
         _lookingDirection = cast(Direction)(random(4) + 1);
     }
 
-    void move(Direction dir)
+    void move(Direction direction)
     {
-        float nx = _gx, ny = _gy;
-        if(hasFlag(dir, Direction.up))
+        //new x (nx) and new y (ny)
+        float nx = _wx, ny = _wy;
+        if(hasFlag(direction, Direction.up))
         {
             ny -= 1;
         }
-        if(hasFlag(dir, Direction.down))
+        if(hasFlag(direction, Direction.down))
         {
             ny += 1;
         }
-        if(hasFlag(dir, Direction.left))
+        if(hasFlag(direction, Direction.left))
         {
             nx -= 1;
         }
-        if(hasFlag(dir, Direction.right))
+        if(hasFlag(direction, Direction.right))
         {
             nx += 1;
         }
 
-        if(dir == Direction.none)
+        //Not moving? Simply return
+        if(direction == Direction.none)
         {
             return;
         }
 
-        //Check x axis
+        //Check if new location is inside world border and not on a solid tile
         if
         (
             !(nx < 0 || nx > chunkSize * worldSize) &&
-            !Game.world.getTileAt(nx, cast(int) _gy).solid
+            !Game.world.getTileAt(nx, cast(int) _wy).solid
         )
         {
-            _gx = nx;
+            _wx = nx;
         }
 
-        //Check y axis
         if
         (
             !(ny < 0 || ny > chunkSize * worldSize) &&
-            !Game.world.getTileAt(cast(int) _gx, ny).solid
+            !Game.world.getTileAt(cast(int) _wx, ny).solid
         )
         {
-            _gy = ny;
+            _wy = ny;
         }
     }
 
@@ -71,13 +72,13 @@ abstract class Entity
     {
         move(_movingDirection);
 
-        if(chunkLocation[0] != _ccx || chunkLocation[1] != _ccy)
+        if(chunkLocation[0] != _tempCurrentChunk[0] || chunkLocation[1] != _tempCurrentChunk[1])
         {
-            foreach (n, e; Game.world.getChunk(_ccx, _ccy).entities)
+            foreach (n, e; Game.world.getChunk(_tempCurrentChunk[0], _tempCurrentChunk[1]).entities)
             {
                 if(this is e)
                 {
-                    Game.world.getChunk(_ccx, _ccy).entities = remove(Game.world.getChunk(_ccx, _ccy).entities, n);
+                    Game.world.getChunk(_tempCurrentChunk[0], _tempCurrentChunk[1]).entities = remove(Game.world.getChunk(_tempCurrentChunk[0], _tempCurrentChunk[1]).entities, n);
                     break;
                 }
             }
@@ -85,19 +86,18 @@ abstract class Entity
             Game.world.getChunk(chunkLocation[0], chunkLocation[1]).entities ~= this;
         }
 
-        _ccx = chunkLocation[0];
-        _ccy = chunkLocation[1];
+        _tempCurrentChunk = chunkLocation;
     }
 
     ///Returns: int[x, y]
     auto globalLocation() const @property
     {
-        return [cast(int)_gx, cast(int)_gy];
+        return [cast(int) _wx, cast(int) _wy];
     }
 
     auto chunkLocation() const @property
     {
-        return [cast(int)(_gx / chunkSize), cast(int)(_gy / chunkSize)];
+        return [cast(int)(_wx / chunkSize), cast(int)(_wy / chunkSize)];
     }
 
     auto sprite() const @property
@@ -126,10 +126,10 @@ abstract class Entity
     }
 
     ///Global x and y coordinates
-    protected float _gx, _gy;
+    protected float _wx, _wy;
     private char _sprite;
     private Color _color;
-    private int _ccx, _ccy;
+    private int[2] _tempCurrentChunk;
 
     ///Current chunk location
     private float _moveVelocity;

@@ -6,7 +6,7 @@ class ItemCornerstone : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "A corner shaped stone.",
             "Cornerstone, it consists of a corner and a stone.",

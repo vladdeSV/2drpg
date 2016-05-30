@@ -6,7 +6,7 @@ class ItemIron : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "Oh so metal.",
             "Fe, number 26.",

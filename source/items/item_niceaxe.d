@@ -6,7 +6,7 @@ class ItemNiceAxe : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "A particularly nice axe.",
             "A great axe.",

@@ -6,7 +6,7 @@ class ItemGreatWood : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "The opposite of bad wood.",
             "Sonofabitch, this is some great wood!",

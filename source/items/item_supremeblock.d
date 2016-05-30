@@ -6,7 +6,7 @@ class ItemSupremeBlock : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "The§ one true block.",
             "One block to rule them all, one block to find them, one block to bring them all and in shadows bind them.",

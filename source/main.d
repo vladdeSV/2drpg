@@ -12,10 +12,9 @@ import tile_sand;
 import tile_berry;
 import item_stone;
 import entity_animal;
+import variables;
 
 import std.algorithm : max, min;
-import std.algorithm.searching : findSplitAfter;
-import std.conv;
 
 import scone;
 
@@ -33,19 +32,6 @@ void main()
     updater.resetUpdates();
 
     //>>Start menu
-    string[] gamename =
-    [
-        " .d8888b. 8888888b. 8888888b. 8888888b.  .d8888b. ",
-        "d88P  Y88b888  'Y88b888   Y88b888   Y88bd88P  Y88b",
-        "       888888    888888    888888    888888    888",
-        "     .d88P888    888888   d88P888   d88P888       ",
-        " .od888P' 888    8888888888P' 8888888P' 888  88888",
-        "d88P'     888    888888 T88b  888       888    888",
-        "888'      888  .d88P888  T88b 888       Y88b  d88P",
-        "888888888 8888888P' 888   T88b888        'Y8888P88",
-        "",
-        "LBS Game Awards 2016",
-    ];
     string[3] menu = ["Start Game", "Options", "Exit"];
 
     int selectedMenuItem = 0;
@@ -481,10 +467,11 @@ void main()
                 {
                     bool enoughItems = itemCount[n] >= part[1];
                     canBeCrafted &= enoughItems;
+                    string partName = nameFromTypeid(part[0]);
 
                     int req = text
                     (
-                        findSplitAfter(std.conv.to!string(part[0]), "Item")[1],
+                        partName,
                         " [",
                         itemCount[n],
                         '/',
@@ -492,30 +479,25 @@ void main()
                         "] "
                     ).length;
 
-                    frame.write(cam.w - 2 * sideSpacing - (req - 1), sideSpacing + 2 + n, findSplitAfter(std.conv.to!string(part[0]), "Item")[1], " [", fg((enoughItems) ? Color.green : Color.red), itemCount[n], fg(Color.white_dark), '/', part[1], "] ");
+                    frame.write(cam.w - 2 * sideSpacing - (req - 1), sideSpacing + 2 + n, partName, " [", fg((enoughItems) ? Color.green : Color.red), itemCount[n], fg(Color.white_dark), '/', part[1], "] ");
                 }
 
                 //string[] craftNames = new string[](CraftList.length);
                 foreach(n, c; CraftList)
                 {
+                    string itemName = nameFromTypeid(c.itemType);
+
                     if(n == Game.player.selectedCraftItem)
                     {
-                        frame.write(sideSpacing + 2, sideSpacing + 2 + n, text(char(16), ' ', c.desc));
+                        frame.write(sideSpacing + 2, sideSpacing + 2 + n, char(16), ' ', itemName);
                     }
                     else
                     {
-                        frame.write(sideSpacing + 2, sideSpacing + 2 + n, fg(Color.black), "  " ~ c.desc);
+                        frame.write(sideSpacing + 2, sideSpacing + 2 + n, fg(Color.black), "  ", itemName);
                     }
 
                 }
             }
-            //else
-            //{
-            //    if(Game.player.hasRemembered("helpline"))
-            //    {
-            //        foreach(ref e)
-            //    }
-            //}
 
             frame.print();
         }

@@ -10,7 +10,7 @@ class ItemBerryStick : Item
 {
     this()
     {
-        auto i =
+        auto itemNameList =
         [
             "A berry on a stick, as simple as that.",
             "I don't know what this is for, but it's pretty neat",
