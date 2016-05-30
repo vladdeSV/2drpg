@@ -6,7 +6,7 @@ class ItemAxe : Item
 {
     this()
     {
-        string[] i =
+        string[] itemNameList =
         [
             "A primitive axe.",
             "Useful for chopping down trees and massacring zombies.",
@@ -14,6 +14,6 @@ class ItemAxe : Item
             "Heavy and sharp.",
         ];
 
-        super("Small Axe", char(24), Color.cyan_dark, random(i));
+        super("Small Axe", char(24), Color.cyan_dark, random(itemNameList));
     }
 }

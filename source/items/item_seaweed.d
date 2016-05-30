@@ -13,6 +13,6 @@ class ItemSeaWeed : Item
             "Grass from the sea.",
             "Underwater grass."
         ];
-        super("Sea weed", '}', Color.green, random(i));
+        super("Sea weed", '}', Color.green, random(itemNameList));
     }
 }

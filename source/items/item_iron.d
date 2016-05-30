@@ -13,6 +13,6 @@ class ItemIron : Item
             "How IRONic, right? Anybody? Okay I'll show myself out then.",
         ];
 
-        super("Lump of iron", '.', Color.red, random(i));
+        super("Lump of iron", '.', Color.red, random(itemNameList));
     }
 }

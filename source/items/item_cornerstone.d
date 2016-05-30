@@ -13,6 +13,6 @@ class ItemCornerstone : Item
             "Useful for corners.",
             "One does simply not cut corners.",
         ];
-        super("Cornerstone", char(4), Color.black, random(i));
+        super("Cornerstone", char(4), Color.black, random(itemNameList));
     }
 }

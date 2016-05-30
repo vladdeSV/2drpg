@@ -17,7 +17,7 @@ class ItemBerryStick : Item
             "Ooh look a twig and two berries.",
         ];
 
-        super("Berry stick", 'k', Color.magenta, random(i), true);
+        super("Berry stick", 'k', Color.magenta, random(itemNameList), true);
     }
 
     override void use(EntityPlayer p)

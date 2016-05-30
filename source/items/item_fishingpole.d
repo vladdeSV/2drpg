@@ -13,6 +13,6 @@ class ItemFishingPole : Item
             "A pole for fishing.",
             "Gotta catch them all!",
         ];
-        super("Fishing pole", '?', Color.cyan_dark, random(i));
+        super("Fishing pole", '?', Color.cyan_dark, random(itemNameList));
     }
 }

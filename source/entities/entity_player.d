@@ -740,11 +740,6 @@ class EntityPlayer : EntityLiving
         return false;
     }
 
-    Personality personality() const @property
-    {
-        return _personality;
-    }
-
     auto thoughts()
     {
         return _thoughts;
@@ -916,7 +911,6 @@ class EntityPlayer : EntityLiving
     private string[] _thoughts;
     private bool[string] _remembered;
     private int[TypeInfo_Class] _counter;
-    private Personality _personality;
     private Item[] _inventory;
     /*private*/ Event[] _events;
     private bool _running, _firstMove, _crafting, _menu;

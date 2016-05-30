@@ -14,13 +14,6 @@ enum Direction
     right = 8,
 }
 
-enum Personality
-{
-    aggressive,
-    calm,
-    neutral,
-}
-
 bool withinWorldBorder(float x, float y)
 {
     return (x >= 0 && x < chunkSize * worldSize && y >= 0 && y < chunkSize * worldSize);

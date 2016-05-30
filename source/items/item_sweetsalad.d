@@ -12,6 +12,6 @@ class ItemSweetSalad : Item
             "Why did I even make this?",
             "It's not sweet.",
         ];
-        super("Berry salad", '*', Color.magenta, random(i));
+        super("Berry salad", '*', Color.magenta, random(itemNameList));
     }
 }

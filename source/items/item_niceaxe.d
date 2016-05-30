@@ -11,6 +11,6 @@ class ItemNiceAxe : Item
             "A particularly nice axe.",
             "A great axe.",
         ];
-        super("Nice axe", char(18), Color.cyan_dark, random(i));
+        super("Nice axe", char(18), Color.cyan_dark, random(itemNameList));
     }
 }

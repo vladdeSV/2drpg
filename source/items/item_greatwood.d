@@ -14,6 +14,6 @@ class ItemGreatWood : Item
             "The Greatest Wood. I have the best words. Make wood great again!",
         ];
 
-        super("Great wood", '|', Color.red_dark, random(i));
+        super("Great wood", '|', Color.red_dark, random(itemNameList));
     }
 }

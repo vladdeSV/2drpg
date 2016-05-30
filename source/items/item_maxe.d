@@ -12,6 +12,6 @@ class ItemMaxe : Item
             "The. Ultimate. Axe.",
             "One axe to chop them all.",
         ];
-        super("MAXe", char(23), Color.cyan_dark, random(i));
+        super("MAXe", char(23), Color.cyan_dark, random(itemNameList));
     }
 }

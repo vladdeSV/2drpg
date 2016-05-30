@@ -13,6 +13,6 @@ class ItemSeaSalad : Item
             "Salty salad!",
             "Aargh, Mate! Sallad I tell you!",
         ];
-        super("Sea salad", '*', Color.green_dark, random(i));
+        super("Sea salad", '*', Color.green_dark, random(itemNameList));
     }
 }

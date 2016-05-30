@@ -13,6 +13,6 @@ class ItemFiber : Item
             "Good for the digestive system.",
             "A bundle of grass fibers.",
         ];
-        super("Fiber", char(22), Color.green_dark, random(i));
+        super("Fiber", char(22), Color.green_dark, random(itemNameList));
     }
 }
