@@ -4,7 +4,7 @@ import game;
 import quest;
 
 import item_cornerstone;
-import item_niceaxe;
+import item_axe;
 import item_house;
 
 class EntityMoose : EntityAnimal
@@ -44,19 +44,19 @@ class EntityMoose : EntityAnimal
                 (
                     [
                         //Initial phrase
-                        "Minion! I need weapons for my army, bring me three nice axes to give to my guards!",
+                        "Minion! I need weapons for my army, bring me three axes to give to my guards!",
                         //Repeated, more descriptive phrase
-                        "Have you managed to acquire the three Nice Axes I required?",
+                        "Have you managed to acquire the three Axes I required?",
                         //Finished phrase
                         "Thank you minion, my guards are finally properly armed.",
                     ],
                     {
                         //Check
-                        return Game.player.hasItem(typeid(ItemNiceAxe), 3);
+                        return Game.player.hasItem(typeid(ItemAxe), 3);
                     },
                     {
                         //Action
-                        Game.player.removeItem(typeid(ItemNiceAxe), 3);
+                        Game.player.removeItem(typeid(ItemAxe), 3);
                     }
                 ),
                 QuestPart
